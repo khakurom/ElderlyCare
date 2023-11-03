@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:bind="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <import type="android.view.View" />
+
+        <variable
+            name="verifyPhoneViewModel"
+            type="com.project.elderlyhealthcare.presentation.viewmodels.not_login.NotLoginViewModel" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:background="@color/white"
+        android:layout_height="match_parent"
+        tools:context=".presentation.fragment.not_login.VerifyPhoneNumberFragment">
+
+        <include
+            layout="@layout/custom_top_app_bar"
+            android:id="@+id/verify_fr_cs_bar"
+            bind:isHaveBack="@{true}"
+            bind:customTitle="@{@string/no_title}"/>
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/josefinsans_bold"
+            android:text="Xác thực mã OTP"
+            android:textColor="@color/black"
+            android:textSize="30sp"
+            bind:layout_constraintEnd_toEndOf="@id/reg_gl_vertical_2"
+            bind:layout_constraintStart_toStartOf="@id/reg_gl_vertical_1"
+            bind:layout_constraintTop_toBottomOf="@+id/verify_fr_cs_bar" />
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:src="@drawable/verify_otp_image"
+            bind:layout_constraintBottom_toTopOf="@id/reg_gl_horizontal_2"
+            bind:layout_constraintEnd_toStartOf="@+id/reg_gl_vertical_2"
+            bind:layout_constraintStart_toStartOf="@+id/reg_gl_vertical_1"
+            bind:layout_constraintTop_toTopOf="@id/reg_gl_horizontal_1" />
+
+        <TextView
+            android:id="@+id/verify_tv_label1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:gravity="center_horizontal"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+            android:text="Nhập mã otp được gửi đến số điện thoại 0965671164"
+            bind:layout_constraintEnd_toStartOf="@+id/reg_gl_vertical_2"
+            bind:layout_constraintStart_toStartOf="@+id/reg_gl_vertical_1"
+            bind:layout_constraintTop_toBottomOf="@+id/imageView2" />
+
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:orientation="horizontal"
+            bind:layout_constraintEnd_toStartOf="@+id/reg_gl_vertical_2"
+            bind:layout_constraintStart_toStartOf="@+id/reg_gl_vertical_1"
+            bind:layout_constraintTop_toBottomOf="@id/verify_tv_label1">
+
+            <EditText
+                android:id="@+id/verify_input_code1"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:gravity="center"
+                android:imeOptions="actionNext"
+                android:importantForAutofill="no"
+                android:inputType="number"
+                android:maxLength="1"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
+
+            <EditText
+                android:id="@+id/verify_input_code2"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:gravity="center"
+                android:imeOptions="actionNext"
+                android:importantForAutofill="no"
+                android:inputType="number"
+                android:maxLength="1"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
+
+            <EditText
+                android:id="@+id/verify_input_code3"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:gravity="center"
+                android:imeOptions="actionNext"
+                android:importantForAutofill="no"
+                android:inputType="number"
+                android:maxLength="1"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
+
+            <EditText
+                android:id="@+id/verify_input_code4"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:gravity="center"
+                android:imeOptions="actionNext"
+                android:importantForAutofill="no"
+                android:inputType="number"
+                android:maxLength="1"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
+
+            <EditText
+                android:id="@+id/verify_input_code5"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:gravity="center"
+                android:imeOptions="actionNext"
+                android:importantForAutofill="no"
+                android:inputType="number"
+                android:maxLength="1"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
+
+            <EditText
+                android:id="@+id/verify_input_code6"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:gravity="center"
+                android:imeOptions="actionNext"
+                android:importantForAutofill="no"
+                android:inputType="number"
+                android:maxLength="1"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
+
+        </LinearLayout>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/verify_bt_verify_otp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ripple_button"
+            android:text="Xác thực mã OTP"
+            android:textColor="@color/white"
+            android:layout_marginTop="50dp"
+            bind:layout_constraintEnd_toEndOf="@id/reg_gl_vertical_2"
+            bind:layout_constraintStart_toStartOf="@id/reg_gl_vertical_1"
+            bind:layout_constraintTop_toBottomOf="@id/linearLayout" />
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="40dp"
+            bind:layout_constraintEnd_toStartOf="@+id/reg_gl_vertical_2"
+            bind:layout_constraintStart_toStartOf="@+id/reg_gl_vertical_1"
+            bind:layout_constraintTop_toBottomOf="@+id/verify_bt_verify_otp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text="Bạn không nhận được mã OTP?"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+                android:textColor="@color/black"
+
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text="@string/login_click_here"
+                android:textStyle="bold"
+                android:layout_marginStart="3dp"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+                android:textColor="@color/login_blue"
+                />
+
+        </LinearLayout>
+
+
+
+
+
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/reg_gl_vertical_1"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:orientation="vertical"
+            bind:layout_constraintGuide_percent="0.05" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/reg_gl_vertical_2"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:orientation="vertical"
+            bind:layout_constraintGuide_percent="0.95" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/reg_gl_horizontal_1"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:orientation="horizontal"
+            bind:layout_constraintGuide_percent="0.2" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/reg_gl_horizontal_2"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:orientation="horizontal"
+            bind:layout_constraintGuide_percent="0.45" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

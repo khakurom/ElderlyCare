@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/nav_overall"
+        android:icon="@drawable/ic_overall"
+        android:title="Tổng quan" />
+
+    <item
+        android:id="@+id/nav_event"
+        android:icon="@drawable/ic_notification_add"
+        android:title="Nhắc lịch" />
+    <item
+        android:id="@+id/nav_location"
+        android:icon="@drawable/ic_location"
+        android:title="Định vị" />
+    <item
+        android:id="@+id/nav_account"
+        android:icon="@drawable/ic_account"
+        android:title="Tài khoản" />
+</menu>

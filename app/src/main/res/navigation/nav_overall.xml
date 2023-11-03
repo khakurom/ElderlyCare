@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_overall"
+    app:startDestination="@id/overallFragment">
+
+    <fragment
+        android:id="@+id/overallFragment"
+        android:name="com.project.elderlyhealthcare.presentation.fragment.main.OverallFragment"
+        android:label="fragment_overall"
+        tools:layout="@layout/fragment_overall" />
+</navigation>
