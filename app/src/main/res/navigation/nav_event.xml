@@ -7,7 +7,37 @@
 
     <fragment
         android:id="@+id/eventFragment"
-        android:name="com.project.elderlyhealthcare.presentation.fragment.main.EventFragment"
+        android:name="com.project.elderlyhealthcare.presentation.fragment.main.event.EventFragment"
         android:label="fragment_event"
-        tools:layout="@layout/fragment_event" />
+        tools:layout="@layout/fragment_event" >
+        <action
+            android:id="@+id/action_eventFragment_to_exerciseEventFragment"
+            app:destination="@id/exerciseEventFragment" />
+        <action
+            android:id="@+id/action_eventFragment_to_medicineEventFragment"
+            app:destination="@id/medicineEventFragment" />
+        <action
+            android:id="@+id/action_eventFragment_to_reExaminationEventFragment"
+            app:destination="@id/reExaminationEventFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/exerciseEventFragment"
+        android:name="com.project.elderlyhealthcare.presentation.fragment.main.event.ExerciseEventFragment"
+        android:label="ExerciseEventFragment" >
+        <action
+            android:id="@+id/action_exerciseEventFragment_to_addExerciseFragment"
+            app:destination="@id/addExerciseFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/medicineEventFragment"
+        android:name="com.project.elderlyhealthcare.presentation.fragment.main.event.MedicineEventFragment"
+        android:label="MedicineEventFragment" />
+    <fragment
+        android:id="@+id/reExaminationEventFragment"
+        android:name="com.project.elderlyhealthcare.presentation.fragment.main.event.ReExaminationEventFragment"
+        android:label="ReExaminationEventFragment" />
+    <fragment
+        android:id="@+id/addExerciseFragment"
+        android:name="com.project.elderlyhealthcare.presentation.fragment.main.event.AddExerciseFragment"
+        android:label="AddExerciseFragment" />
 </navigation>

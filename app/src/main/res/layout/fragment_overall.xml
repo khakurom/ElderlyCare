@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
+        <variable
+            name="overallViewModel"
+            type="com.project.elderlyhealthcare.presentation.viewmodels.main.OverallViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -282,7 +284,7 @@
             android:layout_width="0dp"
             android:layout_height="80dp"
             android:layout_marginTop="10dp"
-            app:cardBackgroundColor="@color/grey"
+            app:cardBackgroundColor="@color/event_blue"
             app:cardCornerRadius="15dp"
             android:background="@drawable/ripple_item"
             app:layout_constraintEnd_toStartOf="@+id/gl_vertical_3"
@@ -329,7 +331,7 @@
         <androidx.cardview.widget.CardView
             android:layout_width="0dp"
             android:layout_height="80dp"
-            app:cardBackgroundColor="@color/grey"
+            app:cardBackgroundColor="@color/event_blue"
             app:cardCornerRadius="15dp"
             android:background="@drawable/ripple_item"
             android:layout_marginTop="20dp"

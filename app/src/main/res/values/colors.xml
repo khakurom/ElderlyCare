@@ -3,9 +3,11 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="login_blue">#80b1fd</color>
+    <color name="blue">#CBDFFF</color>
     <color name="login_red">#EC2039</color>
     <color name="overall_blue">#dbe6f8</color>
     <color name="overall_pink">#dfc5d0</color>
     <color name="overall_yellow"> #fbf0dc</color>
-    <color name="grey">#E4E4DF</color>
+    <color name="event_blue">#96CAD1</color>
+    <color name="grey">#8E8E82</color>
 </resources>

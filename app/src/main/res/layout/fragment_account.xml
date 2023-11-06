@@ -1,14 +1,210 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".presentation.fragment.main.AccountFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <data>
+
+        <variable
+            name="accountViewModel"
+            type="com.project.elderlyhealthcare.presentation.viewmodels.main.AccountViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        tools:context=".presentation.fragment.main.AccountFragment">
 
-</FrameLayout>
+        <ImageView
+            android:id="@+id/imageView5"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/account_logo_image"
+            app:layout_constraintBottom_toTopOf="@+id/gl_horizontal_1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@id/gl_horizontal_1"
+            app:layout_constraintBottom_toTopOf="@id/gl_horizontal_2"
+            app:layout_constraintStart_toEndOf="@id/gl_vertical_1"
+            app:layout_constraintEnd_toStartOf="@+id/gl_vertical_2">
+
+            <ImageView
+                android:id="@+id/imageView6"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:src="@drawable/ic_info"
+                android:layout_gravity="center_vertical"
+                app:layout_constraintBottom_toTopOf="@+id/gl_horizontal_2"
+                app:layout_constraintStart_toStartOf="@+id/gl_vertical_1"
+                app:layout_constraintTop_toTopOf="@+id/gl_horizontal_1" />
+
+            <TextView
+                android:layout_width="240dp"
+                android:layout_height="wrap_content"
+                android:text="Thông tin tài khoản"
+                android:layout_gravity="center_vertical"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+                android:fontFamily="@font/josefinsans_bold"
+                android:textColor="@color/black"
+                android:layout_weight="1"
+                android:layout_marginStart="15dp"
+                app:layout_constraintBottom_toTopOf="@+id/gl_horizontal_2"
+                app:layout_constraintStart_toEndOf="@+id/imageView6"
+                app:layout_constraintTop_toTopOf="@+id/gl_horizontal_1" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_gravity="center_vertical"
+                android:layout_height="35dp"
+                android:src="@drawable/ic_next"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@id/gl_horizontal_2"
+            app:layout_constraintBottom_toTopOf="@id/gl_horizontal_3"
+            app:layout_constraintStart_toEndOf="@id/gl_vertical_1"
+            app:layout_constraintEnd_toStartOf="@+id/gl_vertical_2">
+
+            <ImageView
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:src="@drawable/ic_lock"
+                android:layout_gravity="center_vertical"
+                app:layout_constraintBottom_toTopOf="@+id/gl_horizontal_2"
+                app:layout_constraintStart_toStartOf="@+id/gl_vertical_1"
+                app:layout_constraintTop_toTopOf="@+id/gl_horizontal_1" />
+
+            <TextView
+                android:layout_width="240dp"
+                android:layout_height="wrap_content"
+                android:text="Đổi mật khẩu"
+                android:layout_gravity="center_vertical"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+                android:fontFamily="@font/josefinsans_bold"
+                android:textColor="@color/black"
+                android:layout_weight="1"
+                android:layout_marginStart="15dp" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_gravity="center_vertical"
+                android:layout_height="35dp"
+                android:layout_weight="1"
+                android:src="@drawable/ic_next"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/account_layout_logout"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@id/gl_horizontal_3"
+            app:layout_constraintBottom_toTopOf="@id/gl_horizontal_4"
+            app:layout_constraintStart_toEndOf="@id/gl_vertical_1"
+            app:layout_constraintEnd_toStartOf="@+id/gl_vertical_2">
+
+            <ImageView
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:src="@drawable/ic_logout"
+                android:layout_gravity="center_vertical"
+                app:layout_constraintBottom_toTopOf="@+id/gl_horizontal_2"
+                app:layout_constraintStart_toStartOf="@+id/gl_vertical_1"
+                app:layout_constraintTop_toTopOf="@+id/gl_horizontal_1" />
+
+            <TextView
+                android:layout_width="240dp"
+                android:layout_height="wrap_content"
+                android:text="Đăng xuất"
+                android:layout_gravity="center_vertical"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+                android:fontFamily="@font/josefinsans_bold"
+                android:textColor="@color/black"
+                android:layout_weight="1"
+                android:layout_marginStart="15dp" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_gravity="center_vertical"
+                android:layout_height="35dp"
+                android:layout_weight="1"
+                android:src="@drawable/ic_next"/>
+
+        </LinearLayout>
+
+
+        <View
+            android:id="@+id/view1"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/grey"
+            app:layout_constraintBottom_toTopOf="@+id/gl_horizontal_2" />
+
+        <View
+            android:id="@+id/view2"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/grey"
+            app:layout_constraintBottom_toTopOf="@+id/gl_horizontal_3" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/gl_horizontal_1"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.25" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/gl_horizontal_2"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.35" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/gl_horizontal_3"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.45" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/gl_horizontal_4"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.55" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/gl_vertical_1"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.05" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/gl_vertical_2"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.95" />
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
