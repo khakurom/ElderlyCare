@@ -123,4 +123,7 @@ dependencies {
     implementation 'androidx.camera:camera-mlkit-vision:1.2.0-beta02'
     implementation 'com.google.mlkit:barcode-scanning:17.2.0'
     implementation 'com.google.mlkit:barcode-scanning:17.2.0'
+
+    // google map
+    implementation 'com.google.android.gms:play-services-maps:18.2.0'
 }

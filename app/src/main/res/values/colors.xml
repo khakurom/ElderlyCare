@@ -10,4 +10,5 @@
     <color name="overall_yellow"> #fbf0dc</color>
     <color name="event_blue">#96CAD1</color>
     <color name="grey">#8E8E82</color>
+    <color name="grey_1">#EAEAE1</color>
 </resources>
