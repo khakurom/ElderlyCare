@@ -1,15 +1,11 @@
 package com.project.elderlyhealthcare.presentation.fragment.main.event
 
-import android.content.Intent
 import android.view.View
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
-import com.project.elderlyhealthcare.R
 import com.project.elderlyhealthcare.BR
-import com.project.elderlyhealthcare.databinding.FragmentEventBinding
+import com.project.elderlyhealthcare.R
 import com.project.elderlyhealthcare.databinding.FragmentExerciseEventBinding
-import com.project.elderlyhealthcare.presentation.activity.NotLoginActivity
 import com.project.elderlyhealthcare.presentation.fragment.base.BaseFragment
 import com.project.elderlyhealthcare.presentation.viewmodels.main.EventViewModel
 import com.project.elderlyhealthcare.utils.SingleClickListener

@@ -13,7 +13,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".presentation.fragment.main.AccountFragment">
+        tools:context=".presentation.fragment.main.account.AccountFragment">
 
         <ImageView
             android:id="@+id/imageView5"
@@ -29,6 +29,7 @@
 
 
         <LinearLayout
+            android:id="@+id/account_layout_info"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:orientation="horizontal"
@@ -71,6 +72,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/account_layout_change_pw"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:orientation="horizontal"

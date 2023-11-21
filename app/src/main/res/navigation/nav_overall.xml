@@ -7,7 +7,24 @@
 
     <fragment
         android:id="@+id/overallFragment"
-        android:name="com.project.elderlyhealthcare.presentation.fragment.main.OverallFragment"
+        android:name="com.project.elderlyhealthcare.presentation.fragment.main.overall.OverallFragment"
         android:label="fragment_overall"
-        tools:layout="@layout/fragment_overall" />
+        tools:layout="@layout/fragment_overall" >
+        <action
+            android:id="@+id/action_overallFragment_to_avgHeartRateFragment"
+            app:destination="@id/avgHeartRateFragment" />
+        <action
+            android:id="@+id/action_overallFragment_to_avgOxygenFragment"
+            app:destination="@id/avgOxygenFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/avgHeartRateFragment"
+        android:name="com.project.elderlyhealthcare.presentation.fragment.main.overall.AvgHeartRateFragment"
+        android:label="fragment_avg_heart_rate"
+        tools:layout="@layout/fragment_avg_heart_rate" />
+    <fragment
+        android:id="@+id/avgOxygenFragment"
+        android:name="com.project.elderlyhealthcare.presentation.fragment.main.overall.AvgOxygenFragment"
+        android:label="fragment_avg_oxygen"
+        tools:layout="@layout/fragment_avg_oxygen" />
 </navigation>

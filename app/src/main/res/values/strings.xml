@@ -19,6 +19,9 @@
     // forget password screen
     <string name="forget_pw_title">Quên mật khẩu</string>
 
+    // month year
+    <string name="month_year">Tháng %s - năm %s</string>
+
     // list tỉnh thành
     <string-array name="list_prefecture">
         <item>Hồ Chí Minh</item>

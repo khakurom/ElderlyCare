@@ -1,4 +1,4 @@
-package com.project.elderlyhealthcare.presentation.fragment.main
+package com.project.elderlyhealthcare.presentation.fragment.main.account
 
 import android.content.Intent
 import android.view.View
@@ -9,7 +9,6 @@ import com.project.elderlyhealthcare.R
 import com.project.elderlyhealthcare.databinding.FragmentAccountBinding
 import com.project.elderlyhealthcare.presentation.activity.NotLoginActivity
 import com.project.elderlyhealthcare.presentation.fragment.base.BaseFragment
-import com.project.elderlyhealthcare.presentation.fragment.not_login.LoginFragmentDirections
 import com.project.elderlyhealthcare.presentation.viewmodels.main.AccountViewModel
 import com.project.elderlyhealthcare.utils.SingleClickListener
 
@@ -30,6 +29,17 @@ class AccountFragment : BaseFragment<AccountViewModel, FragmentAccountBinding>(R
 				override fun onSingleClick(v: View) {
 					startActivity(Intent (requireContext(), NotLoginActivity :: class.java))
 					activity?.finish()
+				}
+			})
+			accountLayoutInfo.setOnClickListener(object : SingleClickListener(){
+				override fun onSingleClick(v: View) {
+					findNavController().navigate(AccountFragmentDirections.actionAccountFragmentToProfileFragment())
+				}
+			})
+
+			accountLayoutChangePw.setOnClickListener(object : SingleClickListener(){
+				override fun onSingleClick(v: View) {
+					findNavController().navigate(AccountFragmentDirections.actionAccountFragmentToChangePasswordFragment())
 				}
 			})
 		}

@@ -32,6 +32,7 @@
             android:text="Tạo tài khoản đăng nhập"
             android:textColor="@color/black"
             android:textSize="30sp"
+            bind:layout_constraintEnd_toStartOf="@+id/reg_gl_vertical_2"
             bind:layout_constraintStart_toStartOf="@id/reg_gl_vertical_1"
             bind:layout_constraintTop_toBottomOf="@+id/sign_up_fr_cs_bar" />
 

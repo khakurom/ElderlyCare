@@ -12,7 +12,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".presentation.fragment.main.OverallFragment">
+        tools:context=".presentation.fragment.main.overall.OverallFragment">
 
         <androidx.cardview.widget.CardView
             android:layout_width="0dp"
@@ -280,7 +280,7 @@
             app:layout_constraintTop_toTopOf="@+id/gl_horizontal_3" />
 
         <androidx.cardview.widget.CardView
-            android:id="@+id/cardView"
+            android:id="@+id/layout_avg_heartRate"
             android:layout_width="0dp"
             android:layout_height="80dp"
             android:layout_marginTop="10dp"
@@ -329,6 +329,7 @@
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/layout_avg_oxygen"
             android:layout_width="0dp"
             android:layout_height="80dp"
             app:cardBackgroundColor="@color/event_blue"
@@ -337,13 +338,14 @@
             android:layout_marginTop="20dp"
             app:layout_constraintEnd_toStartOf="@+id/gl_vertical_3"
             app:layout_constraintStart_toStartOf="@+id/gl_vertical_1"
-            app:layout_constraintTop_toBottomOf="@+id/cardView">
+            app:layout_constraintTop_toBottomOf="@+id/layout_avg_heartRate">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
                 <ImageView
+                    android:id="@+id/imageView7"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="20dp"
@@ -363,10 +365,10 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
-                    android:text="Chỉ số nồng độ oxy trong máu"
+                    android:text="Chỉ số trung bình nồng độ oxy "
                     android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
                     android:textColor="@color/black"
                     app:layout_constraintBottom_toBottomOf="parent"

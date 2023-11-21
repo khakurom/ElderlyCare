@@ -31,13 +31,29 @@
     <fragment
         android:id="@+id/medicineEventFragment"
         android:name="com.project.elderlyhealthcare.presentation.fragment.main.event.MedicineEventFragment"
-        android:label="MedicineEventFragment" />
+        android:label="MedicineEventFragment" >
+        <action
+            android:id="@+id/action_medicineEventFragment_to_addMedicineFragment"
+            app:destination="@id/addMedicineFragment" />
+    </fragment>
     <fragment
         android:id="@+id/reExaminationEventFragment"
         android:name="com.project.elderlyhealthcare.presentation.fragment.main.event.ReExaminationEventFragment"
-        android:label="ReExaminationEventFragment" />
+        android:label="ReExaminationEventFragment" >
+        <action
+            android:id="@+id/action_reExaminationEventFragment_to_addReExaminationFragment"
+            app:destination="@id/addReExaminationFragment" />
+    </fragment>
     <fragment
         android:id="@+id/addExerciseFragment"
         android:name="com.project.elderlyhealthcare.presentation.fragment.main.event.AddExerciseFragment"
         android:label="AddExerciseFragment" />
+    <fragment
+        android:id="@+id/addMedicineFragment"
+        android:name="com.project.elderlyhealthcare.presentation.fragment.main.event.AddMedicineFragment"
+        android:label="AddMedicineFragment" />
+    <fragment
+        android:id="@+id/addReExaminationFragment"
+        android:name="com.project.elderlyhealthcare.presentation.fragment.main.event.AddReExaminationFragment"
+        android:label="AddReExaminationFragment" />
 </navigation>

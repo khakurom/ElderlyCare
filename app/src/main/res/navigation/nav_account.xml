@@ -7,7 +7,24 @@
 
     <fragment
         android:id="@+id/accountFragment"
-        android:name="com.project.elderlyhealthcare.presentation.fragment.main.AccountFragment"
+        android:name="com.project.elderlyhealthcare.presentation.fragment.main.account.AccountFragment"
         android:label="fragment_account"
-        tools:layout="@layout/fragment_account" />
+        tools:layout="@layout/fragment_account" >
+        <action
+            android:id="@+id/action_accountFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
+        <action
+            android:id="@+id/action_accountFragment_to_changePasswordFragment"
+            app:destination="@id/changePasswordFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.project.elderlyhealthcare.presentation.fragment.main.account.ProfileFragment"
+        android:label="fragment_profile"
+        tools:layout="@layout/fragment_profile" />
+    <fragment
+        android:id="@+id/changePasswordFragment"
+        android:name="com.project.elderlyhealthcare.presentation.fragment.main.account.ChangePasswordFragment"
+        android:label="fragment_change_password"
+        tools:layout="@layout/fragment_change_password" />
 </navigation>
