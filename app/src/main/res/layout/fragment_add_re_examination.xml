@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="addReExViewModel"
+            type="com.project.elderlyhealthcare.presentation.viewmodels.main.EventViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".presentation.fragment.main.event.AddReExaminationFragment">
+
+        <include
+            android:id="@+id/add_re_ex_fr_cs_bar"
+            layout="@layout/custom_top_app_bar"
+            bind:customTitle="@{@string/no_title}"
+            bind:isHaveBack="@{true}"
+            bind:layout_constraintEnd_toEndOf="parent"
+            bind:layout_constraintStart_toStartOf="parent"
+            bind:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            bind:layout_constraintBottom_toBottomOf="parent"
+            bind:layout_constraintTop_toBottomOf="@id/add_re_ex_fr_cs_bar">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:id="@+id/layout_time_picker"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/background_border_time_picker"
+                    android:gravity="center_horizontal"
+                    android:orientation="horizontal"
+                    bind:layout_constraintEnd_toStartOf="@id/gl_vertical_3"
+                    bind:layout_constraintStart_toStartOf="@+id/gl_vertical_1"
+                    bind:layout_constraintTop_toTopOf="parent">
+
+                    <NumberPicker
+                        android:id="@+id/pickerHour"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginEnd="10dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:text=":"
+                        android:textColor="@color/black"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <NumberPicker
+                        android:id="@+id/pickerMinute"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="20dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:text="Giờ"
+                        android:textColor="@color/black"
+                        android:textSize="20sp" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/textView11"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:fontFamily="@font/josefinsans_bold"
+                    android:text="Ngày tái khám"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    bind:layout_constraintStart_toEndOf="@id/gl_vertical_1"
+                    bind:layout_constraintTop_toBottomOf="@id/layout_time_picker" />
+
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/add_reEx_layout_ed_date"
+                    style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:hint="Ngày/tháng/năm"
+                    bind:endIconDrawable="@drawable/ic_calendar"
+                    bind:endIconMode="custom"
+                    bind:layout_constraintEnd_toStartOf="@+id/gl_vertical_3"
+                    bind:layout_constraintStart_toEndOf="@id/gl_vertical_1"
+                    bind:layout_constraintTop_toBottomOf="@+id/textView11">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textCapCharacters"
+                        android:textColor="@color/black" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:fontFamily="@font/josefinsans_bold"
+                    android:text="Tên bệnh cần tái khám"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    bind:layout_constraintStart_toEndOf="@id/gl_vertical_1"
+                    bind:layout_constraintTop_toBottomOf="@id/add_reEx_layout_ed_date" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/add_reEx_layout_ed_name"
+                    style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:hint="..."
+                    bind:endIconMode="clear_text"
+                    bind:layout_constraintEnd_toStartOf="@+id/gl_vertical_3"
+                    bind:layout_constraintStart_toEndOf="@id/gl_vertical_1"
+                    bind:layout_constraintTop_toBottomOf="@+id/textView2">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textCapCharacters"
+                        android:textColor="@color/black" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+                <TextView
+                    android:id="@+id/textView3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:fontFamily="@font/josefinsans_bold"
+                    android:text="Thông tin địa chỉ tái khám"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    bind:layout_constraintStart_toEndOf="@id/gl_vertical_1"
+                    bind:layout_constraintTop_toBottomOf="@id/add_reEx_layout_ed_name" />
+
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/add_reEx_layout_ed_description"
+                    style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                    android:layout_width="0dp"
+                    android:layout_height="100dp"
+                    android:hint="..."
+                    bind:endIconMode="clear_text"
+                    bind:layout_constraintEnd_toStartOf="@+id/gl_vertical_3"
+                    bind:layout_constraintStart_toEndOf="@id/gl_vertical_1"
+                    bind:layout_constraintTop_toBottomOf="@+id/textView3">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:inputType="textCapCharacters"
+                        android:textColor="@color/black" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/add_reEx_bt_add_reminder"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="50dp"
+                    android:background="@drawable/ripple_button"
+                    android:text="Tạo lịch"
+                    android:textColor="@color/white"
+                    bind:layout_constraintEnd_toStartOf="@id/gl_vertical_3"
+                    bind:layout_constraintStart_toEndOf="@id/gl_vertical_1"
+                    bind:layout_constraintTop_toBottomOf="@+id/add_reEx_layout_ed_description" />
+
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/gl_vertical_1"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:orientation="vertical"
+                    bind:layout_constraintGuide_percent="0.05" />
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/gl_vertical_2"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:orientation="vertical"
+                    bind:layout_constraintGuide_percent="0.5" />
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/gl_vertical_3"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:orientation="vertical"
+                    bind:layout_constraintGuide_percent="0.95" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
