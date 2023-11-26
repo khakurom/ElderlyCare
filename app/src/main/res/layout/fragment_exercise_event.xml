@@ -71,9 +71,11 @@
             app:layout_constraintGuide_percent="0.95" />
 
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/exercise_rcv_list_exercise"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:orientation="vertical"
+            submitListExerciseEvent="@{exerciseViewModel.listExerciseEvent}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

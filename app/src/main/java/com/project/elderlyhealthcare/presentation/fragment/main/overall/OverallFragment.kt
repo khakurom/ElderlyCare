@@ -9,7 +9,9 @@ import com.project.elderlyhealthcare.databinding.FragmentOverallBinding
 import com.project.elderlyhealthcare.presentation.fragment.base.BaseFragment
 import com.project.elderlyhealthcare.presentation.viewmodels.main.OverallViewModel
 import com.project.elderlyhealthcare.utils.SingleClickListener
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class OverallFragment : BaseFragment<OverallViewModel, FragmentOverallBinding>(R.layout.fragment_overall) {
 	override fun variableId(): Int = BR.overallViewModel
 

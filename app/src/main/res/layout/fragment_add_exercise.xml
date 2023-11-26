@@ -29,6 +29,7 @@
             bind:layout_constraintBottom_toBottomOf="parent">
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layout_add_ex"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 bind:layout_constraintBottom_toBottomOf="parent">
@@ -47,6 +48,7 @@
 
                     <NumberPicker
                         android:id="@+id/pickerHour"
+                        style="@style/AppTheme.Picker"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="20dp"
@@ -63,6 +65,7 @@
 
                     <NumberPicker
                         android:id="@+id/pickerMinute"
+                        style="@style/AppTheme.Picker"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
@@ -197,6 +200,7 @@
                         android:src="@drawable/ic_calendar" />
 
                     <TextView
+                        android:id="@+id/add_ex_tv_date"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
@@ -226,11 +230,15 @@
                     android:hint="..."
                     bind:counterMaxLength="40"
                     bind:endIconMode="clear_text"
+                    bind:helperText="Bắt buộc"
+                    bind:helperTextTextColor="@color/login_red"
+                    bind:helperTextEnabled="true"
                     bind:layout_constraintEnd_toStartOf="@id/gl_vertical_2"
                     bind:layout_constraintStart_toEndOf="@id/gl_vertical_1"
                     bind:layout_constraintTop_toBottomOf="@+id/textView4">
 
                     <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/add_ex_edt_exercise_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="text"
@@ -264,6 +272,7 @@
                     bind:layout_constraintTop_toBottomOf="@+id/textView5">
 
                     <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/add_ex_edt_description"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:inputType="text"
@@ -277,6 +286,8 @@
                     android:background="@drawable/ripple_button"
                     android:text="Tạo lịch"
                     android:layout_marginTop="50dp"
+                    bind:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_marginBottom="50dp"
                     android:textColor="@color/white"
                     bind:layout_constraintEnd_toStartOf="@id/gl_vertical_2"
                     bind:layout_constraintStart_toEndOf="@id/gl_vertical_1"

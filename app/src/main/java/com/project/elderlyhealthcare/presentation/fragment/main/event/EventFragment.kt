@@ -11,8 +11,9 @@ import com.project.elderlyhealthcare.presentation.activity.NotLoginActivity
 import com.project.elderlyhealthcare.presentation.fragment.base.BaseFragment
 import com.project.elderlyhealthcare.presentation.viewmodels.main.EventViewModel
 import com.project.elderlyhealthcare.utils.SingleClickListener
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class EventFragment : BaseFragment<EventViewModel, FragmentEventBinding>(R.layout.fragment_event) {
 	override fun variableId(): Int = BR.eventViewModel
 

@@ -49,6 +49,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="20dp"
+                        style="@style/AppTheme.Picker"
                         android:layout_marginEnd="10dp" />
 
                     <TextView
@@ -64,6 +65,7 @@
                         android:id="@+id/pickerMinute"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        style="@style/AppTheme.Picker"
                         android:layout_marginStart="10dp"
                         android:layout_marginEnd="20dp" />
 

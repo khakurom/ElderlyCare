@@ -9,8 +9,9 @@ import com.project.elderlyhealthcare.databinding.FragmentMedicineEventBinding
 import com.project.elderlyhealthcare.presentation.fragment.base.BaseFragment
 import com.project.elderlyhealthcare.presentation.viewmodels.main.EventViewModel
 import com.project.elderlyhealthcare.utils.SingleClickListener
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class MedicineEventFragment :  BaseFragment<EventViewModel, FragmentMedicineEventBinding>(R.layout.fragment_medicine_event){
 	override fun variableId(): Int = BR.medicineViewModel
 

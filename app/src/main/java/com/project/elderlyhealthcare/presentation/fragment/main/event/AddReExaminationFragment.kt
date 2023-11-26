@@ -1,6 +1,7 @@
 package com.project.elderlyhealthcare.presentation.fragment.main.event
 
 import android.view.View
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import com.project.elderlyhealthcare.BR
 import com.project.elderlyhealthcare.R
@@ -8,8 +9,9 @@ import com.project.elderlyhealthcare.databinding.FragmentAddReExaminationBinding
 import com.project.elderlyhealthcare.presentation.fragment.base.BaseFragment
 import com.project.elderlyhealthcare.presentation.viewmodels.main.EventViewModel
 import com.project.elderlyhealthcare.utils.SingleClickListener
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class AddReExaminationFragment : BaseFragment<EventViewModel, FragmentAddReExaminationBinding>(R.layout.fragment_add_re_examination) {
 	override fun variableId(): Int = BR.addReExViewModel
 
@@ -26,6 +28,8 @@ class AddReExaminationFragment : BaseFragment<EventViewModel, FragmentAddReExami
 					backToPreScreen()
 				}
 			})
+			pickerHour.textColor = ContextCompat.getColor(requireContext(), R.color.black)
+			pickerMinute.textColor = ContextCompat.getColor(requireContext(), R.color.black)
 		}
 		settingTimePicker()
 	}

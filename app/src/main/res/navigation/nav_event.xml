@@ -47,7 +47,13 @@
     <fragment
         android:id="@+id/addExerciseFragment"
         android:name="com.project.elderlyhealthcare.presentation.fragment.main.event.AddExerciseFragment"
-        android:label="AddExerciseFragment" />
+        android:label="AddExerciseFragment" >
+        <action
+            android:id="@+id/action_addExerciseFragment_to_exerciseEventFragment"
+            app:destination="@id/exerciseEventFragment"
+            app:popUpTo="@id/addExerciseFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
     <fragment
         android:id="@+id/addMedicineFragment"
         android:name="com.project.elderlyhealthcare.presentation.fragment.main.event.AddMedicineFragment"

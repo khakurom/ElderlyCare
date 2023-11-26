@@ -25,4 +25,13 @@ object Utils {
             context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         inputManager.hideSoftInputFromWindow(windowToken, 0)
     }
+
+    fun sortDayList (list : List <String?>) : List<String?> {
+        val sortedList = list.sortedWith(compareBy<String?> {
+                if (it?.startsWith("T") == true) 0 else 1
+            }.thenBy {
+                it
+            })
+        return sortedList.distinct()
+    }
 }

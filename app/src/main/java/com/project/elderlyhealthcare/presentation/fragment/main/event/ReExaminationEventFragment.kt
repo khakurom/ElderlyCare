@@ -9,8 +9,10 @@ import com.project.elderlyhealthcare.databinding.FragmentReExaminationEventBindi
 import com.project.elderlyhealthcare.presentation.fragment.base.BaseFragment
 import com.project.elderlyhealthcare.presentation.viewmodels.main.EventViewModel
 import com.project.elderlyhealthcare.utils.SingleClickListener
+import dagger.hilt.android.AndroidEntryPoint
 
 
+@AndroidEntryPoint
 class ReExaminationEventFragment :  BaseFragment<EventViewModel, FragmentReExaminationEventBinding>(R.layout.fragment_re_examination_event) {
 	override fun variableId(): Int = BR.reExaminationViewModel
 

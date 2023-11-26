@@ -12,7 +12,9 @@ import com.project.elderlyhealthcare.databinding.FragmentAddMedicineBinding
 import com.project.elderlyhealthcare.presentation.fragment.base.BaseFragment
 import com.project.elderlyhealthcare.presentation.viewmodels.main.EventViewModel
 import com.project.elderlyhealthcare.utils.SingleClickListener
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class AddMedicineFragment : BaseFragment<EventViewModel, FragmentAddMedicineBinding>(R.layout.fragment_add_medicine) {
 	override fun variableId(): Int = BR.addMedicineViewModel
 
@@ -30,6 +32,8 @@ class AddMedicineFragment : BaseFragment<EventViewModel, FragmentAddMedicineBind
 					backToPreScreen()
 				}
 			})
+			pickerHour.textColor = ContextCompat.getColor(requireContext(), R.color.black)
+			pickerMinute.textColor = ContextCompat.getColor(requireContext(), R.color.black)
 		}
 		settingTimePicker()
 		settingDayPicker()

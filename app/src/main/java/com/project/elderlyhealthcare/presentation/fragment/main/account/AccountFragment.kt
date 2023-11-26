@@ -11,8 +11,9 @@ import com.project.elderlyhealthcare.presentation.activity.NotLoginActivity
 import com.project.elderlyhealthcare.presentation.fragment.base.BaseFragment
 import com.project.elderlyhealthcare.presentation.viewmodels.main.AccountViewModel
 import com.project.elderlyhealthcare.utils.SingleClickListener
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class AccountFragment : BaseFragment<AccountViewModel, FragmentAccountBinding>(R.layout.fragment_account) {
 	override fun variableId(): Int = BR.accountViewModel
 

@@ -9,9 +9,10 @@ import com.project.elderlyhealthcare.presentation.fragment.base.BaseFragment
 import com.project.elderlyhealthcare.presentation.viewmodels.main.OverallViewModel
 import com.project.elderlyhealthcare.utils.MonthYearPickerDialog
 import com.project.elderlyhealthcare.utils.SingleClickListener
+import dagger.hilt.android.AndroidEntryPoint
 import java.util.Calendar
 
-
+@AndroidEntryPoint
 class AvgOxygenFragment : BaseFragment<OverallViewModel, FragmentAvgOxygenBinding>(R.layout.fragment_avg_oxygen)  {
 	override fun variableId(): Int = BR.avgOxygenViewModel
 

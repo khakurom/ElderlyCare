@@ -8,7 +8,9 @@ import com.project.elderlyhealthcare.databinding.FragmentChangePasswordBinding
 import com.project.elderlyhealthcare.presentation.fragment.base.BaseFragment
 import com.project.elderlyhealthcare.presentation.viewmodels.main.AccountViewModel
 import com.project.elderlyhealthcare.utils.SingleClickListener
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ChangePasswordFragment : BaseFragment<AccountViewModel, FragmentChangePasswordBinding>(R.layout.fragment_change_password) {
 	override fun variableId(): Int = BR.changePwViewModel
 
