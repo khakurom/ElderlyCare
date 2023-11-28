@@ -4,6 +4,8 @@ import android.app.DatePickerDialog
 import android.content.DialogInterface
 import android.content.res.ColorStateList
 import android.view.View
+import android.widget.EditText
+import android.widget.NumberPicker
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
@@ -175,8 +177,8 @@ class AddExerciseFragment :
                 showDialog("Vui lòng điền tên bài tập thể dục")
             } else {
                 val exerciseEvent = ExerciseEventEntity(
-                    hour = pickerHour.value.toString(),
-                    minutes = pickerMinute.value.toString(),
+                    hour = formatTime(pickerHour),
+                    minutes = formatTime(pickerMinute) ,
                     dayRepeat = dayRepeatList.distinct(),
                     dayBegin = addExTvDate.text.trim().toString(),
                     exerciseName = addExEdtExerciseName.text?.trim().toString(),
@@ -194,6 +196,11 @@ class AddExerciseFragment :
         }
     }
 
+    private fun formatTime (editText: NumberPicker): String {
+        val time  = editText.value.toString()
+        return if (time.length == 1) "0$time" else time
+    }
+
     private fun showDialog(message: String) {
         val alertDialogBuilder = AlertDialog.Builder(requireContext())
         with(alertDialogBuilder) {
@@ -202,7 +209,7 @@ class AddExerciseFragment :
             setPositiveButton("OK") { dialog: DialogInterface, _: Int ->
                 dialog.dismiss()
             }
-            setNegativeButton("Cancel") { dialog: DialogInterface, _: Int ->
+            setNegativeButton("Trở về") { dialog: DialogInterface, _: Int ->
                 dialog.dismiss()
             }
         }

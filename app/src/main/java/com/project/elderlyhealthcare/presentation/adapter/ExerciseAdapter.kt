@@ -46,11 +46,10 @@ class ExerciseAdapter :
     override fun onBindViewHolder(holder: ExerciseHolder, position: Int) {
         super.onBindViewHolder(holder, position)
         holder.itemView.setOnClickListener {
-            onItemSelectListener?.onItemSelected(getItem(position), position)
+            onItemSelectListener?.onItemSelected(getItem(holder.absoluteAdapterPosition), holder.absoluteAdapterPosition)
         }
         holder.binding.itemExerciseIvClear.setOnClickListener {
-            onIvClearListener?.onItemClear(getItem(position), position)
-            notifyItemChanged(position)
+            onIvClearListener?.onItemClear(getItem(holder.absoluteAdapterPosition), holder.absoluteAdapterPosition)
         }
     }
 }

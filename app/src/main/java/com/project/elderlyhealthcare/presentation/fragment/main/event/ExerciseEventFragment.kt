@@ -21,6 +21,7 @@ import okhttp3.internal.notifyAll
 @AndroidEntryPoint
 class ExerciseEventFragment :
     BaseFragment<EventViewModel, FragmentExerciseEventBinding>(R.layout.fragment_exercise_event) {
+    private val exerciseAdapter = ExerciseAdapter()
     override fun variableId(): Int = BR.exerciseViewModel
 
     override fun createViewModel(): Lazy<EventViewModel> = activityViewModels()
@@ -30,22 +31,17 @@ class ExerciseEventFragment :
 
     override fun init() {
         super.init()
-        val adapter : ExerciseAdapter by lazy {
-            ExerciseAdapter().apply {
-                onItemSelectListener = object : OnItemSelectListener<ExerciseEventModel> {
-                    override fun onItemSelected(item: ExerciseEventModel, position: Int) {
-                        Toast.makeText(requireContext(), item.id.toString(), Toast.LENGTH_SHORT).show()
-                    }
+        exerciseAdapter.apply {
+            onItemSelectListener = object : OnItemSelectListener<ExerciseEventModel> {
+                override fun onItemSelected(item: ExerciseEventModel, position: Int) {
                 }
-                onIvClearListener = object : OnItemClearListener<ExerciseEventModel> {
-                    override fun onItemClear(item: ExerciseEventModel, position: Int) {
-                        Log.d("khatag", item.id.toString())
-                        viewModel?.deleteExerciseEvent(item.id)
-                    }
+            }
+            onIvClearListener = object : OnItemClearListener<ExerciseEventModel> {
+                override fun onItemClear(item: ExerciseEventModel, position: Int) {
+                    viewModel?.deleteExerciseEvent(item.id)
                 }
             }
         }
-
 
         binding.apply {
             exerciseFrCsBar.customAppBarIvBack.setOnClickListener(object : SingleClickListener() {
@@ -60,14 +56,12 @@ class ExerciseEventFragment :
                         findNavController().navigate(ExerciseEventFragmentDirections.actionExerciseEventFragmentToAddExerciseFragment())
                     } catch (_: Exception) {
                     }
-
                 }
             })
-            exerciseRcvListExercise.adapter = adapter
+            exerciseRcvListExercise.adapter = exerciseAdapter
 
 
         }
-        observeExerciseEventList(adapter)
         getExerciseEvent()
     }
 
@@ -75,12 +69,6 @@ class ExerciseEventFragment :
         viewModel?.getExerciseEvent()
     }
 
-    private fun observeExerciseEventList (adapter: ExerciseAdapter) {
-        viewModel?.listExerciseEvent?.observe(this) {
-            adapter.submitList(it)
-            Log.d("khatag", "submit")
-        }
-    }
 
 
 }
