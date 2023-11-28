@@ -31,6 +31,7 @@ class AvgOxygenFragment : BaseFragment<OverallViewModel, FragmentAvgOxygenBindin
 					backToPreScreen()
 				}
 			})
+			//dkfjdkfjd
 
 			avgOxygenLayoutDate.setOnClickListener(object : SingleClickListener() {
 				override fun onSingleClick(v: View) {
