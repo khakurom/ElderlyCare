@@ -183,7 +183,11 @@ class AddExerciseFragment :
                     description = addExEdtDescription.text?.trim().toString()
                 )
                 viewModel?.insertExerciseEvent(exerciseEvent)
-                findNavController().navigate(AddExerciseFragmentDirections.actionAddExerciseFragmentToExerciseEventFragment())
+                try {
+                    findNavController().navigate(AddExerciseFragmentDirections.actionAddExerciseFragmentToExerciseEventFragment())
+                } catch (_: Exception) {
+                }
+
                 backToPreScreen()
             }
 
@@ -234,7 +238,7 @@ class AddExerciseFragment :
                     (selectedMonth + 1).toString(),
                     selectedYear.toString()
                 )
-                uncheckedRepeatDay ()
+                uncheckedRepeatDay()
             },
             year,
             month,
@@ -245,7 +249,7 @@ class AddExerciseFragment :
         datePickerDialog.show()
     }
 
-    private fun uncheckedRepeatDay () {
+    private fun uncheckedRepeatDay() {
         binding.apply {
             toggleBtMon.isChecked = false
             toggleBtTu.isChecked = false
@@ -256,8 +260,6 @@ class AddExerciseFragment :
             toggleBtSun.isChecked = false
         }
     }
-
-
 
 
 }

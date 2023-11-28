@@ -28,19 +28,31 @@ class EventFragment : BaseFragment<EventViewModel, FragmentEventBinding>(R.layou
 		binding.apply {
 			eventLayoutExerciseEvent.setOnClickListener(object : SingleClickListener(){
 				override fun onSingleClick(v: View) {
-					findNavController().navigate(EventFragmentDirections.actionEventFragmentToExerciseEventFragment())
+					try {
+						findNavController().navigate(EventFragmentDirections.actionEventFragmentToExerciseEventFragment())
+					} catch (_: Exception) {
+					}
+
 				}
 			})
 
 			eventLayoutMedicineEvent.setOnClickListener(object : SingleClickListener(){
 				override fun onSingleClick(v: View) {
-					findNavController().navigate(EventFragmentDirections.actionEventFragmentToMedicineEventFragment())
+					try {
+						findNavController().navigate(EventFragmentDirections.actionEventFragmentToMedicineEventFragment())
+					} catch (_: Exception) {
+					}
+
 				}
 			})
 
 			eventLayoutReExaminationEvent.setOnClickListener(object : SingleClickListener(){
 				override fun onSingleClick(v: View) {
-					findNavController().navigate(EventFragmentDirections.actionEventFragmentToReExaminationEventFragment())
+					try {
+						findNavController().navigate(EventFragmentDirections.actionEventFragmentToReExaminationEventFragment())
+					} catch (_: Exception) {
+					}
+
 				}
 			})
 		}

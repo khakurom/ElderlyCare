@@ -17,7 +17,7 @@ class ExerciseAdapter :
         override fun bind(item: ExerciseEventModel) {
             binding.exerciseModel = item
             var dayRepeat = ""
-            if (item.dayRepeat.size > 1) {
+            if (item.dayRepeat.isNotEmpty()) {
                 val eventList = sortDayList (item.dayRepeat)
                 for ((index, i) in eventList.withIndex()) {
                     dayRepeat += i
@@ -50,6 +50,7 @@ class ExerciseAdapter :
         }
         holder.binding.itemExerciseIvClear.setOnClickListener {
             onIvClearListener?.onItemClear(getItem(position), position)
+            notifyItemChanged(position)
         }
     }
 }
