@@ -13,6 +13,9 @@
     <string name="login_sign_up"><u>Đăng kí tài khoản</u></string>
     <string name="login_click_here"><u>Nhấn vào đây</u></string>
 
+    // addExerciseFragment
+    <string name="addEx_hour_minutes">%s:%s</string>
+
     //sign up screen
     <string name="no_title"> </string>
 

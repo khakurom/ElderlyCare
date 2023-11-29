@@ -4,7 +4,6 @@ import android.app.DatePickerDialog
 import android.content.DialogInterface
 import android.content.res.ColorStateList
 import android.view.View
-import android.widget.EditText
 import android.widget.NumberPicker
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
@@ -21,7 +20,9 @@ import com.project.elderlyhealthcare.utils.Constant.listMinutes
 import com.project.elderlyhealthcare.utils.SingleClickListener
 import com.project.elderlyhealthcare.utils.Utils.hideKeyboard
 import dagger.hilt.android.AndroidEntryPoint
+import java.text.SimpleDateFormat
 import java.util.Calendar
+import java.util.Date
 
 @AndroidEntryPoint
 class AddExerciseFragment :
@@ -174,26 +175,38 @@ class AddExerciseFragment :
     private fun createExerciseEvent() {
         binding.apply {
             if (addExEdtExerciseName.text?.trim().toString().isEmpty()) {
-                showDialog("Vui lòng điền tên bài tập thể dục")
+                showDialog("Vui lòng đặt tên bài tập thể dục")
             } else {
-                val exerciseEvent = ExerciseEventEntity(
-                    hour = formatTime(pickerHour),
-                    minutes = formatTime(pickerMinute) ,
-                    dayRepeat = dayRepeatList.distinct(),
-                    dayBegin = addExTvDate.text.trim().toString(),
-                    exerciseName = addExEdtExerciseName.text?.trim().toString(),
-                    description = addExEdtDescription.text?.trim().toString()
-                )
-                viewModel?.insertExerciseEvent(exerciseEvent)
-                try {
-                    findNavController().navigate(AddExerciseFragmentDirections.actionAddExerciseFragmentToExerciseEventFragment())
-                } catch (_: Exception) {
+                if (compareToCurrentTime(addExTvDate.text.trim().toString(), formatTime(pickerHour), formatTime(pickerMinute))) {
+                    showDialog("Không thể đặt giờ trong quá khứ")
+                } else {
+                    val exerciseEvent = ExerciseEventEntity(
+                        hour = formatTime(pickerHour),
+                        minutes = formatTime(pickerMinute) ,
+                        dayRepeat = dayRepeatList.distinct(),
+                        dayBegin = addExTvDate.text.trim().toString(),
+                        exerciseName = addExEdtExerciseName.text?.trim().toString(),
+                        description = addExEdtDescription.text?.trim().toString()
+                    )
+                    viewModel?.insertExerciseEvent(exerciseEvent)
+                    try {
+                        findNavController().navigate(AddExerciseFragmentDirections.actionAddExerciseFragmentToExerciseEventFragment())
+                    } catch (_: Exception) {
+                    }
+                    backToPreScreen()
                 }
-
-                backToPreScreen()
             }
-
         }
+    }
+
+    private fun compareToCurrentTime (date : String, hour : String, minutes : String) : Boolean {
+        val dateTime = "$date $hour:$minutes"
+        val dateFormat = SimpleDateFormat("dd/MM/yyyy HH:mm")
+        val targetDateTime = Calendar.getInstance()
+
+        targetDateTime.time = dateFormat.parse(dateTime) ?: Date()
+        val currentDateTime = Calendar.getInstance()
+        return currentDateTime.time.after(targetDateTime.time)
     }
 
     private fun formatTime (editText: NumberPicker): String {
