@@ -51,7 +51,7 @@ class AddExerciseFragment :
                     v.hideKeyboard()
                 }
             })
-            addExBtAddReminder.setOnClickListener(object : SingleClickListener() {
+            addExBtAddEvent.setOnClickListener(object : SingleClickListener() {
                 override fun onSingleClick(v: View) {
                     createExerciseEvent()
                 }

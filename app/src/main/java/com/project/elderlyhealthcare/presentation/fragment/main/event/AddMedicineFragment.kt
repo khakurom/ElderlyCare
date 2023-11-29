@@ -2,7 +2,6 @@ package com.project.elderlyhealthcare.presentation.fragment.main.event
 
 import android.app.DatePickerDialog
 import android.content.res.ColorStateList
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.core.content.ContextCompat
@@ -10,8 +9,13 @@ import androidx.fragment.app.activityViewModels
 import com.project.elderlyhealthcare.BR
 import com.project.elderlyhealthcare.R
 import com.project.elderlyhealthcare.databinding.FragmentAddMedicineBinding
+import com.project.elderlyhealthcare.domain.models.MedicineTypeModel
+import com.project.elderlyhealthcare.presentation.adapter.MedicineTypeAdapter
+import com.project.elderlyhealthcare.presentation.adapter.OnItemRemoveListener
+import com.project.elderlyhealthcare.presentation.adapter.OnItemSelectListener
 import com.project.elderlyhealthcare.presentation.fragment.base.BaseFragment
 import com.project.elderlyhealthcare.presentation.viewmodels.main.EventViewModel
+import com.project.elderlyhealthcare.utils.CustomBottomSheet
 import com.project.elderlyhealthcare.utils.SingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
@@ -21,6 +25,9 @@ import java.util.Locale
 @AndroidEntryPoint
 class AddMedicineFragment :
     BaseFragment<EventViewModel, FragmentAddMedicineBinding>(R.layout.fragment_add_medicine) {
+
+    private val medicineList = mutableListOf<MedicineTypeModel>()
+    private val adapter = MedicineTypeAdapter()
     override fun variableId(): Int = BR.addMedicineViewModel
 
     override fun createViewModel(): Lazy<EventViewModel> = activityViewModels()
@@ -31,6 +38,20 @@ class AddMedicineFragment :
 
     override fun init() {
         super.init()
+
+        adapter.apply {
+            onItemSelectListener = object : OnItemSelectListener<MedicineTypeModel> {
+                override fun onItemSelected(item: MedicineTypeModel, position: Int) {
+                }
+            }
+            onItemRemoveListener = object : OnItemRemoveListener<MedicineTypeModel> {
+                override fun onItemRemove(item: MedicineTypeModel, position: Int) {
+                    removeItemMedicineType(adapter, position)
+                }
+
+            }
+        }
+
         binding.apply {
             addMedicineFrCsBar.customAppBarIvBack.setOnClickListener(object :
                 SingleClickListener() {
@@ -50,12 +71,37 @@ class AddMedicineFragment :
                     selectEndDate()
                 }
             })
+            addExBtAddMedicineType.setOnClickListener(object : SingleClickListener() {
+                override fun onSingleClick(v: View) {
+                    createBottomSheet(adapter)
+                }
+            })
+            addMedicineRcvMedicineType.adapter = adapter
             pickerHour.textColor = ContextCompat.getColor(requireContext(), R.color.black)
             pickerMinute.textColor = ContextCompat.getColor(requireContext(), R.color.black)
         }
         settingTimePicker()
         settingDayPicker()
         getCurrentDate()
+    }
+
+    private fun removeItemMedicineType(adapter: MedicineTypeAdapter, position: Int) {
+        medicineList.removeAt(position)
+        adapter.submitList(medicineList)
+        adapter.notifyDataSetChanged()
+    }
+
+    private fun createBottomSheet(adapter: MedicineTypeAdapter) {
+        val customBottomSheet = CustomBottomSheet(
+            requireContext(),
+            object : CustomBottomSheet.OnBottomSheetClickListener {
+                override fun onPositiveButtonClick(medicineName: String, medicineDose: String) {
+                    medicineList.add(MedicineTypeModel(medicineName, medicineDose.toInt()))
+                    adapter.submitList(medicineList)
+                    adapter.notifyDataSetChanged()
+                }
+            })
+        customBottomSheet.show()
     }
 
     private fun settingTimePicker() {
@@ -137,34 +183,25 @@ class AddMedicineFragment :
             getDayMonthYearFromCurrentDate(binding.addMedicineTvBeginDate.text.toString().trim())
         if (result != null) {
             val (day, month, year) = result
-            val calendar = Calendar.getInstance().apply {
-                set(year.toInt(), month.toInt() - 1, day.toInt()) // Adjust for zero-based month index
+            val minDate = Calendar.getInstance().apply {
+                set(year.toInt(), month.toInt() - 1, day.toInt())
             }
             val datePickerDialog = DatePickerDialog(
                 requireContext(),
                 { _, selectedYear, selectedMonth, selectedDay ->
-                    val selectedCalendar = Calendar.getInstance().apply {
-                        set(selectedYear, selectedMonth, selectedDay)
-                    }
-
-                    if (selectedCalendar.timeInMillis >= System.currentTimeMillis()) {
-                        binding.addMedicineTvEndDate.text = getString(
-                            R.string.day_month_year,
-                            selectedDay.toString(),
-                            (selectedMonth + 1).toString(),
-                            selectedYear.toString()
-                        )
-                        uncheckedRepeatDay()
-                    } else {
-                        // Show a message or handle the case where the user selected a previous date
-                        Toast.makeText(requireContext(), "Please select a future date", Toast.LENGTH_SHORT).show()
-                    }
+                    binding.addMedicineTvEndDate.text = getString(
+                        R.string.day_month_year,
+                        selectedDay.toString(),
+                        (selectedMonth + 1).toString(),
+                        selectedYear.toString()
+                    )
+                    uncheckedRepeatDay()
                 },
-                calendar.get(Calendar.YEAR),
-                calendar.get(Calendar.MONTH),
-                calendar.get(Calendar.DAY_OF_MONTH)
+                minDate.get(Calendar.YEAR),
+                minDate.get(Calendar.MONTH),
+                minDate.get(Calendar.DAY_OF_MONTH)
             )
-
+            datePickerDialog.datePicker.minDate = minDate.timeInMillis
             datePickerDialog.show()
         } else {
             Toast.makeText(requireContext(), "Error", Toast.LENGTH_SHORT).show()

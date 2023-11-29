@@ -1,8 +1,6 @@
 package com.project.elderlyhealthcare.presentation.fragment.main.event
 
-import android.util.Log
 import android.view.View
-import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.project.elderlyhealthcare.BR
@@ -10,13 +8,12 @@ import com.project.elderlyhealthcare.R
 import com.project.elderlyhealthcare.databinding.FragmentExerciseEventBinding
 import com.project.elderlyhealthcare.domain.models.ExerciseEventModel
 import com.project.elderlyhealthcare.presentation.adapter.ExerciseAdapter
-import com.project.elderlyhealthcare.presentation.adapter.OnItemClearListener
+import com.project.elderlyhealthcare.presentation.adapter.OnItemRemoveListener
 import com.project.elderlyhealthcare.presentation.adapter.OnItemSelectListener
 import com.project.elderlyhealthcare.presentation.fragment.base.BaseFragment
 import com.project.elderlyhealthcare.presentation.viewmodels.main.EventViewModel
 import com.project.elderlyhealthcare.utils.SingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
-import okhttp3.internal.notifyAll
 
 @AndroidEntryPoint
 class ExerciseEventFragment :
@@ -36,8 +33,8 @@ class ExerciseEventFragment :
                 override fun onItemSelected(item: ExerciseEventModel, position: Int) {
                 }
             }
-            onIvClearListener = object : OnItemClearListener<ExerciseEventModel> {
-                override fun onItemClear(item: ExerciseEventModel, position: Int) {
+            onItemRemoveListener = object : OnItemRemoveListener<ExerciseEventModel> {
+                override fun onItemRemove(item: ExerciseEventModel, position: Int) {
                     viewModel?.deleteExerciseEvent(item.id)
                 }
             }

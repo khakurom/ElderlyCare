@@ -1,13 +1,10 @@
 package com.project.elderlyhealthcare.presentation.adapter
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.recyclerview.widget.DiffUtil
 import com.project.elderlyhealthcare.databinding.ItemExerciseEventBinding
 import com.project.elderlyhealthcare.domain.models.ExerciseEventModel
-import com.project.elderlyhealthcare.presentation.fragment.not_login.LoginFragmentDirections
 import com.project.elderlyhealthcare.utils.Utils.sortDayList
 
 class ExerciseAdapter :
@@ -49,7 +46,7 @@ class ExerciseAdapter :
             onItemSelectListener?.onItemSelected(getItem(holder.absoluteAdapterPosition), holder.absoluteAdapterPosition)
         }
         holder.binding.itemExerciseIvClear.setOnClickListener {
-            onIvClearListener?.onItemClear(getItem(holder.absoluteAdapterPosition), holder.absoluteAdapterPosition)
+            onItemRemoveListener?.onItemRemove(getItem(holder.absoluteAdapterPosition), holder.absoluteAdapterPosition)
         }
     }
 }

@@ -11,8 +11,8 @@ interface OnItemSelectListener<T> {
 	fun onItemSelected(item: T, position: Int)
 }
 
-interface OnItemClearListener<T> {
-	fun onItemClear(item: T, position: Int)
+interface OnItemRemoveListener<T> {
+	fun onItemRemove(item: T, position: Int)
 }
 
 /**
@@ -21,7 +21,7 @@ interface OnItemClearListener<T> {
 abstract class BaseAdapterDiffUtil<T, VB : ViewBinding, VH : BaseAdapterDiffUtil.BaseViewHolder<T, VB>>(diffCallback: DiffUtil.ItemCallback<T>) :
 	ListAdapter<T, VH>(diffCallback) {
 	var onItemSelectListener: OnItemSelectListener<T>? = null
-	var onIvClearListener: OnItemClearListener<T>? = null
+	var onItemRemoveListener: OnItemRemoveListener<T>? = null
 
 	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
 		val inflater = LayoutInflater.from(parent.context)

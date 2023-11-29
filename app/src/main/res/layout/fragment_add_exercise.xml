@@ -280,7 +280,7 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/add_ex_bt_add_reminder"
+                    android:id="@+id/add_ex_bt_add_event"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:background="@drawable/ripple_button"
