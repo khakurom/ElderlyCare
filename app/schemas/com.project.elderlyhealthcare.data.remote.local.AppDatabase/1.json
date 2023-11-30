@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "de29f998cd5f34aab8cef539593f0fe0",
+    "identityHash": "0552b37830649241bb1e124c24c1995a",
     "entities": [
       {
         "tableName": "ExerciseEvent",
@@ -59,12 +59,80 @@
         },
         "indices": [],
         "foreignKeys": []
+      },
+      {
+        "tableName": "MedicineEvent",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `hour` TEXT, `minutes` TEXT, `dayRepeat` TEXT NOT NULL, `dayBegin` TEXT NOT NULL, `dayEnd` TEXT NOT NULL, `medicineName` TEXT NOT NULL, `medicineDose` TEXT NOT NULL, `diseaseName` TEXT NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "hour",
+            "columnName": "hour",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "minutes",
+            "columnName": "minutes",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "dayRepeat",
+            "columnName": "dayRepeat",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "dayBegin",
+            "columnName": "dayBegin",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "dayEnd",
+            "columnName": "dayEnd",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "medicineName",
+            "columnName": "medicineName",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "medicineDose",
+            "columnName": "medicineDose",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "diseaseName",
+            "columnName": "diseaseName",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": []
       }
     ],
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'de29f998cd5f34aab8cef539593f0fe0')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '0552b37830649241bb1e124c24c1995a')"
     ]
   }
 }

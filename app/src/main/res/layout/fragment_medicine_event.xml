@@ -63,6 +63,28 @@
             android:orientation="vertical"
             app:layout_constraintGuide_percent="0.95" />
 
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/gl_horizontal_1"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.2" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            submitListMedicineEvent="@{medicineViewModel.listMedicineEvent}"
+            android:id="@+id/medicine_rcv_list_medicine"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/gl_horizontal_1"
+            app:layout_constraintVertical_bias="0.0"
+            tools:listitem="@layout/item_medicine_event" />
+
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,10 +1,10 @@
-package com.project.elderlyhealthcare.data.repository
+package com.project.elderlyhealthcare.data.repositories
 
 import com.project.elderlyhealthcare.data.mappers.ExerciseMapper
 import com.project.elderlyhealthcare.data.models.ExerciseEventEntity
 import com.project.elderlyhealthcare.data.remote.local.ExerciseLocalDataSource
 import com.project.elderlyhealthcare.domain.models.ExerciseEventModel
-import com.project.elderlyhealthcare.domain.repository.ExerciseRepository
+import com.project.elderlyhealthcare.domain.repositories.ExerciseRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn

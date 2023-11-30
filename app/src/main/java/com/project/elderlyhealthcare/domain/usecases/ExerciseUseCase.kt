@@ -1,7 +1,7 @@
-package com.project.elderlyhealthcare.domain.usecase
+package com.project.elderlyhealthcare.domain.usecases
 
 import com.project.elderlyhealthcare.data.models.ExerciseEventEntity
-import com.project.elderlyhealthcare.data.repository.ExerciseRepositoryImpl
+import com.project.elderlyhealthcare.data.repositories.ExerciseRepositoryImpl
 import com.project.elderlyhealthcare.domain.models.ExerciseEventModel
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject

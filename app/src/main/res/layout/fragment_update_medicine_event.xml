@@ -5,7 +5,7 @@
 
     <data>
         <variable
-            name="addMedicineViewModel"
+            name="updateMedicineViewModel"
             type="com.project.elderlyhealthcare.presentation.viewmodels.main.EventViewModel" />
     </data>
 
@@ -16,7 +16,7 @@
 
 
         <include
-            android:id="@+id/add_medicine_fr_cs_bar"
+            android:id="@+id/update_medicine_fr_cs_bar"
             layout="@layout/custom_top_app_bar"
             bind:customTitle="@{@string/no_title}"
             bind:isHaveBack="@{true}"
@@ -27,7 +27,7 @@
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            bind:layout_constraintTop_toBottomOf="@id/add_medicine_fr_cs_bar"
+            bind:layout_constraintTop_toBottomOf="@id/update_medicine_fr_cs_bar"
             bind:layout_constraintBottom_toBottomOf="parent">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -36,7 +36,7 @@
 
 
                 <LinearLayout
-                    android:id="@+id/layout_time_picker"
+                    android:id="@+id/update_medicine_layout_time_picker"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:background="@drawable/background_border_time_picker"
@@ -89,7 +89,7 @@
                     android:padding="3dp"
                     bind:layout_constraintEnd_toStartOf="@id/gl_vertical_3"
                     bind:layout_constraintStart_toEndOf="@id/gl_vertical_1"
-                    bind:layout_constraintTop_toBottomOf="@id/layout_time_picker">
+                    bind:layout_constraintTop_toBottomOf="@id/update_medicine_layout_time_picker">
 
                     <ToggleButton
                         android:id="@+id/toggle_bt_mon"
@@ -196,7 +196,7 @@
                     bind:layout_constraintTop_toBottomOf="@id/linearLayout2" />
 
                 <androidx.appcompat.widget.LinearLayoutCompat
-                    android:id="@+id/add_medicine_layout_begin_date_picker"
+                    android:id="@+id/update_medicine_layout_begin_date_picker"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
@@ -215,7 +215,7 @@
                         android:src="@drawable/ic_calendar" />
 
                     <TextView
-                        android:id="@+id/add_medicine_tv_begin_date"
+                        android:id="@+id/update_medicine_tv_begin_date"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
@@ -228,13 +228,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_navigate_next"
-                    bind:layout_constraintBottom_toBottomOf="@+id/add_medicine_layout_begin_date_picker"
-                    bind:layout_constraintEnd_toStartOf="@+id/add_medicine_layout_end_date_picker"
-                    bind:layout_constraintStart_toEndOf="@+id/add_medicine_layout_begin_date_picker"
-                    bind:layout_constraintTop_toTopOf="@+id/add_medicine_layout_begin_date_picker" />
+                    bind:layout_constraintBottom_toBottomOf="@+id/update_medicine_layout_begin_date_picker"
+                    bind:layout_constraintEnd_toStartOf="@+id/update_medicine_layout_end_date_picker"
+                    bind:layout_constraintStart_toEndOf="@+id/update_medicine_layout_begin_date_picker"
+                    bind:layout_constraintTop_toTopOf="@+id/update_medicine_layout_begin_date_picker" />
 
                 <androidx.appcompat.widget.LinearLayoutCompat
-                    android:id="@+id/add_medicine_layout_end_date_picker"
+                    android:id="@+id/update_medicine_layout_end_date_picker"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
@@ -252,7 +252,7 @@
                         android:src="@drawable/ic_calendar" />
 
                     <TextView
-                        android:id="@+id/add_medicine_tv_end_date"
+                        android:id="@+id/update_medicine_tv_end_date"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/addMedicine_pick_date"
@@ -272,12 +272,12 @@
                     android:textSize="20sp"
                     bind:layout_constraintEnd_toStartOf="@+id/gl_vertical_2"
                     bind:layout_constraintStart_toEndOf="@id/gl_vertical_1"
-                    bind:layout_constraintTop_toBottomOf="@id/add_medicine_layout_end_date_picker" />
+                    bind:layout_constraintTop_toBottomOf="@id/update_medicine_layout_end_date_picker" />
 
 
 
                 <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/add_ex_bt_add_medicine_type"
+                    android:id="@+id/update_ex_bt_add_medicine_type"
                     android:layout_width="0dp"
                     android:layout_height="30dp"
                     android:background="@drawable/ripple_button"
@@ -289,7 +289,7 @@
                     bind:layout_constraintTop_toTopOf="@+id/textView9" />
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/add_medicine_rcv_medicine_type"
+                    android:id="@+id/update_medicine_rcv_medicine_type"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
@@ -309,10 +309,10 @@
                     android:textColor="@color/black"
                     android:textSize="20sp"
                     bind:layout_constraintStart_toEndOf="@id/gl_vertical_1"
-                    bind:layout_constraintTop_toBottomOf="@id/add_medicine_rcv_medicine_type" />
+                    bind:layout_constraintTop_toBottomOf="@id/update_medicine_rcv_medicine_type" />
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/add_medicine_layout_ed_disease_name"
+                    android:id="@+id/update_medicine_layout_ed_disease_name"
                     style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -326,7 +326,7 @@
                     bind:layout_constraintTop_toBottomOf="@+id/textView10">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/add_medicine_ed_disease_name"
+                        android:id="@+id/update_medicine_ed_disease_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="text"
@@ -335,18 +335,18 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/add_medicine_bt_add_event"
+                    android:id="@+id/update_medicine_bt_update_event"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:background="@drawable/ripple_button"
-                    android:text="Tạo lịch"
+                    android:text="Cập nhật"
                     android:layout_marginTop="50dp"
                     android:textColor="@color/white"
                     android:layout_marginBottom="50dp"
                     bind:layout_constraintBottom_toBottomOf="parent"
                     bind:layout_constraintEnd_toStartOf="@id/gl_vertical_3"
                     bind:layout_constraintStart_toEndOf="@id/gl_vertical_1"
-                    bind:layout_constraintTop_toBottomOf="@+id/add_medicine_layout_ed_disease_name" />
+                    bind:layout_constraintTop_toBottomOf="@+id/update_medicine_layout_ed_disease_name" />
 
                 <androidx.constraintlayout.widget.Guideline
                     android:id="@+id/gl_vertical_1"
@@ -377,4 +377,5 @@
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </layout>

@@ -16,6 +16,10 @@
     // addExerciseFragment
     <string name="addEx_hour_minutes">%s:%s</string>
 
+    // addMedicineFragment
+    <string name="addMedicine_pick_date">Chọn ngày</string>
+
+
     //sign up screen
     <string name="no_title"> </string>
 

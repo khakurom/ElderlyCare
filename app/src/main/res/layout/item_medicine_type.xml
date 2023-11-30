@@ -30,7 +30,7 @@
             android:id="@+id/tv_dose"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{@string/item_medicine_dose(medicineType.medicineDoes)}"
+            android:text="@{@string/item_medicine_dose(medicineType.medicineDose)}"
             android:textColor="@color/grey"
             android:textSize="15sp"
             app:layout_constraintBottom_toBottomOf="parent"

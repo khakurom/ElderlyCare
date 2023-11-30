@@ -2,12 +2,15 @@ package com.project.elderlyhealthcare.presentation.fragment.main.event
 
 import android.app.DatePickerDialog
 import android.content.res.ColorStateList
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.view.View
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import com.project.elderlyhealthcare.BR
 import com.project.elderlyhealthcare.R
+import com.project.elderlyhealthcare.data.models.MedicineEventEntity
 import com.project.elderlyhealthcare.databinding.FragmentAddMedicineBinding
 import com.project.elderlyhealthcare.domain.models.MedicineTypeModel
 import com.project.elderlyhealthcare.presentation.adapter.MedicineTypeAdapter
@@ -15,8 +18,13 @@ import com.project.elderlyhealthcare.presentation.adapter.OnItemRemoveListener
 import com.project.elderlyhealthcare.presentation.adapter.OnItemSelectListener
 import com.project.elderlyhealthcare.presentation.fragment.base.BaseFragment
 import com.project.elderlyhealthcare.presentation.viewmodels.main.EventViewModel
+import com.project.elderlyhealthcare.utils.Constant
 import com.project.elderlyhealthcare.utils.CustomBottomSheet
 import com.project.elderlyhealthcare.utils.SingleClickListener
+import com.project.elderlyhealthcare.utils.Utils.compareToCurrentTime
+import com.project.elderlyhealthcare.utils.Utils.formatTime
+import com.project.elderlyhealthcare.utils.Utils.getDayMonthYearFromCurrentDate
+import com.project.elderlyhealthcare.utils.Utils.showDialog
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -28,6 +36,7 @@ class AddMedicineFragment :
 
     private val medicineList = mutableListOf<MedicineTypeModel>()
     private val adapter = MedicineTypeAdapter()
+    private lateinit var dayRepeatList: MutableList<String?>
     override fun variableId(): Int = BR.addMedicineViewModel
 
     override fun createViewModel(): Lazy<EventViewModel> = activityViewModels()
@@ -76,6 +85,11 @@ class AddMedicineFragment :
                     createBottomSheet(adapter)
                 }
             })
+            addMedicineBtAddEvent.setOnClickListener(object : SingleClickListener() {
+                override fun onSingleClick(v: View) {
+                    createMedicineEvent()
+                }
+            })
             addMedicineRcvMedicineType.adapter = adapter
             pickerHour.textColor = ContextCompat.getColor(requireContext(), R.color.black)
             pickerMinute.textColor = ContextCompat.getColor(requireContext(), R.color.black)
@@ -83,6 +97,114 @@ class AddMedicineFragment :
         settingTimePicker()
         settingDayPicker()
         getCurrentDate()
+        getValueDayRepeat()
+    }
+
+    private fun createMedicineEvent() {
+        binding.apply {
+            if (addMedicineTvEndDate.text == getString(R.string.addMedicine_pick_date)) {
+                showDialog(requireContext(), "Vui lòng chọn ngày kết thúc")
+            } else {
+                if (addMedicineEdDiseaseName.text?.trim().toString().isEmpty()) {
+                    showDialog(requireContext(), "Vui lòng điền thông tin thuốc điều trị bệnh gì")
+                } else {
+                    if (compareToCurrentTime(
+                            addMedicineTvBeginDate.text.trim().toString(),
+                            formatTime(pickerHour),
+                            formatTime(pickerMinute)
+                        )
+                    ) {
+                        showDialog(requireContext(), "Không thể đặt giờ trong quá khứ")
+                    } else {
+                        val medicineEvent = MedicineEventEntity(
+                            hour = formatTime(pickerHour),
+                            minutes = formatTime(pickerMinute),
+                            dayRepeat = dayRepeatList,
+                            dayBegin = addMedicineTvBeginDate.text.trim().toString(),
+                            dayEnd = addMedicineTvEndDate.text.trim().toString(),
+                            medicineName = getMedicineName(),
+                            medicineDose = getMedicineDose(),
+                            diseaseName = addMedicineEdDiseaseName.text?.trim().toString()
+                        )
+                        viewModel?.insertMedicineEvent(medicineEvent)
+                        backToPreScreen()
+                    }
+                }
+            }
+        }
+    }
+
+    private fun getMedicineName(): List<String> {
+        val medicineNameList = mutableListOf<String>()
+        for (i in medicineList) {
+            medicineNameList.add(i.medicineName)
+        }
+        return medicineNameList
+    }
+
+    private fun getMedicineDose(): List<Int> {
+        val medicineDoseList = mutableListOf<Int>()
+        for (i in medicineList) {
+            medicineDoseList.add(i.medicineDose)
+        }
+        return medicineDoseList
+    }
+
+    private fun getValueDayRepeat() {
+        dayRepeatList = mutableListOf()
+        binding.apply {
+            toggleBtMon.setOnCheckedChangeListener { _, isChecked ->
+                if (isChecked) {
+                    dayRepeatList.add("T2")
+                } else {
+                    dayRepeatList.remove("T2")
+                }
+            }
+
+            toggleBtTu.setOnCheckedChangeListener { _, isChecked ->
+                if (isChecked) {
+                    dayRepeatList.add("T3")
+                } else {
+                    dayRepeatList.remove("T3")
+                }
+            }
+            toggleBtWe.setOnCheckedChangeListener { _, isChecked ->
+                if (isChecked) {
+                    dayRepeatList.add("T4")
+                } else {
+                    dayRepeatList.remove("T4")
+                }
+            }
+            toggleBtTh.setOnCheckedChangeListener { _, isChecked ->
+                if (isChecked) {
+                    dayRepeatList.add("T5")
+                } else {
+                    dayRepeatList.remove("T5")
+                }
+            }
+
+            toggleBtFr.setOnCheckedChangeListener { _, isChecked ->
+                if (isChecked) {
+                    dayRepeatList.add("T6")
+                } else {
+                    dayRepeatList.remove("T6")
+                }
+            }
+            toggleBtSa.setOnCheckedChangeListener { _, isChecked ->
+                if (isChecked) {
+                    dayRepeatList.add("T7")
+                } else {
+                    dayRepeatList.remove("T7")
+                }
+            }
+            toggleBtSun.setOnCheckedChangeListener { _, isChecked ->
+                if (isChecked) {
+                    dayRepeatList.add("CN")
+                } else {
+                    dayRepeatList.remove("CN")
+                }
+            }
+        }
     }
 
     private fun removeItemMedicineType(adapter: MedicineTypeAdapter, position: Int) {
@@ -101,6 +223,7 @@ class AddMedicineFragment :
                     adapter.notifyDataSetChanged()
                 }
             })
+        customBottomSheet.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         customBottomSheet.show()
     }
 
@@ -109,8 +232,8 @@ class AddMedicineFragment :
             pickerHour.maxValue = 23
             pickerMinute.maxValue = 59
 
-            pickerHour.value = 6
-            pickerMinute.value = 0
+            pickerHour.displayedValues = Constant.listHour
+            pickerMinute.displayedValues = Constant.listMinutes
         }
     }
 
@@ -167,7 +290,7 @@ class AddMedicineFragment :
                     (selectedMonth + 1).toString(),
                     selectedYear.toString()
                 )
-                uncheckedRepeatDay()
+                binding.addMedicineTvEndDate.text = getString(R.string.addMedicine_pick_date)
             },
             year,
             month,
@@ -195,7 +318,6 @@ class AddMedicineFragment :
                         (selectedMonth + 1).toString(),
                         selectedYear.toString()
                     )
-                    uncheckedRepeatDay()
                 },
                 minDate.get(Calendar.YEAR),
                 minDate.get(Calendar.MONTH),
@@ -208,37 +330,6 @@ class AddMedicineFragment :
         }
     }
 
-    private fun uncheckedRepeatDay() {
-        binding.apply {
-            toggleBtMon.isChecked = false
-            toggleBtTu.isChecked = false
-            toggleBtWe.isChecked = false
-            toggleBtTh.isChecked = false
-            toggleBtFr.isChecked = false
-            toggleBtSa.isChecked = false
-            toggleBtSun.isChecked = false
-        }
-    }
 
-    private fun getDayMonthYearFromCurrentDate(dateString: String): Triple<String, String, String>? {
-        val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-
-        try {
-            val date = dateFormat.parse(dateString)
-            val calendar = Calendar.getInstance()
-            calendar.time = date ?: return null
-
-            val day = calendar.get(Calendar.DAY_OF_MONTH).toString()
-            val month =
-                (calendar.get(Calendar.MONTH) + 1).toString() // Months are zero-based, so add 1
-            val year = calendar.get(Calendar.YEAR).toString()
-
-            return Triple(day, month, year)
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-
-        return null
-    }
 
 }

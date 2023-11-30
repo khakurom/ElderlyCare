@@ -1,4 +1,4 @@
-package com.project.elderlyhealthcare.domain.repository
+package com.project.elderlyhealthcare.domain.repositories
 
 import com.project.elderlyhealthcare.data.models.ExerciseEventEntity
 import com.project.elderlyhealthcare.domain.models.ExerciseEventModel

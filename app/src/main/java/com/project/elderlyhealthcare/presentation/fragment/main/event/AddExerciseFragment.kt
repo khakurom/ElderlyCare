@@ -18,7 +18,10 @@ import com.project.elderlyhealthcare.presentation.viewmodels.main.EventViewModel
 import com.project.elderlyhealthcare.utils.Constant.listHour
 import com.project.elderlyhealthcare.utils.Constant.listMinutes
 import com.project.elderlyhealthcare.utils.SingleClickListener
+import com.project.elderlyhealthcare.utils.Utils.compareToCurrentTime
+import com.project.elderlyhealthcare.utils.Utils.formatTime
 import com.project.elderlyhealthcare.utils.Utils.hideKeyboard
+import com.project.elderlyhealthcare.utils.Utils.showDialog
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -83,7 +86,6 @@ class AddExerciseFragment :
     }
 
     private fun settingDayPicker() {
-
         val colorStateList = ColorStateList(
             arrayOf(
                 intArrayOf(android.R.attr.state_checked), // Checked state
@@ -175,10 +177,10 @@ class AddExerciseFragment :
     private fun createExerciseEvent() {
         binding.apply {
             if (addExEdtExerciseName.text?.trim().toString().isEmpty()) {
-                showDialog("Vui lòng đặt tên bài tập thể dục")
+                showDialog(requireContext(),"Vui lòng đặt tên bài tập thể dục")
             } else {
                 if (compareToCurrentTime(addExTvDate.text.trim().toString(), formatTime(pickerHour), formatTime(pickerMinute))) {
-                    showDialog("Không thể đặt giờ trong quá khứ")
+                    showDialog(requireContext(),"Không thể đặt giờ trong quá khứ")
                 } else {
                     val exerciseEvent = ExerciseEventEntity(
                         hour = formatTime(pickerHour),
@@ -199,37 +201,7 @@ class AddExerciseFragment :
         }
     }
 
-    private fun compareToCurrentTime (date : String, hour : String, minutes : String) : Boolean {
-        val dateTime = "$date $hour:$minutes"
-        val dateFormat = SimpleDateFormat("dd/MM/yyyy HH:mm")
-        val targetDateTime = Calendar.getInstance()
 
-        targetDateTime.time = dateFormat.parse(dateTime) ?: Date()
-        val currentDateTime = Calendar.getInstance()
-        return currentDateTime.time.after(targetDateTime.time)
-    }
-
-    private fun formatTime (editText: NumberPicker): String {
-        val time  = editText.value.toString()
-        return if (time.length == 1) "0$time" else time
-    }
-
-    private fun showDialog(message: String) {
-        val alertDialogBuilder = AlertDialog.Builder(requireContext())
-        with(alertDialogBuilder) {
-            setMessage(message)
-            setCancelable(true)
-            setPositiveButton("OK") { dialog: DialogInterface, _: Int ->
-                dialog.dismiss()
-            }
-            setNegativeButton("Trở về") { dialog: DialogInterface, _: Int ->
-                dialog.dismiss()
-            }
-        }
-
-        val alertDialog: AlertDialog = alertDialogBuilder.create()
-        alertDialog.show()
-    }
 
     private fun getCurrentTime() {
         val calendar = Calendar.getInstance()
