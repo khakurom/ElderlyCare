@@ -55,7 +55,7 @@ class EventViewModel @Inject constructor(
     }
 
     fun getMedicineEvent() {
-        viewModelScope.launch (Dispatchers.IO)  {
+        viewModelScope.launch  {
             medicineUseCase.getAllMedicineEvent().collectLatest {
                 _listMedicineEvent.postValue(it)
             }
@@ -65,6 +65,12 @@ class EventViewModel @Inject constructor(
     fun deleteMedicineEvent (id : Int) {
         viewModelScope.launch (Dispatchers.IO) {
             medicineUseCase.deleteMedicineEvent(id)
+        }
+    }
+
+    fun updateMedicineEvent (medicineEventEntity: MedicineEventEntity) {
+        viewModelScope.launch (Dispatchers.IO) {
+            medicineUseCase.updateMedicineEvent(medicineEventEntity)
         }
     }
 }

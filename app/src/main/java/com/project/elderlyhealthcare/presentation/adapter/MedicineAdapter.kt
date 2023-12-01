@@ -16,6 +16,10 @@ class MedicineAdapter :
         BaseViewHolder<MedicineEventModel, ItemMedicineEventBinding>(binding) {
         override fun bind(item: MedicineEventModel) {
             binding.medicineModel = item
+            binding.dayRepeat = formatDayRepeatList (item)
+        }
+
+        private fun formatDayRepeatList (item : MedicineEventModel) : String {
             var dayRepeat = ""
             if (item.dayRepeat.isNotEmpty()) {
                 val eventList = sortDayList (item.dayRepeat)
@@ -26,7 +30,7 @@ class MedicineAdapter :
                     }
                 }
             }
-            binding.dayRepeat = dayRepeat
+            return dayRepeat
         }
     }
 

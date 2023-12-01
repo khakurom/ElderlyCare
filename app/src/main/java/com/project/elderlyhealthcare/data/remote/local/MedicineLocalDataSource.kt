@@ -1,7 +1,9 @@
 package com.project.elderlyhealthcare.data.remote.local
 
+import com.project.elderlyhealthcare.data.mappers.MedicineMapper
 import com.project.elderlyhealthcare.data.models.ExerciseEventEntity
 import com.project.elderlyhealthcare.data.models.MedicineEventEntity
+import com.project.elderlyhealthcare.domain.models.MedicineEventModel
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
@@ -17,5 +19,9 @@ class MedicineLocalDataSource @Inject constructor(private val appDatabase: AppDa
 
     fun deleteMedicineEvent (id : Int) {
         appDatabase.medicineDao().deleteMedicineEvent(id)
+    }
+
+    fun updateMedicineEvent (medicineEventEntity: MedicineEventEntity) {
+        appDatabase.medicineDao().updateMedicineEvent(medicineEventEntity)
     }
 }

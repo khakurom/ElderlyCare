@@ -19,4 +19,8 @@ class MedicineUseCase @Inject constructor(private val medicineRepositoryImpl: Me
     fun deleteMedicineEvent (id : Int) {
         medicineRepositoryImpl.deleteMedicineEvent(id)
     }
+
+    fun updateMedicineEvent (medicineEventEntity: MedicineEventEntity) {
+        medicineRepositoryImpl.updateMedicineEvent(medicineEventEntity)
+    }
 }

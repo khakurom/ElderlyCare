@@ -26,4 +26,9 @@ class MedicineRepositoryImpl @Inject constructor(
         medicineLocalDataSource.deleteMedicineEvent(id)
     }
 
+    override fun updateMedicineEvent(medicineEventEntity: MedicineEventEntity) {
+        medicineLocalDataSource.updateMedicineEvent(medicineEventEntity)
+    }
+
+
 }

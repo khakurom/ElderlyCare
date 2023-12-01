@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Update
 import com.project.elderlyhealthcare.data.models.ExerciseEventEntity
 import com.project.elderlyhealthcare.data.models.MedicineEventEntity
 import com.project.elderlyhealthcare.utils.Constant.TABLE_EXERCISE_EVENT
@@ -20,5 +21,8 @@ interface MedicineDao {
 
     @Query("DELETE FROM $TABLE_MEDICINE_EVENT WHERE id = :id")
     fun deleteMedicineEvent (id : Int)
+
+    @Update
+    fun updateMedicineEvent (entity: MedicineEventEntity)
 
 }

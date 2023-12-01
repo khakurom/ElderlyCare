@@ -37,7 +37,8 @@
             app:destination="@id/addMedicineFragment" />
         <action
             android:id="@+id/action_medicineEventFragment_to_updateMedicineEventFragment"
-            app:destination="@id/updateMedicineEventFragment" />
+            app:destination="@id/updateMedicineEventFragment"
+            />
     </fragment>
     <fragment
         android:id="@+id/reExaminationEventFragment"
@@ -73,5 +74,6 @@
         <argument
             android:name="medicineEventModel"
             app:argType="com.project.elderlyhealthcare.domain.models.MedicineEventModel" />
+
     </fragment>
 </navigation>

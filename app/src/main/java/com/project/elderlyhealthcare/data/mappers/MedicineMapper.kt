@@ -3,7 +3,8 @@ package com.project.elderlyhealthcare.data.mappers
 import com.project.elderlyhealthcare.data.models.MedicineEventEntity
 import com.project.elderlyhealthcare.domain.models.MedicineEventModel
 
-class MedicineMapper: Mapper<List<MedicineEventEntity>, List<MedicineEventModel>> {
+class MedicineMapper : Mapper<List<MedicineEventEntity>, List<MedicineEventModel>>,
+    MapperObject<MedicineEventEntity, MedicineEventModel> {
     override fun fromEntity(from: List<MedicineEventEntity>): List<MedicineEventModel> {
         return from.map { entity ->
             MedicineEventModel(
@@ -15,7 +16,8 @@ class MedicineMapper: Mapper<List<MedicineEventEntity>, List<MedicineEventModel>
                 dayEnd = entity.dayEnd,
                 medicineName = entity.medicineName,
                 medicineDose = entity.medicineDose,
-                diseaseName = entity.diseaseName)
+                diseaseName = entity.diseaseName
+            )
         }
     }
 
@@ -30,7 +32,36 @@ class MedicineMapper: Mapper<List<MedicineEventEntity>, List<MedicineEventModel>
                 dayEnd = model.dayEnd,
                 medicineName = model.medicineName,
                 medicineDose = model.medicineDose,
-                diseaseName = model.diseaseName)
+                diseaseName = model.diseaseName
+            )
         }
+    }
+
+    override fun fromObjectEntity(from: MedicineEventEntity): MedicineEventModel {
+        return MedicineEventModel(
+            id = from.id,
+            hour = from.hour,
+            minutes = from.minutes,
+            dayRepeat = from.dayRepeat,
+            dayBegin = from.dayBegin,
+            dayEnd = from.dayEnd,
+            medicineName = from.medicineName,
+            medicineDose = from.medicineDose,
+            diseaseName = from.diseaseName
+        )
+    }
+
+    override fun toObjectEntity(from: MedicineEventModel): MedicineEventEntity {
+        return MedicineEventEntity(
+            id = from.id,
+            hour = from.hour,
+            minutes = from.minutes,
+            dayRepeat = from.dayRepeat,
+            dayBegin = from.dayBegin,
+            dayEnd = from.dayEnd,
+            medicineName = from.medicineName,
+            medicineDose = from.medicineDose,
+            diseaseName = from.diseaseName
+        )
     }
 }

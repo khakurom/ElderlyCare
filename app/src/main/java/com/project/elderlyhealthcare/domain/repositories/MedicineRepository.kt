@@ -13,4 +13,6 @@ interface MedicineRepository {
 
     fun deleteMedicineEvent (id : Int)
 
+    fun updateMedicineEvent (medicineEventEntity: MedicineEventEntity)
+
 }
