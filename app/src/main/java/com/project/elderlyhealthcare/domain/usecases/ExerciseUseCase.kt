@@ -1,5 +1,6 @@
 package com.project.elderlyhealthcare.domain.usecases
 
+import android.util.Log
 import com.project.elderlyhealthcare.data.models.ExerciseEventEntity
 import com.project.elderlyhealthcare.data.repositories.ExerciseRepositoryImpl
 import com.project.elderlyhealthcare.domain.models.ExerciseEventModel
@@ -18,6 +19,10 @@ class ExerciseUseCase @Inject constructor(private val exerciseRepositoryImpl: Ex
 
     fun deleteExerciseEvent (id : Int) {
         exerciseRepositoryImpl.deleteExerciseEvent(id)
+    }
+
+    fun updateExerciseEvent (exerciseEvent: ExerciseEventEntity) {
+        exerciseRepositoryImpl.updateExerciseEvent(exerciseEvent)
     }
 
 

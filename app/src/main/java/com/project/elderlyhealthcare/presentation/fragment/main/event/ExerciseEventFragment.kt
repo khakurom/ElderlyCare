@@ -2,6 +2,7 @@ package com.project.elderlyhealthcare.presentation.fragment.main.event
 
 import android.view.View
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.project.elderlyhealthcare.BR
 import com.project.elderlyhealthcare.R
@@ -18,27 +19,35 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class ExerciseEventFragment :
     BaseFragment<EventViewModel, FragmentExerciseEventBinding>(R.layout.fragment_exercise_event) {
-    private val exerciseAdapter = ExerciseAdapter()
+
     override fun variableId(): Int = BR.exerciseViewModel
 
-    override fun createViewModel(): Lazy<EventViewModel> = activityViewModels()
+    override fun createViewModel(): Lazy<EventViewModel> = viewModels()
     override fun bindView(view: View): FragmentExerciseEventBinding {
         return FragmentExerciseEventBinding.bind(view)
     }
 
     override fun init() {
         super.init()
-        exerciseAdapter.apply {
-            onItemSelectListener = object : OnItemSelectListener<ExerciseEventModel> {
-                override fun onItemSelected(item: ExerciseEventModel, position: Int) {
+        val exerciseAdapter: ExerciseAdapter by lazy {
+            ExerciseAdapter().apply {
+                onItemSelectListener = object : OnItemSelectListener<ExerciseEventModel> {
+                    override fun onItemSelected(item: ExerciseEventModel, position: Int) {
+                        findNavController().navigate(
+                            ExerciseEventFragmentDirections.actionExerciseEventFragmentToUpdateExerciseEventFragment(
+                                item
+                            )
+                        )
+                    }
                 }
-            }
-            onItemRemoveListener = object : OnItemRemoveListener<ExerciseEventModel> {
-                override fun onItemRemove(item: ExerciseEventModel, position: Int) {
-                    viewModel?.deleteExerciseEvent(item.id)
+                onItemRemoveListener = object : OnItemRemoveListener<ExerciseEventModel> {
+                    override fun onItemRemove(item: ExerciseEventModel, position: Int) {
+                        viewModel?.deleteExerciseEvent(item.id)
+                    }
                 }
             }
         }
+
 
         binding.apply {
             exerciseFrCsBar.customAppBarIvBack.setOnClickListener(object : SingleClickListener() {
@@ -65,7 +74,4 @@ class ExerciseEventFragment :
     private fun getExerciseEvent() {
         viewModel?.getExerciseEvent()
     }
-
-
-
 }

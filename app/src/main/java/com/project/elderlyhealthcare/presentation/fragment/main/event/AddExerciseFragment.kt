@@ -1,14 +1,10 @@
 package com.project.elderlyhealthcare.presentation.fragment.main.event
 
 import android.app.DatePickerDialog
-import android.content.DialogInterface
 import android.content.res.ColorStateList
 import android.view.View
-import android.widget.NumberPicker
-import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
-import androidx.navigation.fragment.findNavController
 import com.project.elderlyhealthcare.BR
 import com.project.elderlyhealthcare.R
 import com.project.elderlyhealthcare.data.models.ExerciseEventEntity
@@ -18,14 +14,15 @@ import com.project.elderlyhealthcare.presentation.viewmodels.main.EventViewModel
 import com.project.elderlyhealthcare.utils.Constant.listHour
 import com.project.elderlyhealthcare.utils.Constant.listMinutes
 import com.project.elderlyhealthcare.utils.SingleClickListener
+import com.project.elderlyhealthcare.utils.Utils
 import com.project.elderlyhealthcare.utils.Utils.compareToCurrentTime
 import com.project.elderlyhealthcare.utils.Utils.formatTime
+import com.project.elderlyhealthcare.utils.Utils.getCurrentTime
 import com.project.elderlyhealthcare.utils.Utils.hideKeyboard
 import com.project.elderlyhealthcare.utils.Utils.showDialog
+import com.project.elderlyhealthcare.utils.Utils.uncheckedRepeatDay
 import dagger.hilt.android.AndroidEntryPoint
-import java.text.SimpleDateFormat
 import java.util.Calendar
-import java.util.Date
 
 @AndroidEntryPoint
 class AddExerciseFragment :
@@ -67,10 +64,20 @@ class AddExerciseFragment :
             pickerHour.textColor = ContextCompat.getColor(requireContext(), R.color.black)
             pickerMinute.textColor = ContextCompat.getColor(requireContext(), R.color.black)
 
+            Utils.settingDayPicker(
+                requireContext(),
+                toggleBtMon,
+                toggleBtTu,
+                toggleBtWe,
+                toggleBtTh,
+                toggleBtFr,
+                toggleBtSa,
+                toggleBtSun
+            )
+            getCurrentTime(addExTvDate, requireContext())
+
             settingTimePicker()
-            settingDayPicker()
             getValueDayRepeat()
-            getCurrentTime()
 
         }
     }
@@ -85,30 +92,6 @@ class AddExerciseFragment :
         }
     }
 
-    private fun settingDayPicker() {
-        val colorStateList = ColorStateList(
-            arrayOf(
-                intArrayOf(android.R.attr.state_checked), // Checked state
-                intArrayOf(-android.R.attr.state_checked)  // Unchecked state
-            ),
-            intArrayOf(
-                ContextCompat.getColor(
-                    requireContext(),
-                    R.color.login_blue
-                ),   // Color when checked
-                ContextCompat.getColor(requireContext(), R.color.blue),   // Color when uncheck
-            )
-        )
-        binding.apply {
-            toggleBtMon.backgroundTintList = colorStateList
-            toggleBtTu.backgroundTintList = colorStateList
-            toggleBtWe.backgroundTintList = colorStateList
-            toggleBtTh.backgroundTintList = colorStateList
-            toggleBtFr.backgroundTintList = colorStateList
-            toggleBtSa.backgroundTintList = colorStateList
-            toggleBtSun.backgroundTintList = colorStateList
-        }
-    }
 
     private fun getValueDayRepeat() {
         dayRepeatList = mutableListOf()
@@ -116,16 +99,15 @@ class AddExerciseFragment :
             toggleBtMon.setOnCheckedChangeListener { _, isChecked ->
                 if (isChecked) {
                     dayRepeatList.add("T2")
-                    getCurrentTime()
+                    getCurrentTime(addExTvDate, requireContext())
                 } else {
                     dayRepeatList.remove("T2")
                 }
             }
-
             toggleBtTu.setOnCheckedChangeListener { _, isChecked ->
                 if (isChecked) {
                     dayRepeatList.add("T3")
-                    getCurrentTime()
+                    getCurrentTime(addExTvDate, requireContext())
                 } else {
                     dayRepeatList.remove("T3")
                 }
@@ -133,7 +115,7 @@ class AddExerciseFragment :
             toggleBtWe.setOnCheckedChangeListener { _, isChecked ->
                 if (isChecked) {
                     dayRepeatList.add("T4")
-                    getCurrentTime()
+                    getCurrentTime(addExTvDate, requireContext())
                 } else {
                     dayRepeatList.remove("T4")
                 }
@@ -141,7 +123,7 @@ class AddExerciseFragment :
             toggleBtTh.setOnCheckedChangeListener { _, isChecked ->
                 if (isChecked) {
                     dayRepeatList.add("T5")
-                    getCurrentTime()
+                    getCurrentTime(addExTvDate, requireContext())
                 } else {
                     dayRepeatList.remove("T5")
                 }
@@ -150,7 +132,7 @@ class AddExerciseFragment :
             toggleBtFr.setOnCheckedChangeListener { _, isChecked ->
                 if (isChecked) {
                     dayRepeatList.add("T6")
-                    getCurrentTime()
+                    getCurrentTime(addExTvDate, requireContext())
                 } else {
                     dayRepeatList.remove("T6")
                 }
@@ -158,7 +140,7 @@ class AddExerciseFragment :
             toggleBtSa.setOnCheckedChangeListener { _, isChecked ->
                 if (isChecked) {
                     dayRepeatList.add("T7")
-                    getCurrentTime()
+                    getCurrentTime(addExTvDate, requireContext())
                 } else {
                     dayRepeatList.remove("T7")
                 }
@@ -166,7 +148,7 @@ class AddExerciseFragment :
             toggleBtSun.setOnCheckedChangeListener { _, isChecked ->
                 if (isChecked) {
                     dayRepeatList.add("CN")
-                    getCurrentTime()
+                    getCurrentTime(addExTvDate, requireContext())
                 } else {
                     dayRepeatList.remove("CN")
                 }
@@ -177,24 +159,25 @@ class AddExerciseFragment :
     private fun createExerciseEvent() {
         binding.apply {
             if (addExEdtExerciseName.text?.trim().toString().isEmpty()) {
-                showDialog(requireContext(),"Vui lòng đặt tên bài tập thể dục")
+                showDialog(requireContext(), "Vui lòng đặt tên bài tập thể dục")
             } else {
-                if (compareToCurrentTime(addExTvDate.text.trim().toString(), formatTime(pickerHour), formatTime(pickerMinute))) {
-                    showDialog(requireContext(),"Không thể đặt giờ trong quá khứ")
+                if (compareToCurrentTime(
+                        addExTvDate.text.trim().toString(),
+                        formatTime(pickerHour),
+                        formatTime(pickerMinute)
+                    )
+                ) {
+                    showDialog(requireContext(), "Không thể đặt giờ trong quá khứ")
                 } else {
                     val exerciseEvent = ExerciseEventEntity(
                         hour = formatTime(pickerHour),
-                        minutes = formatTime(pickerMinute) ,
+                        minutes = formatTime(pickerMinute),
                         dayRepeat = dayRepeatList.distinct(),
                         dayBegin = addExTvDate.text.trim().toString(),
                         exerciseName = addExEdtExerciseName.text?.trim().toString(),
                         description = addExEdtDescription.text?.trim().toString()
                     )
                     viewModel?.insertExerciseEvent(exerciseEvent)
-                    try {
-                        findNavController().navigate(AddExerciseFragmentDirections.actionAddExerciseFragmentToExerciseEventFragment())
-                    } catch (_: Exception) {
-                    }
                     backToPreScreen()
                 }
             }
@@ -202,56 +185,37 @@ class AddExerciseFragment :
     }
 
 
-
-    private fun getCurrentTime() {
-        val calendar = Calendar.getInstance()
-        val year = calendar.get(Calendar.YEAR)
-        val month = calendar.get(Calendar.MONTH)
-        val day = calendar.get(Calendar.DATE)
-        binding.addExTvDate.text = getString(
-            R.string.day_month_year,
-            day.toString(),
-            (month + 1).toString(),
-            year.toString()
-        )
-    }
-
     private fun selectDate() {
         val calendar = Calendar.getInstance()
         val year = calendar.get(Calendar.YEAR)
         val month = calendar.get(Calendar.MONTH)
         val day = calendar.get(Calendar.DAY_OF_MONTH)
-        val datePickerDialog = DatePickerDialog(
-            requireContext(),
-            { _, selectedYear, selectedMonth, selectedDay ->
-                binding.addExTvDate.text = getString(
-                    R.string.day_month_year,
-                    selectedDay.toString(),
-                    (selectedMonth + 1).toString(),
-                    selectedYear.toString()
-                )
-                uncheckedRepeatDay()
-            },
-            year,
-            month,
-            day
-        )
-
-        datePickerDialog.datePicker.minDate = System.currentTimeMillis()
-        datePickerDialog.show()
-    }
-
-    private fun uncheckedRepeatDay() {
         binding.apply {
-            toggleBtMon.isChecked = false
-            toggleBtTu.isChecked = false
-            toggleBtWe.isChecked = false
-            toggleBtTh.isChecked = false
-            toggleBtFr.isChecked = false
-            toggleBtSa.isChecked = false
-            toggleBtSun.isChecked = false
+            val datePickerDialog = DatePickerDialog(
+                requireContext(),
+                { _, selectedYear, selectedMonth, selectedDay ->
+                    binding.addExTvDate.text = getString(
+                        R.string.day_month_year,
+                        selectedDay.toString(),
+                        (selectedMonth + 1).toString(),
+                        selectedYear.toString()
+                    )
+                    uncheckedRepeatDay(
+                        toggleBtMon,
+                        toggleBtTu,
+                        toggleBtWe,
+                        toggleBtTh,
+                        toggleBtFr,
+                        toggleBtSa,
+                        toggleBtSun
+                    )
+                },
+                year,
+                month,
+                day
+            )
+            datePickerDialog.datePicker.minDate = System.currentTimeMillis()
+            datePickerDialog.show()
         }
     }
-
-
 }

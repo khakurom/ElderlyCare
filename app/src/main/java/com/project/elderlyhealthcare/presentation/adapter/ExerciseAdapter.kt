@@ -62,6 +62,6 @@ class ItemExerciseDiffCallback : DiffUtil.ItemCallback<ExerciseEventModel>() {
     }
 
     override fun areContentsTheSame(oldItem: ExerciseEventModel, newItem: ExerciseEventModel): Boolean {
-        return oldItem.id == newItem.id
+        return oldItem == newItem
     }
 }

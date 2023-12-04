@@ -1,6 +1,10 @@
 package com.project.elderlyhealthcare.domain.models
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 
+
+@Parcelize
 data class ExerciseEventModel(
     val id : Int,
     val hour : String? = null,
@@ -10,4 +14,4 @@ data class ExerciseEventModel(
     val exerciseName : String? = null,
     val description : String? = null
 
-)
+) : Parcelable

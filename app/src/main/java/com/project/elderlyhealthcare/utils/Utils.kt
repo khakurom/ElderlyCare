@@ -1,13 +1,19 @@
 package com.project.elderlyhealthcare.utils
 
+import android.R
 import android.content.Context
 import android.content.DialogInterface
+import android.content.res.ColorStateList
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
+import android.provider.Settings.Global.getString
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.NumberPicker
+import android.widget.TextView
+import android.widget.ToggleButton
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
@@ -33,16 +39,16 @@ object Utils {
         inputManager.hideSoftInputFromWindow(windowToken, 0)
     }
 
-    fun sortDayList (list : List <String?>) : List<String?> {
+    fun sortDayList(list: List<String?>): List<String?> {
         val sortedList = list.sortedWith(compareBy<String?> {
-                if (it?.startsWith("T") == true) 0 else 1
-            }.thenBy {
-                it
-            })
+            if (it?.startsWith("T") == true) 0 else 1
+        }.thenBy {
+            it
+        })
         return sortedList.distinct()
     }
 
-    fun showDialog(context: Context , message: String) {
+    fun showDialog(context: Context, message: String) {
         val alertDialogBuilder = AlertDialog.Builder(context)
         with(alertDialogBuilder) {
             setMessage(message)
@@ -57,14 +63,14 @@ object Utils {
     }
 
     // format time text
-    fun formatTime (editText: NumberPicker): String {
-        val time  = editText.value.toString()
+    fun formatTime(editText: NumberPicker): String {
+        val time = editText.value.toString()
         return if (time.length == 1) "0$time" else time
     }
 
 
     // return true if time set is not pass time compare to current time
-    fun compareToCurrentTime (date : String, hour : String, minutes : String) : Boolean {
+    fun compareToCurrentTime(date: String, hour: String, minutes: String): Boolean {
         val dateTime = "$date $hour:$minutes"
         val dateFormat = SimpleDateFormat("dd/MM/yyyy HH:mm")
         val targetDateTime = Calendar.getInstance()
@@ -94,6 +100,115 @@ object Utils {
         }
 
         return null
+    }
+
+    // set background for toggle button
+    fun settingDayPicker(
+        context: Context,
+        toggleBtMon: ToggleButton,
+        toggleBtTu: ToggleButton,
+        toggleBtWe: ToggleButton,
+        toggleBtTh: ToggleButton,
+        toggleBtFr: ToggleButton,
+        toggleBtSa: ToggleButton,
+        toggleBtSun: ToggleButton,
+
+        ) {
+        val colorStateList = ColorStateList(
+            arrayOf(
+                intArrayOf(R.attr.state_checked), // Checked state
+                intArrayOf(-R.attr.state_checked)  // Unchecked state
+            ),
+            intArrayOf(
+                ContextCompat.getColor(
+                    context,
+                    com.project.elderlyhealthcare.R.color.login_blue
+                ),   // Color when checked
+                ContextCompat.getColor(
+                    context,
+                    com.project.elderlyhealthcare.R.color.blue
+                ),   // Color when uncheck
+            )
+        )
+
+        toggleBtMon.backgroundTintList = colorStateList
+        toggleBtTu.backgroundTintList = colorStateList
+        toggleBtWe.backgroundTintList = colorStateList
+        toggleBtTh.backgroundTintList = colorStateList
+        toggleBtFr.backgroundTintList = colorStateList
+        toggleBtSa.backgroundTintList = colorStateList
+        toggleBtSun.backgroundTintList = colorStateList
+
+    }
+
+
+    // get current date
+    fun getCurrentTime(textview: TextView, context: Context) {
+        val calendar = Calendar.getInstance()
+        val year = calendar.get(Calendar.YEAR)
+        val month = calendar.get(Calendar.MONTH)
+        val day = calendar.get(Calendar.DATE)
+        textview.text = context.getString(
+            com.project.elderlyhealthcare.R.string.day_month_year,
+            day.toString(),
+            (month + 1).toString(),
+            year.toString()
+        )
+    }
+
+    // uncheck toggle button
+    fun uncheckedRepeatDay(
+        toggleBtMon: ToggleButton,
+        toggleBtTu: ToggleButton,
+        toggleBtWe: ToggleButton,
+        toggleBtTh: ToggleButton,
+        toggleBtFr: ToggleButton,
+        toggleBtSa: ToggleButton,
+        toggleBtSun: ToggleButton,
+    ) {
+
+        toggleBtMon.isChecked = false
+        toggleBtTu.isChecked = false
+        toggleBtWe.isChecked = false
+        toggleBtTh.isChecked = false
+        toggleBtFr.isChecked = false
+        toggleBtSa.isChecked = false
+        toggleBtSun.isChecked = false
+
+    }
+
+    fun settingDayRepeat(
+        dayRepeatList: List<String?>, toggleBtMon: ToggleButton,
+        toggleBtTu: ToggleButton,
+        toggleBtWe: ToggleButton,
+        toggleBtTh: ToggleButton,
+        toggleBtFr: ToggleButton,
+        toggleBtSa: ToggleButton,
+        toggleBtSun: ToggleButton,
+    ) {
+
+        if (dayRepeatList.contains("T2")) {
+            toggleBtMon.isChecked = true
+        }
+        if (dayRepeatList.contains("T3")) {
+            toggleBtTu.isChecked = true
+        }
+        if (dayRepeatList.contains("T4")) {
+            toggleBtWe.isChecked = true
+        }
+        if (dayRepeatList.contains("T5")) {
+            toggleBtTh.isChecked = true
+        }
+        if (dayRepeatList.contains("T6")) {
+            toggleBtFr.isChecked = true
+        }
+        if (dayRepeatList.contains("T7")) {
+            toggleBtSa.isChecked = true
+        }
+        if (dayRepeatList.contains("CN")) {
+            toggleBtSun.isChecked = true
+        }
+
     }
 
 

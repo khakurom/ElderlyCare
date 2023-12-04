@@ -12,4 +12,6 @@ interface ExerciseRepository {
 
     fun deleteExerciseEvent (id : Int)
 
+    fun updateExerciseEvent (exerciseEventEntity: ExerciseEventEntity)
+
 }

@@ -14,14 +14,18 @@
     <string name="login_click_here"><u>Nhấn vào đây</u></string>
 
     // addExerciseFragment
+    <string name="add_exercise_screen">Thêm lịch tập thể dục</string>
     <string name="addEx_hour_minutes">%s:%s</string>
 
     // addMedicineFragment
     <string name="addMedicine_pick_date">Chọn ngày</string>
+    <string name="add_medicine_screen">Thêm lịch uống thuốc</string>
 
 
-    //sign up screen
+    //title screen
     <string name="no_title"> </string>
+    <string name="update_screen"> Chỉnh sửa</string>
+
 
     // forget password screen
     <string name="forget_pw_title">Quên mật khẩu</string>

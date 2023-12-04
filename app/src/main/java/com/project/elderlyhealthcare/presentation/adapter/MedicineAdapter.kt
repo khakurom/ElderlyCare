@@ -65,6 +65,6 @@ class ItemMedicineDiffCallback : DiffUtil.ItemCallback<MedicineEventModel>() {
     }
 
     override fun areContentsTheSame(oldItem: MedicineEventModel, newItem: MedicineEventModel): Boolean {
-        return oldItem.id == newItem.id
+        return oldItem == newItem
     }
 }

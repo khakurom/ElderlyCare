@@ -1,5 +1,6 @@
 package com.project.elderlyhealthcare.data.remote.local
 
+import android.util.Log
 import com.project.elderlyhealthcare.data.models.ExerciseEventEntity
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
@@ -16,5 +17,9 @@ class ExerciseLocalDataSource @Inject constructor(private val appDatabase: AppDa
 
     fun deleteExerciseEvent (id : Int) {
         return appDatabase.exerciseDao().deleteExerciseEvent(id)
+    }
+
+    fun updateExerciseEvent (exerciseEntity: ExerciseEventEntity) {
+        return appDatabase.exerciseDao().updateExerciseEvent(exerciseEntity)
     }
 }

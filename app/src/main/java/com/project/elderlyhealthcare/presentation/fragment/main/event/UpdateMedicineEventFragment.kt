@@ -2,33 +2,38 @@ package com.project.elderlyhealthcare.presentation.fragment.main.event
 
 import android.app.DatePickerDialog
 import android.content.res.ColorStateList
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.view.View
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.databinding.library.baseAdapters.BR
 import androidx.fragment.app.activityViewModels
-import androidx.navigation.fragment.findNavController
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import com.project.elderlyhealthcare.R
 import com.project.elderlyhealthcare.data.models.MedicineEventEntity
 import com.project.elderlyhealthcare.databinding.FragmentUpdateMedicineEventBinding
-import com.project.elderlyhealthcare.domain.models.MedicineEventModel
 import com.project.elderlyhealthcare.domain.models.MedicineTypeModel
 import com.project.elderlyhealthcare.presentation.adapter.MedicineTypeAdapter
+import com.project.elderlyhealthcare.presentation.adapter.OnItemRemoveListener
+import com.project.elderlyhealthcare.presentation.adapter.OnItemSelectListener
 import com.project.elderlyhealthcare.presentation.fragment.base.BaseFragment
 import com.project.elderlyhealthcare.presentation.viewmodels.main.EventViewModel
 import com.project.elderlyhealthcare.utils.Constant
+import com.project.elderlyhealthcare.utils.CustomBottomSheet
 import com.project.elderlyhealthcare.utils.SingleClickListener
 import com.project.elderlyhealthcare.utils.Utils
 import com.project.elderlyhealthcare.utils.Utils.getDayMonthYearFromCurrentDate
+import com.project.elderlyhealthcare.utils.Utils.settingDayRepeat
 import java.util.Calendar
 
 class UpdateMedicineEventFragment :
     BaseFragment<EventViewModel, FragmentUpdateMedicineEventBinding>(R.layout.fragment_update_medicine_event) {
     private lateinit var dayRepeatList: MutableList<String?>
 
+    private val medicineTypeList = mutableListOf<MedicineTypeModel>()
 
-    private val medicineTypeAdapter = MedicineTypeAdapter()
 
     private val navArgs: UpdateMedicineEventFragmentArgs by navArgs()
 
@@ -42,11 +47,23 @@ class UpdateMedicineEventFragment :
 
     override fun init() {
         super.init()
-        medicineTypeAdapter.apply {
-
+        val medicineTypeAdapter: MedicineTypeAdapter by lazy {
+            MedicineTypeAdapter().apply {
+                onItemSelectListener = object : OnItemSelectListener<MedicineTypeModel> {
+                    override fun onItemSelected(item: MedicineTypeModel, position: Int) {
+                    }
+                }
+                onItemRemoveListener = object : OnItemRemoveListener<MedicineTypeModel> {
+                    override fun onItemRemove(item: MedicineTypeModel, position: Int) {
+                        removeItemMedicineType(this@apply, position)
+                    }
+                }
+            }
         }
+
         binding.apply {
-            updateMedicineFrCsBar.customAppBarIvBack.setOnClickListener(object : SingleClickListener() {
+            updateMedicineFrCsBar.customAppBarIvBack.setOnClickListener(object :
+                SingleClickListener() {
                 override fun onSingleClick(v: View) {
                     backToPreScreen()
                 }
@@ -60,6 +77,12 @@ class UpdateMedicineEventFragment :
                 }
             })
 
+            updateMedicineBtAddMedicineType.setOnClickListener(object : SingleClickListener() {
+                override fun onSingleClick(v: View) {
+                    createBottomSheet(medicineTypeAdapter)
+                }
+            })
+
             updateMedicineTvBeginDate.text = navArgs.medicineEventModel.dayBegin
 
             updateMedicineLayoutEndDatePicker.setOnClickListener(object : SingleClickListener() {
@@ -70,47 +93,36 @@ class UpdateMedicineEventFragment :
 
             updateMedicineBtUpdateEvent.setOnClickListener(object : SingleClickListener() {
                 override fun onSingleClick(v: View) {
-                   createMedicineEvent()
+                    updateMedicineEvent()
                 }
             })
 
             updateMedicineTvEndDate.text = navArgs.medicineEventModel.dayEnd
 
             updateMedicineEdDiseaseName.setText(navArgs.medicineEventModel.diseaseName)
+            settingDayRepeat(
+                navArgs.medicineEventModel.dayRepeat, toggleBtMon,
+                toggleBtTu,
+                toggleBtWe,
+                toggleBtTh,
+                toggleBtFr,
+                toggleBtSa,
+                toggleBtSun
+            )
+
         }
         settingTimePicker()
-        settingDayRepeat()
         settingDayPicker()
-        createMedicineTypeList ()
+        createMedicineTypeList(medicineTypeAdapter)
         getValueDayRepeat()
     }
 
-    private fun settingDayRepeat() {
-        binding.apply {
-            val dayRepeatList = navArgs.medicineEventModel.dayRepeat
-            if (dayRepeatList.contains("T2")) {
-                toggleBtMon.isChecked = true
-            }
-            if (dayRepeatList.contains("T3")) {
-                toggleBtTu.isChecked = true
-            }
-            if (dayRepeatList.contains("T4")) {
-                toggleBtWe.isChecked = true
-            }
-            if (dayRepeatList.contains("T5")) {
-                toggleBtTh.isChecked = true
-            }
-            if (dayRepeatList.contains("T6")) {
-                toggleBtFr.isChecked = true
-            }
-            if (dayRepeatList.contains("T7")) {
-                toggleBtSa.isChecked = true
-            }
-            if (dayRepeatList.contains("CN")) {
-                toggleBtSun.isChecked = true
-            }
-        }
+    private fun removeItemMedicineType(adapter: MedicineTypeAdapter, position: Int) {
+        medicineTypeList.removeAt(position)
+        adapter.submitList(medicineTypeList)
+        adapter.notifyDataSetChanged()
     }
+
 
     private fun getValueDayRepeat() {
         dayRepeatList = navArgs.medicineEventModel.dayRepeat as MutableList<String?>
@@ -209,7 +221,7 @@ class UpdateMedicineEventFragment :
         }
     }
 
-    private fun createMedicineEvent() {
+    private fun updateMedicineEvent() {
         binding.apply {
             if (updateMedicineTvEndDate.text == getString(R.string.addMedicine_pick_date)) {
                 Utils.showDialog(requireContext(), "Vui lòng chọn ngày kết thúc")
@@ -235,8 +247,8 @@ class UpdateMedicineEventFragment :
                             dayRepeat = dayRepeatList,
                             dayBegin = updateMedicineTvBeginDate.text.trim().toString(),
                             dayEnd = updateMedicineTvEndDate.text.trim().toString(),
-                            medicineName = navArgs.medicineEventModel.medicineName,
-                            medicineDose = navArgs.medicineEventModel.medicineDose,
+                            medicineName = getMedicineName(),
+                            medicineDose = getMedicineDose(),
                             diseaseName = updateMedicineEdDiseaseName.text?.trim().toString()
                         )
                         viewModel?.updateMedicineEvent(medicineEvent)
@@ -247,6 +259,35 @@ class UpdateMedicineEventFragment :
         }
     }
 
+    private fun getMedicineName(): List<String> {
+        val medicineNameList = mutableListOf<String>()
+        for (i in medicineTypeList) {
+            medicineNameList.add(i.medicineName)
+        }
+        return medicineNameList
+    }
+
+    private fun getMedicineDose(): List<Int> {
+        val medicineDoseList = mutableListOf<Int>()
+        for (i in medicineTypeList) {
+            medicineDoseList.add(i.medicineDose)
+        }
+        return medicineDoseList
+    }
+
+    private fun createBottomSheet(adapter: MedicineTypeAdapter) {
+        val customBottomSheet = CustomBottomSheet(
+            requireContext(),
+            object : CustomBottomSheet.OnBottomSheetClickListener {
+                override fun onPositiveButtonClick(medicineName: String, medicineDose: String) {
+                    medicineTypeList.add(MedicineTypeModel(medicineName, medicineDose.toInt()))
+                    adapter.submitList(medicineTypeList)
+                    adapter.notifyDataSetChanged()
+                }
+            })
+        customBottomSheet.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        customBottomSheet.show()
+    }
 
 
     private fun selectBeginDate() {
@@ -273,14 +314,13 @@ class UpdateMedicineEventFragment :
         datePickerDialog.show()
     }
 
-    private fun createMedicineTypeList () {
-        val medicineTypeList = mutableListOf<MedicineTypeModel>()
+    private fun createMedicineTypeList(medicineTypeAdapter: MedicineTypeAdapter) {
         val medicineName = navArgs.medicineEventModel.medicineName
         val medicineDose = navArgs.medicineEventModel.medicineDose
 
         val zipMedicineNameDose = medicineName.zip(medicineDose)
-        for ((item1,item2) in zipMedicineNameDose) {
-            medicineTypeList.add(MedicineTypeModel(item1,item2))
+        for ((item1, item2) in zipMedicineNameDose) {
+            medicineTypeList.add(MedicineTypeModel(item1, item2))
         }
 
         medicineTypeAdapter.submitList(medicineTypeList)

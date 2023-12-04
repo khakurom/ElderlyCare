@@ -27,6 +27,9 @@
         <action
             android:id="@+id/action_exerciseEventFragment_to_addExerciseFragment"
             app:destination="@id/addExerciseFragment" />
+        <action
+            android:id="@+id/action_exerciseEventFragment_to_updateExerciseEventFragment"
+            app:destination="@id/updateExerciseEventFragment" />
     </fragment>
     <fragment
         android:id="@+id/medicineEventFragment"
@@ -51,13 +54,7 @@
     <fragment
         android:id="@+id/addExerciseFragment"
         android:name="com.project.elderlyhealthcare.presentation.fragment.main.event.AddExerciseFragment"
-        android:label="AddExerciseFragment" >
-        <action
-            android:id="@+id/action_addExerciseFragment_to_exerciseEventFragment"
-            app:destination="@id/exerciseEventFragment"
-            app:popUpTo="@id/addExerciseFragment"
-            app:popUpToInclusive="true" />
-    </fragment>
+        android:label="AddExerciseFragment" />
     <fragment
         android:id="@+id/addMedicineFragment"
         android:name="com.project.elderlyhealthcare.presentation.fragment.main.event.AddMedicineFragment"
@@ -75,5 +72,13 @@
             android:name="medicineEventModel"
             app:argType="com.project.elderlyhealthcare.domain.models.MedicineEventModel" />
 
+    </fragment>
+    <fragment
+        android:id="@+id/updateExerciseEventFragment"
+        android:name="com.project.elderlyhealthcare.presentation.fragment.main.event.UpdateExerciseEventFragment"
+        android:label="UpdateExerciseEventFragment" >
+        <argument
+            android:name="exerciseEventModel"
+            app:argType="com.project.elderlyhealthcare.domain.models.ExerciseEventModel" />
     </fragment>
 </navigation>

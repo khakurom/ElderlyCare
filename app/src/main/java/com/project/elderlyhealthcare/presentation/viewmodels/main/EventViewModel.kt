@@ -1,5 +1,6 @@
 package com.project.elderlyhealthcare.presentation.viewmodels.main
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.project.elderlyhealthcare.data.models.ExerciseEventEntity
@@ -35,9 +36,9 @@ class EventViewModel @Inject constructor(
     }
 
     fun getExerciseEvent() {
-        viewModelScope.launch {
+        viewModelScope.launch  () {
             exerciseUseCase.getAllExerciseEvent().collectLatest {
-                _listExerciseEvent.postValue(it)
+                _listExerciseEvent.value = it
             }
         }
     }
@@ -48,6 +49,12 @@ class EventViewModel @Inject constructor(
         }
     }
 
+    fun updateExerciseEvent (exerciseEvent: ExerciseEventEntity) {
+        viewModelScope.launch (Dispatchers.IO){
+            exerciseUseCase.updateExerciseEvent(exerciseEvent)
+        }
+    }
+
     fun insertMedicineEvent(medicineEventEntity: MedicineEventEntity) {
         viewModelScope.launch(Dispatchers.IO) {
             medicineUseCase.insertMedicineEvent(medicineEventEntity)
@@ -55,7 +62,7 @@ class EventViewModel @Inject constructor(
     }
 
     fun getMedicineEvent() {
-        viewModelScope.launch  {
+        viewModelScope.launch (Dispatchers.IO) {
             medicineUseCase.getAllMedicineEvent().collectLatest {
                 _listMedicineEvent.postValue(it)
             }

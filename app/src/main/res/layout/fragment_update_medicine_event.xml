@@ -18,7 +18,7 @@
         <include
             android:id="@+id/update_medicine_fr_cs_bar"
             layout="@layout/custom_top_app_bar"
-            bind:customTitle="@{@string/no_title}"
+            bind:customTitle="@{@string/update_screen}"
             bind:isHaveBack="@{true}"
             bind:layout_constraintEnd_toEndOf="parent"
             bind:layout_constraintStart_toStartOf="parent"
@@ -277,7 +277,7 @@
 
 
                 <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/update_ex_bt_add_medicine_type"
+                    android:id="@+id/update_medicine_bt_add_medicine_type"
                     android:layout_width="0dp"
                     android:layout_height="30dp"
                     android:background="@drawable/ripple_button"

@@ -2,6 +2,7 @@ package com.project.elderlyhealthcare.presentation.fragment.main.event
 
 import android.content.Intent
 import android.view.View
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.project.elderlyhealthcare.BR
@@ -17,7 +18,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class EventFragment : BaseFragment<EventViewModel, FragmentEventBinding>(R.layout.fragment_event) {
 	override fun variableId(): Int = BR.eventViewModel
 
-	override fun createViewModel(): Lazy<EventViewModel> = viewModels()
+	override fun createViewModel(): Lazy<EventViewModel> = activityViewModels()
 
 	override fun bindView(view: View): FragmentEventBinding {
 		return FragmentEventBinding.bind(view)
@@ -42,7 +43,6 @@ class EventFragment : BaseFragment<EventViewModel, FragmentEventBinding>(R.layou
 						findNavController().navigate(EventFragmentDirections.actionEventFragmentToMedicineEventFragment())
 					} catch (_: Exception) {
 					}
-
 				}
 			})
 

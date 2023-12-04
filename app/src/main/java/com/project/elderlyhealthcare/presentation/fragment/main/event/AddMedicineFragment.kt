@@ -26,16 +26,13 @@ import com.project.elderlyhealthcare.utils.Utils.formatTime
 import com.project.elderlyhealthcare.utils.Utils.getDayMonthYearFromCurrentDate
 import com.project.elderlyhealthcare.utils.Utils.showDialog
 import dagger.hilt.android.AndroidEntryPoint
-import java.text.SimpleDateFormat
 import java.util.Calendar
-import java.util.Locale
 
 @AndroidEntryPoint
 class AddMedicineFragment :
     BaseFragment<EventViewModel, FragmentAddMedicineBinding>(R.layout.fragment_add_medicine) {
 
-    private val medicineList = mutableListOf<MedicineTypeModel>()
-    private val adapter = MedicineTypeAdapter()
+    private val medicineTypeList = mutableListOf<MedicineTypeModel>()
     private lateinit var dayRepeatList: MutableList<String?>
     override fun variableId(): Int = BR.addMedicineViewModel
 
@@ -48,18 +45,21 @@ class AddMedicineFragment :
     override fun init() {
         super.init()
 
-        adapter.apply {
-            onItemSelectListener = object : OnItemSelectListener<MedicineTypeModel> {
-                override fun onItemSelected(item: MedicineTypeModel, position: Int) {
+        val adapter : MedicineTypeAdapter by lazy {
+            MedicineTypeAdapter().apply {
+                onItemSelectListener = object : OnItemSelectListener<MedicineTypeModel> {
+                    override fun onItemSelected(item: MedicineTypeModel, position: Int) {
+                    }
                 }
-            }
-            onItemRemoveListener = object : OnItemRemoveListener<MedicineTypeModel> {
-                override fun onItemRemove(item: MedicineTypeModel, position: Int) {
-                    removeItemMedicineType(adapter, position)
-                }
+                onItemRemoveListener = object : OnItemRemoveListener<MedicineTypeModel> {
+                    override fun onItemRemove(item: MedicineTypeModel, position: Int) {
+                        removeItemMedicineType(this@apply, position)
+                    }
 
+                }
             }
         }
+
 
         binding.apply {
             addMedicineFrCsBar.customAppBarIvBack.setOnClickListener(object :
@@ -80,7 +80,7 @@ class AddMedicineFragment :
                     selectEndDate()
                 }
             })
-            addExBtAddMedicineType.setOnClickListener(object : SingleClickListener() {
+            addMedicineBtAddMedicineType.setOnClickListener(object : SingleClickListener() {
                 override fun onSingleClick(v: View) {
                     createBottomSheet(adapter)
                 }
@@ -136,7 +136,7 @@ class AddMedicineFragment :
 
     private fun getMedicineName(): List<String> {
         val medicineNameList = mutableListOf<String>()
-        for (i in medicineList) {
+        for (i in medicineTypeList) {
             medicineNameList.add(i.medicineName)
         }
         return medicineNameList
@@ -144,7 +144,7 @@ class AddMedicineFragment :
 
     private fun getMedicineDose(): List<Int> {
         val medicineDoseList = mutableListOf<Int>()
-        for (i in medicineList) {
+        for (i in medicineTypeList) {
             medicineDoseList.add(i.medicineDose)
         }
         return medicineDoseList
@@ -208,8 +208,8 @@ class AddMedicineFragment :
     }
 
     private fun removeItemMedicineType(adapter: MedicineTypeAdapter, position: Int) {
-        medicineList.removeAt(position)
-        adapter.submitList(medicineList)
+        medicineTypeList.removeAt(position)
+        adapter.submitList(medicineTypeList)
         adapter.notifyDataSetChanged()
     }
 
@@ -218,8 +218,8 @@ class AddMedicineFragment :
             requireContext(),
             object : CustomBottomSheet.OnBottomSheetClickListener {
                 override fun onPositiveButtonClick(medicineName: String, medicineDose: String) {
-                    medicineList.add(MedicineTypeModel(medicineName, medicineDose.toInt()))
-                    adapter.submitList(medicineList)
+                    medicineTypeList.add(MedicineTypeModel(medicineName, medicineDose.toInt()))
+                    adapter.submitList(medicineTypeList)
                     adapter.notifyDataSetChanged()
                 }
             })

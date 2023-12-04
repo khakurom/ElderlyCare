@@ -40,7 +40,10 @@ class MedicineTypeAdapter :
             )
         }
         holder.binding.itemMedicineImgRemove.setOnClickListener {
-            onItemRemoveListener?.onItemRemove(getItem(holder.absoluteAdapterPosition), holder.absoluteAdapterPosition)
+            onItemRemoveListener?.onItemRemove(
+                getItem(holder.absoluteAdapterPosition),
+                holder.absoluteAdapterPosition
+            )
         }
     }
 }
@@ -51,10 +54,7 @@ class ItemMedicineTypeDiffCallback : DiffUtil.ItemCallback<MedicineTypeModel>() 
         return oldItem == newItem
     }
 
-    override fun areContentsTheSame(
-        oldItem: MedicineTypeModel,
-        newItem: MedicineTypeModel
-    ): Boolean {
+    override fun areContentsTheSame(oldItem: MedicineTypeModel, newItem: MedicineTypeModel): Boolean {
         return oldItem == newItem
     }
 }

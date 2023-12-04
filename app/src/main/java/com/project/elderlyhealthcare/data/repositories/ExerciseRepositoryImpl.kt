@@ -1,5 +1,6 @@
 package com.project.elderlyhealthcare.data.repositories
 
+import android.util.Log
 import com.project.elderlyhealthcare.data.mappers.ExerciseMapper
 import com.project.elderlyhealthcare.data.models.ExerciseEventEntity
 import com.project.elderlyhealthcare.data.remote.local.ExerciseLocalDataSource
@@ -12,20 +13,24 @@ import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class ExerciseRepositoryImpl @Inject constructor(
-    private val localExercise : ExerciseLocalDataSource
+    private val localExercise: ExerciseLocalDataSource
 ) : ExerciseRepository {
     override fun getInsertExerciseEvent(exerciseEventEntity: ExerciseEventEntity) {
-       localExercise.insertExerciseEvent(exerciseEventEntity)
+        localExercise.insertExerciseEvent(exerciseEventEntity)
     }
 
     override fun getAllExerciseEvent(): Flow<List<ExerciseEventModel>> {
         return localExercise.getAllExerciseEvent().map {
             ExerciseMapper().fromEntity(it)
-        }.flowOn(Dispatchers.IO)
+        }
     }
 
-    override fun deleteExerciseEvent(id : Int) {
+    override fun deleteExerciseEvent(id: Int) {
         localExercise.deleteExerciseEvent(id)
+    }
+
+    override fun updateExerciseEvent(exerciseEventEntity: ExerciseEventEntity) {
+        localExercise.updateExerciseEvent(exerciseEventEntity)
     }
 
 }

@@ -1,5 +1,6 @@
 package com.project.elderlyhealthcare.domain.repositories
 
+import com.project.elderlyhealthcare.data.models.ExerciseEventEntity
 import com.project.elderlyhealthcare.data.models.MedicineEventEntity
 import com.project.elderlyhealthcare.domain.models.ExerciseEventModel
 import com.project.elderlyhealthcare.domain.models.MedicineEventModel

@@ -13,7 +13,7 @@ import com.project.elderlyhealthcare.utils.Converter
 @Database(
     entities = [ExerciseEventEntity::class, MedicineEventEntity::class],
     version = 1,
-    exportSchema = true
+    exportSchema = false
 )
 @TypeConverters(Converter::class)
 abstract class AppDatabase : RoomDatabase() {
