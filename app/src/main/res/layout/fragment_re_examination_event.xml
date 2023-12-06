@@ -30,7 +30,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/josefinsans_bold"
-            android:text="Lịch tập thể dục"
+            android:text="Lịch tái khám"
             android:textColor="@color/black"
             android:textSize="30sp"
             app:layout_constraintTop_toBottomOf="@id/re_ex_fr_cs_bar"
@@ -46,6 +46,21 @@
             android:src="@drawable/ic_add"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@id/reg_gl_vertical_2" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            submitListReExEvent="@{reExaminationViewModel.listReExEvent}"
+            android:id="@+id/re_ex_rcv_list_exercise"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/gl_horizontal_1"
+            app:layout_constraintVertical_bias="0.0"
+            tools:listitem="@layout/item_re_examination_event" />
 
 
         <androidx.constraintlayout.widget.Guideline

@@ -4,67 +4,66 @@ import android.app.DatePickerDialog
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
-import com.project.elderlyhealthcare.BR
+import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.navArgs
 import com.project.elderlyhealthcare.R
-import com.project.elderlyhealthcare.data.models.ExerciseEventEntity
+import com.project.elderlyhealthcare.BR
 import com.project.elderlyhealthcare.data.models.ReExaminationEventEntity
-import com.project.elderlyhealthcare.databinding.FragmentAddReExaminationBinding
+import com.project.elderlyhealthcare.databinding.FragmentUpdateReExaminationBinding
 import com.project.elderlyhealthcare.presentation.fragment.base.BaseFragment
 import com.project.elderlyhealthcare.presentation.viewmodels.main.EventViewModel
 import com.project.elderlyhealthcare.utils.Constant
 import com.project.elderlyhealthcare.utils.SingleClickListener
 import com.project.elderlyhealthcare.utils.Utils
-import com.project.elderlyhealthcare.utils.Utils.getCurrentTime
-import com.project.elderlyhealthcare.utils.Utils.hideKeyboard
-import com.project.elderlyhealthcare.utils.Utils.showDialog
-import dagger.hilt.android.AndroidEntryPoint
 import java.util.Calendar
 
-@AndroidEntryPoint
-class AddReExaminationFragment :
-    BaseFragment<EventViewModel, FragmentAddReExaminationBinding>(R.layout.fragment_add_re_examination) {
-    override fun variableId(): Int = BR.addReExViewModel
+class UpdateReExaminationFragment : BaseFragment<EventViewModel, FragmentUpdateReExaminationBinding>(R.layout.fragment_update_re_examination) {
 
-    override fun createViewModel(): Lazy<EventViewModel> = activityViewModels()
+    private val navArgs: UpdateReExaminationFragmentArgs by navArgs()
 
-    override fun bindView(view: View): FragmentAddReExaminationBinding {
-        return FragmentAddReExaminationBinding.bind(view)
+    override fun variableId(): Int = BR.updateReExViewModel
+
+    override fun createViewModel(): Lazy<EventViewModel> = activityViewModels ()
+
+    override fun bindView(view: View): FragmentUpdateReExaminationBinding {
+        return FragmentUpdateReExaminationBinding.bind(view)
     }
 
     override fun init() {
+        super.init()
         binding.apply {
-            layoutAddReEx.setOnClickListener(object : SingleClickListener() {
-                override fun onSingleClick(v: View) {
-                    v.hideKeyboard()
-                }
-            })
-            addReExFrCsBar.customAppBarIvBack.setOnClickListener(object : SingleClickListener() {
+            reExEventModel = navArgs.reExEventModel
+            updateReExFrCsBar.customAppBarIvBack.setOnClickListener(object :
+                SingleClickListener() {
                 override fun onSingleClick(v: View) {
                     backToPreScreen()
                 }
             })
 
-            addReExTvDate.setOnClickListener(object : SingleClickListener() {
+            updateReExTvDate.setOnClickListener(object : SingleClickListener() {
                 override fun onSingleClick(v: View) {
                     selectDate()
                 }
             })
-            addReExBtAddReminder.setOnClickListener(object : SingleClickListener() {
+
+            updateReExBtUpdateReminder.setOnClickListener(object : SingleClickListener() {
                 override fun onSingleClick(v: View) {
-                    createReExEvent()
+                    updateReExEvent()
                 }
             })
+
             pickerHour.textColor = ContextCompat.getColor(requireContext(), R.color.black)
             pickerMinute.textColor = ContextCompat.getColor(requireContext(), R.color.black)
+
             settingTimePicker()
         }
     }
-
 
     private fun settingTimePicker() {
         binding.apply {
             pickerHour.maxValue = 23
             pickerMinute.maxValue = 59
+
 
             pickerHour.displayedValues = Constant.listHour
             pickerMinute.displayedValues = Constant.listMinutes
@@ -86,7 +85,7 @@ class AddReExaminationFragment :
             val datePickerDialog = DatePickerDialog(
                 requireContext(),
                 { _, selectedYear, selectedMonth, selectedDay ->
-                    binding.addReExTvDate.text = getString(
+                    binding.updateReExTvDate.text = getString(
                         R.string.day_month_year,
                         selectedDay.toString(),
                         (selectedMonth + 1).toString(),
@@ -102,13 +101,13 @@ class AddReExaminationFragment :
         }
     }
 
-    private fun createReExEvent() {
+    private fun updateReExEvent() {
         binding.apply {
-            if (addReExTvDate.text == getString(R.string.add_re_ex_pick_date)) {
-                showDialog(requireContext(), "Vui lòng chọn ngày tái khám")
+            if (updateReExTvDate.text == getString(R.string.add_re_ex_pick_date)) {
+                Utils.showDialog(requireContext(), "Vui lòng chọn ngày tái khám")
             } else {
                 if (addReExEdDiseaseName.text?.trim().toString().isEmpty()) {
-                    showDialog(requireContext(), "Vui lòng đặt tên bệnh cần tái khám")
+                    Utils.showDialog(requireContext(), "Vui lòng đặt tên bệnh cần tái khám")
                 } else {
                     val reExEvent = ReExaminationEventEntity(
                         hour = Utils.formatTime(pickerHour),

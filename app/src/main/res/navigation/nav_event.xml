@@ -50,6 +50,10 @@
         <action
             android:id="@+id/action_reExaminationEventFragment_to_addReExaminationFragment"
             app:destination="@id/addReExaminationFragment" />
+        <action
+            android:id="@+id/action_reExaminationEventFragment_to_updateReExaminationFragment"
+            app:destination="@id/updateReExaminationFragment" />
+
     </fragment>
     <fragment
         android:id="@+id/addExerciseFragment"
@@ -80,5 +84,13 @@
         <argument
             android:name="exerciseEventModel"
             app:argType="com.project.elderlyhealthcare.domain.models.ExerciseEventModel" />
+    </fragment>
+    <fragment
+        android:id="@+id/updateReExaminationFragment"
+        android:name="com.project.elderlyhealthcare.presentation.fragment.main.event.UpdateReExaminationFragment"
+        android:label="UpdateReExaminationFragment" >
+        <argument
+            android:name="reExEventModel"
+            app:argType="com.project.elderlyhealthcare.domain.models.ReExaminationEventModel" />
     </fragment>
 </navigation>

@@ -5,11 +5,14 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.project.elderlyhealthcare.data.models.ExerciseEventEntity
 import com.project.elderlyhealthcare.data.models.MedicineEventEntity
+import com.project.elderlyhealthcare.data.models.ReExaminationEventEntity
 import com.project.elderlyhealthcare.domain.models.ExerciseEventModel
 import com.project.elderlyhealthcare.domain.models.MedicineEventModel
-import com.project.elderlyhealthcare.domain.usecases.ExerciseUseCase
-import com.project.elderlyhealthcare.domain.usecases.MedicineUseCase
+import com.project.elderlyhealthcare.domain.models.ReExaminationEventModel
+import com.project.elderlyhealthcare.presentation.viewmodels.main.usecases.ExerciseUseCase
+import com.project.elderlyhealthcare.presentation.viewmodels.main.usecases.MedicineUseCase
 import com.project.elderlyhealthcare.presentation.viewmodels.base.BaseViewModel
+import com.project.elderlyhealthcare.presentation.viewmodels.main.usecases.ReExaminationUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
@@ -19,7 +22,8 @@ import javax.inject.Inject
 @HiltViewModel
 class EventViewModel @Inject constructor(
     private val exerciseUseCase: ExerciseUseCase,
-    private val medicineUseCase: MedicineUseCase
+    private val medicineUseCase: MedicineUseCase,
+    private val reExaminationUseCase: ReExaminationUseCase
 ) : BaseViewModel() {
 
 
@@ -28,6 +32,9 @@ class EventViewModel @Inject constructor(
 
     private val _listMedicineEvent = MutableLiveData<List<MedicineEventModel>?>()
     val listMedicineEvent: MutableLiveData<List<MedicineEventModel>?> = _listMedicineEvent
+
+    private val _listReExEvent = MutableLiveData<List<ReExaminationEventModel>?>()
+    val listReExEvent: MutableLiveData<List<ReExaminationEventModel>?> = _listReExEvent
 
     fun insertExerciseEvent(exerciseEvent: ExerciseEventEntity) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -62,7 +69,7 @@ class EventViewModel @Inject constructor(
     }
 
     fun getMedicineEvent() {
-        viewModelScope.launch (Dispatchers.IO) {
+        viewModelScope.launch  {
             medicineUseCase.getAllMedicineEvent().collectLatest {
                 _listMedicineEvent.postValue(it)
             }
@@ -78,6 +85,31 @@ class EventViewModel @Inject constructor(
     fun updateMedicineEvent (medicineEventEntity: MedicineEventEntity) {
         viewModelScope.launch (Dispatchers.IO) {
             medicineUseCase.updateMedicineEvent(medicineEventEntity)
+        }
+    }
+
+    fun insertReExEvent (reExaminationEventEntity: ReExaminationEventEntity) {
+        viewModelScope.launch(Dispatchers.IO) {
+            reExaminationUseCase.insertReExEvent(reExaminationEventEntity)
+        }
+    }
+
+    fun getReExEvent() {
+        viewModelScope.launch  {
+            reExaminationUseCase.getReExEvent().collectLatest {
+                _listReExEvent.postValue(it)
+            }
+        }
+    }
+    fun deleteReExEvent (id : Int) {
+        viewModelScope.launch(Dispatchers.IO) {
+            reExaminationUseCase.deleteReExEvent(id)
+        }
+    }
+
+    fun updateReExEvent (reExaminationEventEntity: ReExaminationEventEntity) {
+        viewModelScope.launch (Dispatchers.IO){
+            reExaminationUseCase.updateReExEvent(reExaminationEventEntity)
         }
     }
 }

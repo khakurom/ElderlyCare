@@ -161,7 +161,7 @@ class UpdateExerciseEventFragment :
     }
 
     private fun getValueDayRepeat() {
-        dayRepeatList = mutableListOf()
+        dayRepeatList = navArgs.exerciseEventModel.dayRepeat as MutableList<String?>
         binding.apply {
             toggleBtMon.setOnCheckedChangeListener { _, isChecked ->
                 if (isChecked) {

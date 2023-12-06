@@ -18,8 +18,12 @@
     <string name="addEx_hour_minutes">%s:%s</string>
 
     // addMedicineFragment
-    <string name="addMedicine_pick_date">Chọn ngày</string>
+    <string name="add_medicine_pick_date">Chọn ngày</string>
     <string name="add_medicine_screen">Thêm lịch uống thuốc</string>
+
+    // addReExFragment
+    <string name="add_re_ex_pick_date">Vui lòng chọn sau ngày hiện tại</string>
+    <string name="add_re_ex_screen">Thêm lịch tái khám</string>
 
 
     //title screen
@@ -37,7 +41,6 @@
 
     // item
     <string name="item_medicine_dose">%s liều/ngày</string>
-
     // list tỉnh thành
     <string-array name="list_prefecture">
         <item>Hồ Chí Minh</item>

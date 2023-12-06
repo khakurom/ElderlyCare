@@ -255,7 +255,7 @@
                         android:id="@+id/update_medicine_tv_end_date"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/addMedicine_pick_date"
+                        android:text="@string/add_medicine_pick_date"
                         android:layout_marginStart="10dp"
                         android:layout_gravity="center_vertical"
                         android:textColor="@color/black" />

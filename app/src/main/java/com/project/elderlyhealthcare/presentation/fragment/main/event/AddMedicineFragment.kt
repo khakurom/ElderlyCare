@@ -102,7 +102,7 @@ class AddMedicineFragment :
 
     private fun createMedicineEvent() {
         binding.apply {
-            if (addMedicineTvEndDate.text == getString(R.string.addMedicine_pick_date)) {
+            if (addMedicineTvEndDate.text == getString(R.string.add_medicine_pick_date)) {
                 showDialog(requireContext(), "Vui lòng chọn ngày kết thúc")
             } else {
                 if (addMedicineEdDiseaseName.text?.trim().toString().isEmpty()) {
@@ -290,7 +290,7 @@ class AddMedicineFragment :
                     (selectedMonth + 1).toString(),
                     selectedYear.toString()
                 )
-                binding.addMedicineTvEndDate.text = getString(R.string.addMedicine_pick_date)
+                binding.addMedicineTvEndDate.text = getString(R.string.add_medicine_pick_date)
             },
             year,
             month,

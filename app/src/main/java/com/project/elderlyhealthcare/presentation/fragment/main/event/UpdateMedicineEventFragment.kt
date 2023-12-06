@@ -9,7 +9,6 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.databinding.library.baseAdapters.BR
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import com.project.elderlyhealthcare.R
 import com.project.elderlyhealthcare.data.models.MedicineEventEntity
@@ -223,7 +222,7 @@ class UpdateMedicineEventFragment :
 
     private fun updateMedicineEvent() {
         binding.apply {
-            if (updateMedicineTvEndDate.text == getString(R.string.addMedicine_pick_date)) {
+            if (updateMedicineTvEndDate.text == getString(R.string.add_medicine_pick_date)) {
                 Utils.showDialog(requireContext(), "Vui lòng chọn ngày kết thúc")
             } else {
                 if (updateMedicineEdDiseaseName.text?.trim().toString().isEmpty()) {
@@ -304,7 +303,7 @@ class UpdateMedicineEventFragment :
                     (selectedMonth + 1).toString(),
                     selectedYear.toString()
                 )
-                binding.updateMedicineTvEndDate.text = getString(R.string.addMedicine_pick_date)
+                binding.updateMedicineTvEndDate.text = getString(R.string.add_medicine_pick_date)
             },
             year,
             month,
