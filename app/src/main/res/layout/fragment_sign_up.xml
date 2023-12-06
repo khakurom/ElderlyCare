@@ -13,6 +13,7 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_register"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white"
@@ -32,12 +33,11 @@
             android:text="Tạo tài khoản đăng nhập"
             android:textColor="@color/black"
             android:textSize="30sp"
-            bind:layout_constraintEnd_toStartOf="@+id/reg_gl_vertical_2"
-            bind:layout_constraintStart_toStartOf="@id/reg_gl_vertical_1"
+            bind:layout_constraintStart_toEndOf="@id/reg_gl_vertical_1"
             bind:layout_constraintTop_toBottomOf="@+id/sign_up_fr_cs_bar" />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/register_layout_ed_name"
+            android:id="@+id/register_layout_ed_customer_name"
             style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -45,11 +45,16 @@
             bind:helperText="Bắt buộc"
             bind:helperTextTextColor="@color/login_red"
             bind:endIconMode="clear_text"
+            bind:boxStrokeWidthFocused="0.7dp"
+            bind:boxStrokeErrorColor="@color/login_red"
+            bind:hintTextColor="@color/black"
+            bind:boxStrokeColor="@color/black"
             bind:layout_constraintEnd_toStartOf="@+id/reg_gl_vertical_2"
             bind:layout_constraintStart_toStartOf="@id/reg_gl_vertical_1"
             bind:layout_constraintTop_toBottomOf="@+id/reg_gl_horizontal_1">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/register_ed_customer_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textCapCharacters"
@@ -65,17 +70,50 @@
             android:hint="Số điện thoại đăng nhập"
             bind:counterMaxLength="20"
             bind:helperText="Bắt buộc"
+            android:layout_marginTop="20dp"
             bind:helperTextTextColor="@color/login_red"
             bind:endIconMode="clear_text"
+            bind:boxStrokeErrorColor="@color/login_red"
+            bind:boxStrokeWidthFocused="0.7dp"
+            bind:hintTextColor="@color/black"
+            bind:boxStrokeColor="@color/black"
             bind:layout_constraintEnd_toEndOf="@+id/reg_gl_vertical_2"
             bind:layout_constraintStart_toStartOf="@+id/reg_gl_vertical_1"
-            bind:layout_constraintTop_toBottomOf="@+id/register_layout_ed_name">
+            bind:layout_constraintTop_toBottomOf="@+id/register_layout_ed_customer_name">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/register_ed_phone_number"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="phone"
                 android:maxLength="20"
+                android:textColor="@color/black" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/register_layout_ed_email"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="Tài khoản email"
+            bind:helperText="Bắt buộc"
+            bind:helperTextTextColor="@color/login_red"
+            bind:endIconMode="clear_text"
+            android:layout_marginTop="20dp"
+            bind:boxStrokeWidthFocused="0.7dp"
+            bind:hintTextColor="@color/black"
+            bind:boxStrokeColor="@color/black"
+            bind:boxStrokeErrorColor="@color/login_red"
+            bind:layout_constraintEnd_toStartOf="@+id/reg_gl_vertical_2"
+            bind:layout_constraintStart_toStartOf="@id/reg_gl_vertical_1"
+            bind:layout_constraintTop_toBottomOf="@+id/register_layout_ed_phoneNumber">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/register_ed_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textEmailAddress"
+                android:maxLength="40"
                 android:textColor="@color/black" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -87,18 +125,25 @@
             bind:layout_constraintEnd_toEndOf="@id/reg_gl_vertical_2"
             bind:layout_constraintStart_toStartOf="@id/reg_gl_vertical_1"
             android:layout_marginTop="@dimen/margin_top"
+            bind:boxStrokeWidthFocused="0.7dp"
+            bind:hintTextColor="@color/black"
+            bind:boxStrokeColor="@color/black"
             android:hint="@string/login_password"
+            bind:boxStrokeErrorColor="@color/login_red"
             bind:endIconMode="password_toggle"
             bind:counterMaxLength="20"
-            bind:layout_constraintTop_toBottomOf="@+id/register_layout_ed_phoneNumber">
+            bind:layout_constraintTop_toBottomOf="@+id/register_layout_ed_email">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/register_ed_password"
                 android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:inputType="textPassword"
                 android:maxLength="20"
-                android:textColor="@color/black"
-                android:layout_height="wrap_content" />
+                android:textColor="@color/black" />
         </com.google.android.material.textfield.TextInputLayout>
+
+
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/register_layout_ed_confirm_password"
@@ -110,10 +155,15 @@
             android:layout_marginTop="20dp"
             android:hint="Xác nhận mật khẩu"
             bind:endIconMode="password_toggle"
+            bind:boxStrokeWidthFocused="0.7dp"
+            bind:hintTextColor="@color/black"
+            bind:boxStrokeColor="@color/black"
+            bind:boxStrokeErrorColor="@color/login_red"
             bind:counterMaxLength="20"
             bind:layout_constraintTop_toBottomOf="@+id/register_layout_ed_password">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/register_ed_confirm_password"
                 android:layout_width="match_parent"
                 android:inputType="textPassword"
                 android:maxLength="20"
@@ -128,10 +178,10 @@
             android:background="@drawable/ripple_button"
             android:text="Tiếp tục"
             android:textColor="@color/white"
-            android:layout_marginTop="50dp"
+            android:layout_marginBottom="50dp"
             bind:layout_constraintEnd_toEndOf="@id/reg_gl_vertical_2"
             bind:layout_constraintStart_toStartOf="@id/reg_gl_vertical_1"
-            bind:layout_constraintTop_toBottomOf="@id/register_layout_ed_confirm_password" />
+            bind:layout_constraintBottom_toBottomOf="parent" />
 
 
         <androidx.constraintlayout.widget.Guideline

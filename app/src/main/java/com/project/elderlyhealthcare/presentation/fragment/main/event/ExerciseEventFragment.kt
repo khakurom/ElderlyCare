@@ -22,7 +22,7 @@ class ExerciseEventFragment :
 
     override fun variableId(): Int = BR.exerciseViewModel
 
-    override fun createViewModel(): Lazy<EventViewModel> = viewModels()
+    override fun createViewModel(): Lazy<EventViewModel> = activityViewModels ()
     override fun bindView(view: View): FragmentExerciseEventBinding {
         return FragmentExerciseEventBinding.bind(view)
     }

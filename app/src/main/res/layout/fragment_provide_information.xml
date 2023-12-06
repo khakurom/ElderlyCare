@@ -13,7 +13,6 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/layout_provide_info"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white"
@@ -31,6 +30,7 @@
             bind:layout_constraintBottom_toBottomOf="parent">
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layout_provide_info"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 bind:layout_constraintBottom_toBottomOf="parent">
@@ -56,12 +56,17 @@
                     android:hint="Họ và tên"
                     bind:helperText="Bắt buộc"
                     bind:helperTextTextColor="@color/login_red"
+                    bind:boxStrokeWidthFocused="0.7dp"
+                    bind:hintTextColor="@color/black"
+                    bind:boxStrokeColor="@color/black"
+                    bind:boxStrokeErrorColor="@color/login_red"
                     bind:endIconMode="clear_text"
                     bind:layout_constraintEnd_toStartOf="@+id/reg_gl_vertical_2"
                     bind:layout_constraintStart_toStartOf="@id/reg_gl_vertical_1"
                     bind:layout_constraintTop_toBottomOf="@+id/reg_gl_horizontal_1">
 
                     <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/provide_info_ed_elder_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="textCapCharacters"
@@ -75,7 +80,11 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:hint="Ngày tháng năm sinh"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="20dp"
+                    bind:boxStrokeWidthFocused="0.7dp"
+                    bind:hintTextColor="@color/black"
+                    bind:boxStrokeColor="@color/black"
+                    bind:boxStrokeErrorColor="@color/login_red"
                     bind:endIconMode="custom"
                     bind:endIconDrawable="@drawable/ic_calendar"
                     bind:layout_constraintEnd_toStartOf="@+id/reg_gl_vertical_2"
@@ -83,6 +92,7 @@
                     bind:layout_constraintTop_toBottomOf="@+id/provide_info_layout_ed_name">
 
                     <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/provide_info_ed_elder_dob"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="textCapCharacters"
@@ -106,13 +116,18 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:hint="Cân nặng (kg)"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="20dp"
+                    bind:boxStrokeWidthFocused="0.7dp"
+                    bind:hintTextColor="@color/black"
+                    bind:boxStrokeColor="@color/black"
+                    bind:boxStrokeErrorColor="@color/login_red"
                     android:layout_marginEnd="10dp"
                     bind:layout_constraintEnd_toStartOf="@+id/reg_gl_vertical_3"
                     bind:layout_constraintStart_toStartOf="@id/reg_gl_vertical_1"
                     bind:layout_constraintTop_toBottomOf="@+id/textView2">
 
                     <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/provide_info_ed_elder_weight"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="number"
@@ -126,13 +141,18 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:hint="Chiều cao (cm)"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="20dp"
+                    bind:boxStrokeWidthFocused="0.7dp"
+                    bind:hintTextColor="@color/black"
+                    bind:boxStrokeColor="@color/black"
+                    bind:boxStrokeErrorColor="@color/login_red"
                     android:layout_marginStart="10dp"
                     bind:layout_constraintEnd_toStartOf="@+id/reg_gl_vertical_2"
                     bind:layout_constraintStart_toStartOf="@id/reg_gl_vertical_3"
                     bind:layout_constraintTop_toBottomOf="@+id/textView2">
 
                     <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/provide_info_ed_elder_height"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="number"
@@ -155,6 +175,7 @@
                     <RadioButton
                         android:id="@+id/reg_radio_bt_male"
                         android:layout_width="70dp"
+                        android:textColor="@color/black"
                         android:layout_height="wrap_content"
                         android:text="Nam"
                         android:textSize="17sp" />
@@ -165,6 +186,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
                         android:text="Nữ"
+                        android:textColor="@color/black"
                         android:textSize="17sp" />
 
 
@@ -190,12 +212,17 @@
                     android:layout_height="wrap_content"
                     android:hint="Khu phố/thôn, Phường/xã, Thị xã/huyện..."
                     bind:endIconMode="clear_text"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="20dp"
+                    bind:boxStrokeWidthFocused="0.7dp"
+                    bind:hintTextColor="@color/black"
+                    bind:boxStrokeColor="@color/black"
+                    bind:boxStrokeErrorColor="@color/login_red"
                     bind:layout_constraintEnd_toStartOf="@+id/reg_gl_vertical_2"
                     bind:layout_constraintStart_toStartOf="@id/reg_gl_vertical_1"
                     bind:layout_constraintTop_toBottomOf="@+id/provide_info_tv_address">
 
                     <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/provide_info_ed_address"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="text"
@@ -209,13 +236,17 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:hint="Tỉnh/Thành phố"
-                    android:layout_marginTop="15dp"
+                    android:layout_marginTop="20dp"
+                    bind:boxStrokeWidthFocused="0.7dp"
+                    bind:hintTextColor="@color/black"
+                    bind:boxStrokeColor="@color/black"
+                    bind:boxStrokeErrorColor="@color/login_red"
                     android:entries="@array/list_prefecture"
                     bind:layout_constraintEnd_toStartOf="@+id/reg_gl_vertical_2"
                     bind:layout_constraintStart_toStartOf="@id/reg_gl_vertical_1"
                     bind:layout_constraintTop_toBottomOf="@+id/provide_info_layout_ed_address">
                     <AutoCompleteTextView
-                        android:id="@+id/autoCompleteText"
+                        android:id="@+id/provide_info_ed_prefecture"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textColor="@color/black"
@@ -251,13 +282,14 @@
                     bind:layout_constraintGuide_percent="0.2" />
 
                 <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/provide_info_bt_continue"
+                    android:id="@+id/provide_info_bt_verify_phone_number"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="50dp"
                     android:background="@drawable/ripple_button"
                     android:text="Xác thực số điện thoại"
                     android:textColor="@color/white"
+                    android:layout_marginBottom="50dp"
                     bind:layout_constraintBottom_toBottomOf="parent"
                     bind:layout_constraintEnd_toEndOf="@id/reg_gl_vertical_2"
                     bind:layout_constraintStart_toStartOf="@id/reg_gl_vertical_1"

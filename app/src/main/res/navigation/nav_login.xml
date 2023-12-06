@@ -42,6 +42,9 @@
         <action
             android:id="@+id/action_provideInformationFragment_to_verifyPhoneNumberFragment"
             app:destination="@id/verifyPhoneNumberFragment" />
+        <argument
+            android:name="customerInfoModel"
+            app:argType="com.project.elderlyhealthcare.domain.models.CustomerInfoModel" />
     </fragment>
     <fragment
         android:id="@+id/verifyPhoneNumberFragment"

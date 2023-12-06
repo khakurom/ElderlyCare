@@ -11,6 +11,7 @@ import com.project.elderlyhealthcare.presentation.activity.MainActivity
 import com.project.elderlyhealthcare.presentation.fragment.base.BaseFragment
 import com.project.elderlyhealthcare.presentation.viewmodels.not_login.NotLoginViewModel
 import com.project.elderlyhealthcare.utils.SingleClickListener
+import com.project.elderlyhealthcare.utils.Utils.hideKeyboard
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -28,6 +29,11 @@ class LoginFragment : BaseFragment<NotLoginViewModel, FragmentLoginBinding>(R.la
 	override fun init() {
 		super.init()
 		binding.apply {
+			layoutLogin.setOnClickListener(object : SingleClickListener(){
+				override fun onSingleClick(v: View) {
+					v.hideKeyboard()
+				}
+			})
 			loginTvRegister.setOnClickListener(object : SingleClickListener(){
 				override fun onSingleClick(v: View) {
 					findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToSignUpFragment())
@@ -46,10 +52,6 @@ class LoginFragment : BaseFragment<NotLoginViewModel, FragmentLoginBinding>(R.la
 					activity?.finish()
 				}
 			})
-
-
-
-
 		}
 	}
 

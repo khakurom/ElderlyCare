@@ -1,12 +1,12 @@
 package com.project.elderlyhealthcare.utils
 
 import android.R
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.DialogInterface
 import android.content.res.ColorStateList
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
-import android.provider.Settings.Global.getString
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.NumberPicker
@@ -14,6 +14,8 @@ import android.widget.TextView
 import android.widget.ToggleButton
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
+import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
@@ -177,6 +179,16 @@ object Utils {
 
     }
 
+    // compare day before or after current day (return true if day is before current day)
+    @SuppressLint("SimpleDateFormat")
+    fun compareToCurrentDay (day : String) : Boolean {
+        val dateFormat = SimpleDateFormat("dd/MM/yyyy")
+        val dateToCompare: Date = dateFormat.parse(day)
+        val currentDate: Calendar = Calendar.getInstance()
+        val currentDateAsDate: Date = currentDate.time
+        return dateToCompare.before(currentDateAsDate)
+    }
+
     fun settingDayRepeat(
         dayRepeatList: List<String?>, toggleBtMon: ToggleButton,
         toggleBtTu: ToggleButton,
@@ -210,6 +222,22 @@ object Utils {
         }
 
     }
+
+    // check edittext is null or not
+    fun textIsNull(etId: TextInputEditText): Boolean {
+        return etId.text.toString().trim().isEmpty()
+    }
+
+    // set layout edittext with border is red color
+    fun textFieldIsEmpty(layoutEtId: TextInputLayout) {
+        layoutEtId.error = "Bạn cần nhập thông tin đầy đủ"
+    }
+
+    fun textFieldIsNotEmpty( layoutEtId: TextInputLayout) {
+        layoutEtId.error = null
+    }
+
+
 
 
 }

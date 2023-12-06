@@ -44,6 +44,7 @@ class UpdateExerciseEventFragment :
                     backToPreScreen()
                 }
             })
+            exerciseEventModel = navArgs.exerciseEventModel
             pickerHour.textColor = ContextCompat.getColor(requireContext(), R.color.black)
             pickerMinute.textColor = ContextCompat.getColor(requireContext(), R.color.black)
             settingDayPicker(
@@ -65,8 +66,6 @@ class UpdateExerciseEventFragment :
                 toggleBtSa,
                 toggleBtSun
             )
-            updateExEdtExerciseName.setText(navArgs.exerciseEventModel.exerciseName)
-            updateExEdtDescription.setText(navArgs.exerciseEventModel.description)
             layoutDatePicker.setOnClickListener(object : SingleClickListener() {
                 override fun onSingleClick(v: View) {
                     selectDate()
@@ -78,7 +77,6 @@ class UpdateExerciseEventFragment :
                     updateExerciseEvent()
                 }
             })
-            getCurrentTime(updateExTvDate, requireContext())
             getValueDayRepeat()
             settingTimePicker()
         }

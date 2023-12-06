@@ -1,13 +1,13 @@
 package com.project.elderlyhealthcare.presentation.fragment.main.event
 
 import android.app.DatePickerDialog
+import android.util.Log
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
-import com.project.elderlyhealthcare.R
 import com.project.elderlyhealthcare.BR
+import com.project.elderlyhealthcare.R
 import com.project.elderlyhealthcare.data.models.ReExaminationEventEntity
 import com.project.elderlyhealthcare.databinding.FragmentUpdateReExaminationBinding
 import com.project.elderlyhealthcare.presentation.fragment.base.BaseFragment
@@ -15,15 +15,17 @@ import com.project.elderlyhealthcare.presentation.viewmodels.main.EventViewModel
 import com.project.elderlyhealthcare.utils.Constant
 import com.project.elderlyhealthcare.utils.SingleClickListener
 import com.project.elderlyhealthcare.utils.Utils
+import com.project.elderlyhealthcare.utils.Utils.compareToCurrentDay
 import java.util.Calendar
 
-class UpdateReExaminationFragment : BaseFragment<EventViewModel, FragmentUpdateReExaminationBinding>(R.layout.fragment_update_re_examination) {
+class UpdateReExaminationFragment :
+    BaseFragment<EventViewModel, FragmentUpdateReExaminationBinding>(R.layout.fragment_update_re_examination) {
 
     private val navArgs: UpdateReExaminationFragmentArgs by navArgs()
 
     override fun variableId(): Int = BR.updateReExViewModel
 
-    override fun createViewModel(): Lazy<EventViewModel> = activityViewModels ()
+    override fun createViewModel(): Lazy<EventViewModel> = activityViewModels()
 
     override fun bindView(view: View): FragmentUpdateReExaminationBinding {
         return FragmentUpdateReExaminationBinding.bind(view)
@@ -51,6 +53,10 @@ class UpdateReExaminationFragment : BaseFragment<EventViewModel, FragmentUpdateR
                     updateReExEvent()
                 }
             })
+
+            updateReExTvDate.text =
+                if (compareToCurrentDay(navArgs.reExEventModel.dayBegin!!)) getString(R.string.add_re_ex_pick_date) else navArgs.reExEventModel.dayBegin
+
 
             pickerHour.textColor = ContextCompat.getColor(requireContext(), R.color.black)
             pickerMinute.textColor = ContextCompat.getColor(requireContext(), R.color.black)
@@ -106,17 +112,18 @@ class UpdateReExaminationFragment : BaseFragment<EventViewModel, FragmentUpdateR
             if (updateReExTvDate.text == getString(R.string.add_re_ex_pick_date)) {
                 Utils.showDialog(requireContext(), "Vui lòng chọn ngày tái khám")
             } else {
-                if (addReExEdDiseaseName.text?.trim().toString().isEmpty()) {
+                if (updateReExEdDiseaseName.text?.trim().toString().isEmpty()) {
                     Utils.showDialog(requireContext(), "Vui lòng đặt tên bệnh cần tái khám")
                 } else {
                     val reExEvent = ReExaminationEventEntity(
+                        id = navArgs.reExEventModel.id,
                         hour = Utils.formatTime(pickerHour),
                         minutes = Utils.formatTime(pickerMinute),
-                        dayBegin = addReExTvDate.text.trim().toString(),
-                        diseaseName = addReExEdDiseaseName.text?.trim().toString(),
-                        address = addReExEdAddress.text?.trim().toString()
+                        dayBegin = updateReExTvDate.text.trim().toString(),
+                        diseaseName = updateReExEdDiseaseName.text?.trim().toString(),
+                        address = updateReExEdAddress.text?.trim().toString()
                     )
-                    viewModel?.insertReExEvent(reExEvent)
+                    viewModel?.updateReExEvent(reExEvent)
                     backToPreScreen()
                 }
             }

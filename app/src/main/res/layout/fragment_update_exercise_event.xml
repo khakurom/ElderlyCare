@@ -7,6 +7,10 @@
         <variable
             name="updateExerciseViewModel"
             type="com.project.elderlyhealthcare.presentation.viewmodels.main.EventViewModel" />
+
+        <variable
+            name="exerciseEventModel"
+            type="com.project.elderlyhealthcare.domain.models.ExerciseEventModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -50,6 +54,7 @@
                         style="@style/AppTheme.Picker"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:value="@{Integer.valueOf(exerciseEventModel.hour)}"
                         android:layout_marginStart="20dp"
                         android:layout_marginEnd="10dp" />
 
@@ -67,6 +72,7 @@
                         style="@style/AppTheme.Picker"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:value="@{Integer.valueOf(exerciseEventModel.minutes)}"
                         android:layout_marginStart="10dp"
                         android:layout_marginEnd="20dp" />
 
@@ -204,7 +210,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:layout_marginStart="10dp"
-                        android:text="September, 26 2030"
+                        android:text="@{exerciseEventModel.dayBegin}"
                         android:textColor="@color/black" />
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -241,6 +247,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="text"
+                        android:text="@{exerciseEventModel.exerciseName}"
                         android:maxLength="40"
                         android:textColor="@color/black" />
                 </com.google.android.material.textfield.TextInputLayout>
@@ -275,6 +282,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:inputType="text"
+                        android:text="@{exerciseEventModel.description}"
                         android:textColor="@color/black" />
                 </com.google.android.material.textfield.TextInputLayout>
 

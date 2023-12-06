@@ -12,6 +12,7 @@
     <string name="login_question_2">Bạn chưa có tài khoản?</string>
     <string name="login_sign_up"><u>Đăng kí tài khoản</u></string>
     <string name="login_click_here"><u>Nhấn vào đây</u></string>
+    <string name="login_error_msg_edittext_empty"><u>"Bạn cần nhập thông tin đầy đủ"</u></string>
 
     // addExerciseFragment
     <string name="add_exercise_screen">Thêm lịch tập thể dục</string>
