@@ -32,7 +32,7 @@ class ForgetPasswordFragment : BaseFragment<NotLoginViewModel, FragmentForgetPas
 			})
 			forgetBtContinue.setOnClickListener(object : SingleClickListener(){
 				override fun onSingleClick(v: View) {
-					findNavController().navigate(ForgetPasswordFragmentDirections.actionForgetPasswordFragmentToVerifyPhoneNumberFragment())
+
 				}
 			})
 		}

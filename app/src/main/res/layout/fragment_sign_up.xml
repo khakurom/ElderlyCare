@@ -67,7 +67,7 @@
             style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:hint="Số điện thoại đăng nhập"
+            android:hint="Số điện thoại"
             bind:counterMaxLength="20"
             bind:helperText="Bắt buộc"
             android:layout_marginTop="20dp"
@@ -91,11 +91,11 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/register_layout_ed_email"
+            android:id="@+id/register_layout_ed_account"
             style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:hint="Tài khoản email"
+            android:hint="Tên tài khoản đăng nhập"
             bind:helperText="Bắt buộc"
             bind:helperTextTextColor="@color/login_red"
             bind:endIconMode="clear_text"
@@ -109,7 +109,7 @@
             bind:layout_constraintTop_toBottomOf="@+id/register_layout_ed_phoneNumber">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/register_ed_email"
+                android:id="@+id/register_ed_account"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textEmailAddress"
@@ -132,7 +132,7 @@
             bind:boxStrokeErrorColor="@color/login_red"
             bind:endIconMode="password_toggle"
             bind:counterMaxLength="20"
-            bind:layout_constraintTop_toBottomOf="@+id/register_layout_ed_email">
+            bind:layout_constraintTop_toBottomOf="@+id/register_layout_ed_account">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/register_ed_password"

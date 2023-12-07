@@ -3,19 +3,21 @@ package com.project.elderlyhealthcare.presentation.fragment.not_login
 import android.app.DatePickerDialog
 import android.view.View
 import android.widget.ArrayAdapter
+import android.widget.RadioGroup
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.project.elderlyhealthcare.BR
 import com.project.elderlyhealthcare.R
 import com.project.elderlyhealthcare.databinding.FragmentProvideInformationBinding
-import com.project.elderlyhealthcare.databinding.FragmentSignUpBinding
 import com.project.elderlyhealthcare.presentation.fragment.base.BaseFragment
-import com.project.elderlyhealthcare.presentation.fragment.main.event.UpdateReExaminationFragmentArgs
 import com.project.elderlyhealthcare.presentation.viewmodels.not_login.NotLoginViewModel
 import com.project.elderlyhealthcare.utils.Constant
 import com.project.elderlyhealthcare.utils.SingleClickListener
+import com.project.elderlyhealthcare.utils.Utils.getTextFromEdittext
 import com.project.elderlyhealthcare.utils.Utils.hideKeyboard
+import com.project.elderlyhealthcare.utils.Utils.showDialog
+import com.project.elderlyhealthcare.utils.Utils.textIsNull
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.Calendar
 
@@ -50,17 +52,21 @@ class ProvideInformationFragment :
                     v.hideKeyboard()
                 }
             })
-            provideInfoEdElderDob.setOnClickListener(object : SingleClickListener() {
-                override fun onSingleClick(v: View) {
-                    selectDate()
-                }
-            })
+            with(provideInfoEdElderDob) {
+                showSoftInputOnFocus = false
+                isFocusable = false
+                setOnClickListener(object : SingleClickListener() {
+                    override fun onSingleClick(v: View) {
+                        selectDate()
+                    }
+                })
+            }
+
 
 
             provideInfoBtVerifyPhoneNumber.setOnClickListener(object : SingleClickListener() {
                 override fun onSingleClick(v: View) {
-                    checkCustomerInfo ()
-                    findNavController().navigate(ProvideInformationFragmentDirections.actionProvideInformationFragmentToVerifyPhoneNumberFragment())
+                    checkCustomerInfo()
                 }
             })
             val adapterItems =
@@ -70,7 +76,33 @@ class ProvideInformationFragment :
     }
 
     private fun checkCustomerInfo() {
-
+        binding.apply {
+            if (textIsNull(provideInfoEdElderName) ||
+                textIsNull(provideInfoEdElderDob) ||
+                textIsNull(provideInfoEdElderWeight) ||
+                textIsNull(provideInfoEdElderHeight) ||
+                textIsNull(provideInfoEdAddress) ||
+                provideInfoEdPrefecture.text.trim().toString().isEmpty()
+            ) {
+                setBackgroundLayoutEditText()
+            } else {
+                setBackgroundLayoutEditText()
+                if (provideInfoRadioBtMale.isChecked || provideInfoRadioBtFemale.isChecked) {
+                    with(navArgs.customerInfoModel) {
+                        elderName = getTextFromEdittext(provideInfoEdElderName)
+                        elderDob = getTextFromEdittext(provideInfoEdElderDob)
+                        elderGender = provideInfoRadioGroup.getUserGender()
+                        elderWeight = getTextFromEdittext(provideInfoEdElderWeight).toInt()
+                        elderHeight = getTextFromEdittext(provideInfoEdElderHeight).toInt()
+                        address = getTextFromEdittext(provideInfoEdAddress)
+                        prefecture = provideInfoEdPrefecture.text.toString().trim()
+                    }
+                    findNavController().navigate(ProvideInformationFragmentDirections.actionProvideInformationFragmentToVerifyPhoneNumberFragment(navArgs.customerInfoModel))
+                } else {
+                    showDialog(requireContext(), "Vui lòng chọn giới tính")
+                }
+            }
+        }
     }
 
     private fun selectDate() {
@@ -95,8 +127,33 @@ class ProvideInformationFragment :
                 month,
                 day
             )
-            datePickerDialog.datePicker.minDate = System.currentTimeMillis()
             datePickerDialog.show()
+        }
+    }
+
+    private fun setBackgroundLayoutEditText() {
+        val errorMsg = getString(R.string.login_error_msg_edittext_empty)
+        binding.apply {
+            provideInfoLayoutEdElderName.error =
+                if (textIsNull(provideInfoEdElderName)) errorMsg else null
+            provideInfoLayoutEdBirthday.error =
+                if (textIsNull(provideInfoEdElderDob)) errorMsg else null
+            provideInfoLayoutEdWeight.error =
+                if (textIsNull(provideInfoEdElderWeight)) errorMsg else null
+            provideInfoLayoutEdHeight.error =
+                if (textIsNull(provideInfoEdElderHeight)) errorMsg else null
+            provideInfoLayoutEdAddress.error =
+                if (textIsNull(provideInfoEdAddress)) errorMsg else null
+            provideInfoLayoutEdPrefecture.error =
+                if (provideInfoEdPrefecture.text.trim().toString().isEmpty()) errorMsg else null
+        }
+    }
+
+    private fun RadioGroup.getUserGender(): String {
+        return when (this.checkedRadioButtonId) {
+            R.id.provide_info_radio_bt_male -> "Nam"
+            R.id.provide_info_radio_bt_female -> "Nữ"
+            else -> ""
         }
     }
 }

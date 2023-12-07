@@ -6,6 +6,12 @@ object Constant {
     const val TABLE_EXERCISE_EVENT = "ExerciseEvent"
     const val TABLE_MEDICINE_EVENT = "MedicineEvent"
     const val TABLE_RE_EXAM_EVENT = "ReExamEvent"
+
+	// key preference
+
+
+
+
     val listPrefecture = listOf(
         "Hồ Chí Minh",
         "Bà Rịa - Vũng Tàu",
@@ -102,7 +108,5 @@ object Constant {
 		"57",
 		"58",
 		"59",
-
-
 	)
 }

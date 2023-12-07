@@ -13,6 +13,8 @@
     <string name="login_sign_up"><u>Đăng kí tài khoản</u></string>
     <string name="login_click_here"><u>Nhấn vào đây</u></string>
     <string name="login_error_msg_edittext_empty"><u>"Bạn cần nhập thông tin đầy đủ"</u></string>
+    <string name="login_txt_enter_code_otp">Nhập mã otp được gửi đến số điện thoại %s</string>
+
 
     // addExerciseFragment
     <string name="add_exercise_screen">Thêm lịch tập thể dục</string>

@@ -9,6 +9,7 @@ import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
 import android.widget.NumberPicker
 import android.widget.TextView
 import android.widget.ToggleButton
@@ -228,13 +229,8 @@ object Utils {
         return etId.text.toString().trim().isEmpty()
     }
 
-    // set layout edittext with border is red color
-    fun textFieldIsEmpty(layoutEtId: TextInputLayout) {
-        layoutEtId.error = "Bạn cần nhập thông tin đầy đủ"
-    }
-
-    fun textFieldIsNotEmpty( layoutEtId: TextInputLayout) {
-        layoutEtId.error = null
+    fun getTextFromEdittext (ed : EditText) : String {
+        return ed.text.toString().trim()
     }
 
 
