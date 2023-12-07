@@ -8,7 +8,6 @@ import kotlinx.parcelize.Parcelize
 data class CustomerInfoModel(
     val customerName: String?,
     val phoneNumber: String?,
-    val accountName: String?,
     val password: String?,
     var elderName: String? = null,
     var elderDob: String? = null,

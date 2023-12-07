@@ -3,7 +3,6 @@ package com.project.elderlyhealthcare.presentation.fragment.not_login
 import android.os.CountDownTimer
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.View
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -15,6 +14,8 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.PhoneAuthOptions
 import com.google.firebase.auth.PhoneAuthProvider
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import com.project.elderlyhealthcare.BR
 import com.project.elderlyhealthcare.R
 import com.project.elderlyhealthcare.databinding.FragmentVerifyPhoneNumberBinding
@@ -33,11 +34,15 @@ class VerifyPhoneNumberFragment :
 
     private val navArgs: VerifyPhoneNumberFragmentArgs by navArgs()
 
+    private val databaseReference: DatabaseReference = FirebaseDatabase.getInstance().reference
+
+    private var resendToken: PhoneAuthProvider.ForceResendingToken? = null
+
     private lateinit var countDownTimer: CountDownTimer
     private var isTimerRunning = false
 
     private lateinit var auth: FirebaseAuth
-    private lateinit var verificationId: String
+    private var verificationId: String = ""
     override fun variableId(): Int = BR.verifyPhoneViewModel
 
     override fun createViewModel(): Lazy<NotLoginViewModel> = activityViewModels()
@@ -50,7 +55,7 @@ class VerifyPhoneNumberFragment :
         super.init()
         setupOTPInputs()
         startPhoneNumberVerification ()
-        createCountDownTimer ()
+        createCountDownTimer()
         binding.apply {
             verifyFrCsBar.customAppBarIvBack.setOnClickListener(object : SingleClickListener() {
                 override fun onSingleClick(v: View) {
@@ -73,7 +78,7 @@ class VerifyPhoneNumberFragment :
             verifyTvClickHere.setOnClickListener(object : SingleClickListener() {
                 override fun onSingleClick(v: View) {
                     if (!isTimerRunning) {
-                        startPhoneNumberVerification()
+                        reStartPhoneNumberVerification()
                         startCountdown()
                     }
                 }
@@ -84,14 +89,14 @@ class VerifyPhoneNumberFragment :
         }
     }
 
-    private fun createCountDownTimer () {
+    private fun createCountDownTimer() {
         val initialTime = 60 * 1000 // 60 seconds in milliseconds
         val interval = 1000 // 1 second interval
         countDownTimer = object : CountDownTimer(initialTime.toLong(), interval.toLong()) {
             override fun onTick(millisUntilFinished: Long) {
                 val seconds = millisUntilFinished / 1000
                 val timeString = String.format("%02d:%02d", seconds / 60, seconds % 60)
-                  binding.verifyTvClickHere.text = timeString
+                binding.verifyTvClickHere.text = timeString
             }
 
             override fun onFinish() {
@@ -260,7 +265,7 @@ class VerifyPhoneNumberFragment :
                 showDialog(requireContext(), "Vui lòng nhập đầy đủ mã OTP")
             } else {
                 val codeOtp = digit1 + digit2 + digit3 + digit4 + digit5 + digit6
-                verifyPhoneNumberWithCode (codeOtp)
+                verifyPhoneNumberWithCode(codeOtp)
             }
         }
     }
@@ -276,6 +281,22 @@ class VerifyPhoneNumberFragment :
         PhoneAuthProvider.verifyPhoneNumber(options)
     }
 
+    private fun reStartPhoneNumberVerification() {
+        auth = FirebaseAuth.getInstance()
+        if (resendToken != null) {
+            val options = PhoneAuthOptions.newBuilder(auth)
+                .setPhoneNumber("+84${navArgs.customerInfoModel.phoneNumber}") // Phone number to verify
+                .setTimeout(60L, TimeUnit.SECONDS) // Timeout and unit
+                .setActivity(requireActivity()) // Activity (for callback binding)
+                .setCallbacks(callbacks) // OnVerificationStateChangedCallbacks
+                .setForceResendingToken(resendToken!!)
+                .build()
+            PhoneAuthProvider.verifyPhoneNumber(options)
+        } else {
+            startPhoneNumberVerification()
+        }
+    }
+
     private val callbacks = object : PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
 
         // This method will be called when the verification is successfully sent to the user.
@@ -285,8 +306,6 @@ class VerifyPhoneNumberFragment :
 
 
         override fun onVerificationFailed(e: FirebaseException) {
-
-            Log.d("khatag", e.toString())
             when (e) {
                 is FirebaseAuthInvalidCredentialsException -> showDialog(
                     requireContext(),
@@ -297,6 +316,7 @@ class VerifyPhoneNumberFragment :
                     requireContext(),
                     "Yêu cầu gửi mã OTP vượt quá số lần cho phép. Vui lòng lại!"
                 )
+
                 else -> showDialog(
                     requireContext(),
                     "Lỗi hệ thống. Vui lòng thử lại!"
@@ -309,12 +329,13 @@ class VerifyPhoneNumberFragment :
             token: PhoneAuthProvider.ForceResendingToken
         ) {
             this@VerifyPhoneNumberFragment.verificationId = verificationId
+            this@VerifyPhoneNumberFragment.resendToken = token
         }
     }
 
     private fun verifyPhoneNumberWithCode(code: String) {
-        if(verificationId.isEmpty()) {
-            showDialog(requireContext(), "Không hợp lệ, vui lòng thử lại")
+        if (verificationId.isEmpty()) {
+            showDialog(requireContext(), "Hệ thống bị lỗi. Vui lòng thử lại sau!")
         } else {
             val credential = PhoneAuthProvider.getCredential(verificationId, code)
             signInWithPhoneAuthCredential(credential)
@@ -322,20 +343,36 @@ class VerifyPhoneNumberFragment :
     }
 
     private fun signInWithPhoneAuthCredential(credential: PhoneAuthCredential) {
+        binding.progressBar.visibility = View.VISIBLE
         auth.signInWithCredential(credential)
             .addOnCompleteListener(requireActivity()) { task ->
                 if (task.isSuccessful) {
-                    findNavController().navigate(VerifyPhoneNumberFragmentDirections.actionVerifyPhoneNumberFragmentToCompleteFragment())
+                    updateLoadCustomerInfo ()
                 } else {
                     showDialog(requireContext(), "Mã OTP đã hết hạn hoặc không chính xác. Vui lòng nhập lại!")
+                    binding.progressBar.visibility = View.GONE
                 }
             }
+    }
+
+    private fun updateLoadCustomerInfo() {
+        val newDataKey = navArgs.customerInfoModel.phoneNumber
+        if (newDataKey != null) {
+            databaseReference.child("data").child(newDataKey).setValue(navArgs.customerInfoModel)
+                .addOnSuccessListener {
+                    findNavController().navigate(VerifyPhoneNumberFragmentDirections.actionVerifyPhoneNumberFragmentToCompleteFragment())
+                    binding.progressBar.visibility = View.GONE
+                }
+                .addOnFailureListener {
+                    showDialog(requireContext(), it.toString())
+                    binding.progressBar.visibility = View.GONE
+                }
+
+        }
     }
 
     override fun onDestroy() {
         countDownTimer.cancel()
         super.onDestroy()
     }
-
-
 }

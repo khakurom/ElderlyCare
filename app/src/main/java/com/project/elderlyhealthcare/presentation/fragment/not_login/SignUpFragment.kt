@@ -3,6 +3,11 @@ package com.project.elderlyhealthcare.presentation.fragment.not_login
 import android.view.View
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import com.project.elderlyhealthcare.BR
 import com.project.elderlyhealthcare.R
 import com.project.elderlyhealthcare.databinding.FragmentSignUpBinding
@@ -17,8 +22,9 @@ import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
-class SignUpFragment :
-    BaseFragment<NotLoginViewModel, FragmentSignUpBinding>(R.layout.fragment_sign_up) {
+class SignUpFragment : BaseFragment<NotLoginViewModel, FragmentSignUpBinding>(R.layout.fragment_sign_up) {
+
+    private val databaseReference: DatabaseReference = FirebaseDatabase.getInstance().reference
     override fun variableId(): Int = BR.signUpViewModel
 
     override fun createViewModel(): Lazy<NotLoginViewModel> = activityViewModels()
@@ -52,66 +58,90 @@ class SignUpFragment :
 
     private fun checkAccountInfo() {
         binding.apply {
-            if (textIsNull(registerEdCustomerName) ||
-                textIsNull(registerEdPhoneNumber) ||
-                textIsNull(registerEdAccount) ||
-                textIsNull(registerEdPassword) ||
-                textIsNull(registerEdConfirmPassword)
-            ) {
+            if (textIsNull(registerEdCustomerName) || textIsNull(registerEdPhoneNumber) || textIsNull(registerEdPassword) || textIsNull(registerEdConfirmPassword)) {
                 setBackgroundLayoutEditText()
             } else {
                 setBackgroundLayoutEditText()
                 if (phoneNumberIsValid(registerEdPhoneNumber.text!!.trim().toString())) {
-                    if (accountNameIsValid(registerEdAccount.text!!.trim().toString())) {
-
+                    if (passwordIsValid(registerEdPassword.text!!.trim().toString())) {
+                        if (registerEdPassword.text.toString().trim() == registerEdConfirmPassword.text.toString().trim()) {
+                            checkPhoneNumberIsExisted()
+                        } else {
+                            showDialog(requireContext(), "Mật khẩu xác nhận không chính xác")
+                        }
                     } else {
-                        showDialog(requireContext(),"Vui lòng đặt ")
+                        showDialog(requireContext(), "Vui lòng đặt mật khẩu dài hơn 5 kí tự ")
                     }
                 } else {
-                    showDialog(requireContext(), "Vui lòng nhập số điện thoại hợp lệ")
+                    showDialog(requireContext(), "Vui lòng đặt tên tài khoản dài hơn 4 kí tự ")
                 }
-                if (registerEdPassword.text.toString()
-                        .trim() == registerEdConfirmPassword.text.toString().trim()
-                ) {
-                    val customerInfoModel = CustomerInfoModel (
+
+            }
+        }
+    }
+
+    private fun checkPhoneNumberIsExisted() {
+        binding.apply {
+            getPasswordRegistered {
+                if (it.contains(binding.registerEdPhoneNumber.text!!.trim().toString())) {
+                    showDialog(requireContext(), "Số điện thoại này đã đăng kí. Vui lòng nhập số khác!")
+                } else {
+                    val customerInfoModel = CustomerInfoModel(
                         customerName = registerEdCustomerName.text.toString().trim(),
                         phoneNumber = registerEdPhoneNumber.text.toString().trim(),
-                        accountName = registerEdAccount.text.toString().trim(),
                         password = registerEdPassword.text.toString().trim()
                     )
-                    findNavController().navigate(SignUpFragmentDirections.actionSignUpFragmentToProvideInformationFragment(customerInfoModel))
-                } else {
-					showDialog(requireContext(), "Mật khẩu xác nhận không chính xác")
+                    findNavController().navigate(
+                        SignUpFragmentDirections.actionSignUpFragmentToProvideInformationFragment(customerInfoModel)
+                    )
                 }
             }
         }
     }
 
+    private fun getPasswordRegistered(callback: (List<String>) -> Unit) {
+        binding.progressBar.visibility = View.VISIBLE
+        val dataNodeReference = databaseReference.child("data")
+        dataNodeReference.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                val childNames = mutableListOf<String>()
+                for (childSnapshot in dataSnapshot.children) {
+                    // Retrieve the name of each child
+                    val childName = childSnapshot.key
+                    if (childName != null) {
+                        childNames.add(childName)
+                    }
+                }
+                callback(childNames)
+                binding.progressBar.visibility = View.GONE
+            }
 
-    private fun phoneNumberIsValid (phoneNumber : String) : Boolean {
+            override fun onCancelled(databaseError: DatabaseError) {
+                showDialog(requireContext(), "Lỗi hệ thống. Vui lòng thử lại sau!")
+                binding.progressBar.visibility = View.GONE
+            }
+        })
+    }
+
+
+    private fun phoneNumberIsValid(phoneNumber: String): Boolean {
         return phoneNumber.length > 6
     }
 
-    private fun accountNameIsValid (accountName : String) : Boolean {
-        return accountName.length > 5
+    private fun passwordIsValid(password: String): Boolean {
+        return password.length >= 6
     }
 
     // when input text field is empty
     private fun setBackgroundLayoutEditText() {
         val errorMsg = getString(R.string.login_error_msg_edittext_empty)
         binding.apply {
-            registerLayoutEdCustomerName.error =
-                if (textIsNull(registerEdCustomerName)) errorMsg else null
-            registerLayoutEdPhoneNumber.error =
-                if (textIsNull(registerEdPhoneNumber)) errorMsg else null
-            registerLayoutEdAccount.error = if (textIsNull(registerEdAccount)) errorMsg else null
+            registerLayoutEdCustomerName.error = if (textIsNull(registerEdCustomerName)) errorMsg else null
+            registerLayoutEdPhoneNumber.error = if (textIsNull(registerEdPhoneNumber)) errorMsg else null
             registerLayoutEdPassword.error = if (textIsNull(registerEdPassword)) errorMsg else null
-            registerLayoutEdConfirmPassword.error =
-                if (textIsNull(registerEdConfirmPassword)) errorMsg else null
+            registerLayoutEdConfirmPassword.error = if (textIsNull(registerEdConfirmPassword)) errorMsg else null
         }
     }
-
-
 
 
 }

@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:bind="http://schemas.android.com/apk/res-auto">
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
         <import type="android.view.View" />
@@ -58,7 +59,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textCapCharacters"
-                android:maxLength="40"
+                android:maxLength="30"
                 android:textColor="@color/black" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -86,36 +87,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="phone"
-                android:maxLength="20"
+                android:maxLength="13"
                 android:textColor="@color/black" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/register_layout_ed_account"
-            style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:hint="Tên tài khoản đăng nhập"
-            bind:helperText="Bắt buộc"
-            bind:helperTextTextColor="@color/login_red"
-            bind:endIconMode="clear_text"
-            android:layout_marginTop="20dp"
-            bind:boxStrokeWidthFocused="0.7dp"
-            bind:hintTextColor="@color/black"
-            bind:boxStrokeColor="@color/black"
-            bind:boxStrokeErrorColor="@color/login_red"
-            bind:layout_constraintEnd_toStartOf="@+id/reg_gl_vertical_2"
-            bind:layout_constraintStart_toStartOf="@id/reg_gl_vertical_1"
-            bind:layout_constraintTop_toBottomOf="@+id/register_layout_ed_phoneNumber">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/register_ed_account"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textEmailAddress"
-                android:maxLength="40"
-                android:textColor="@color/black" />
-        </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/register_layout_ed_password"
@@ -132,7 +107,7 @@
             bind:boxStrokeErrorColor="@color/login_red"
             bind:endIconMode="password_toggle"
             bind:counterMaxLength="20"
-            bind:layout_constraintTop_toBottomOf="@+id/register_layout_ed_account">
+            bind:layout_constraintTop_toBottomOf="@+id/register_layout_ed_phoneNumber">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/register_ed_password"
@@ -182,6 +157,16 @@
             bind:layout_constraintEnd_toEndOf="@id/reg_gl_vertical_2"
             bind:layout_constraintStart_toStartOf="@id/reg_gl_vertical_1"
             bind:layout_constraintBottom_toBottomOf="parent" />
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
 
         <androidx.constraintlayout.widget.Guideline
