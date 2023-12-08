@@ -8,7 +8,7 @@ object Constant {
     const val TABLE_RE_EXAM_EVENT = "ReExamEvent"
 
 	// key preference
-
+	const val PHONE_NUMBER = "phone number"
 
 
 

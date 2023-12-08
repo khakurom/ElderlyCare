@@ -15,6 +15,8 @@ import com.project.elderlyhealthcare.domain.models.CustomerInfoModel
 import com.project.elderlyhealthcare.presentation.fragment.base.BaseFragment
 import com.project.elderlyhealthcare.presentation.viewmodels.not_login.NotLoginViewModel
 import com.project.elderlyhealthcare.utils.SingleClickListener
+import com.project.elderlyhealthcare.utils.Utils
+import com.project.elderlyhealthcare.utils.Utils.getTextFromEdittext
 import com.project.elderlyhealthcare.utils.Utils.hideKeyboard
 import com.project.elderlyhealthcare.utils.Utils.showDialog
 import com.project.elderlyhealthcare.utils.Utils.textIsNull
@@ -65,7 +67,7 @@ class SignUpFragment : BaseFragment<NotLoginViewModel, FragmentSignUpBinding>(R.
                 if (phoneNumberIsValid(registerEdPhoneNumber.text!!.trim().toString())) {
                     if (passwordIsValid(registerEdPassword.text!!.trim().toString())) {
                         if (registerEdPassword.text.toString().trim() == registerEdConfirmPassword.text.toString().trim()) {
-                            checkPhoneNumberIsExisted()
+                            checkNetworkIsAvailable ()
                         } else {
                             showDialog(requireContext(), "Mật khẩu xác nhận không chính xác")
                         }
@@ -80,16 +82,24 @@ class SignUpFragment : BaseFragment<NotLoginViewModel, FragmentSignUpBinding>(R.
         }
     }
 
-    private fun checkPhoneNumberIsExisted() {
+    private fun checkNetworkIsAvailable () {
+        if (Utils.isNetworkAvailable(requireContext())) {
+            checkPhoneNumberIsRegistered()
+        } else {
+            showDialog(requireContext(),"Vui lòng kết nối internet")
+        }
+    }
+
+    private fun checkPhoneNumberIsRegistered() {
         binding.apply {
-            getPasswordRegistered {
-                if (it.contains(binding.registerEdPhoneNumber.text!!.trim().toString())) {
+            getPhoneNumberRegistered {
+                if (it.contains(getTextFromEdittext(registerEdPhoneNumber))) {
                     showDialog(requireContext(), "Số điện thoại này đã đăng kí. Vui lòng nhập số khác!")
                 } else {
                     val customerInfoModel = CustomerInfoModel(
-                        customerName = registerEdCustomerName.text.toString().trim(),
-                        phoneNumber = registerEdPhoneNumber.text.toString().trim(),
-                        password = registerEdPassword.text.toString().trim()
+                        customerName = getTextFromEdittext(registerEdCustomerName),
+                        phoneNumber = getTextFromEdittext(registerEdPhoneNumber),
+                        password = getTextFromEdittext(registerEdPassword)
                     )
                     findNavController().navigate(
                         SignUpFragmentDirections.actionSignUpFragmentToProvideInformationFragment(customerInfoModel)
@@ -99,7 +109,7 @@ class SignUpFragment : BaseFragment<NotLoginViewModel, FragmentSignUpBinding>(R.
         }
     }
 
-    private fun getPasswordRegistered(callback: (List<String>) -> Unit) {
+    private fun getPhoneNumberRegistered(callback: (List<String>) -> Unit) {
         binding.progressBar.visibility = View.VISIBLE
         val dataNodeReference = databaseReference.child("data")
         dataNodeReference.addListenerForSingleValueEvent(object : ValueEventListener {

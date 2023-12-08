@@ -3,6 +3,7 @@ package com.project.elderlyhealthcare.presentation.fragment.not_login
 import android.os.CountDownTimer
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -22,6 +23,7 @@ import com.project.elderlyhealthcare.databinding.FragmentVerifyPhoneNumberBindin
 import com.project.elderlyhealthcare.presentation.fragment.base.BaseFragment
 import com.project.elderlyhealthcare.presentation.viewmodels.not_login.NotLoginViewModel
 import com.project.elderlyhealthcare.utils.SingleClickListener
+import com.project.elderlyhealthcare.utils.Utils
 import com.project.elderlyhealthcare.utils.Utils.hideKeyboard
 import com.project.elderlyhealthcare.utils.Utils.showDialog
 import dagger.hilt.android.AndroidEntryPoint
@@ -54,7 +56,7 @@ class VerifyPhoneNumberFragment :
     override fun init() {
         super.init()
         setupOTPInputs()
-        startPhoneNumberVerification ()
+        checkNetworkIsAvailable ()
         createCountDownTimer()
         binding.apply {
             verifyFrCsBar.customAppBarIvBack.setOnClickListener(object : SingleClickListener() {
@@ -85,7 +87,15 @@ class VerifyPhoneNumberFragment :
             })
 
             verifyTvEnterCodeOtp.text =
-                getString(R.string.login_txt_enter_code_otp, navArgs.customerInfoModel.phoneNumber)
+                getString(R.string.login_txt_enter_code_otp, navArgs.customerInfoModel?.phoneNumber ?: navArgs.phoneNumber)
+        }
+    }
+
+    private fun checkNetworkIsAvailable () {
+        if (Utils.isNetworkAvailable(requireContext())) {
+            startPhoneNumberVerification()
+        } else {
+            showDialog(requireContext(),"Vui lòng kết nối internet")
         }
     }
 
@@ -273,7 +283,7 @@ class VerifyPhoneNumberFragment :
     private fun startPhoneNumberVerification() {
         auth = FirebaseAuth.getInstance()
         val options = PhoneAuthOptions.newBuilder(auth)
-            .setPhoneNumber("+84${navArgs.customerInfoModel.phoneNumber}") // Phone number to verify
+            .setPhoneNumber("+84${navArgs.customerInfoModel?.phoneNumber ?: navArgs.phoneNumber}") // Phone number to verify
             .setTimeout(60L, TimeUnit.SECONDS) // Timeout and unit
             .setActivity(requireActivity()) // Activity (for callback binding)
             .setCallbacks(callbacks) // OnVerificationStateChangedCallbacks
@@ -285,7 +295,7 @@ class VerifyPhoneNumberFragment :
         auth = FirebaseAuth.getInstance()
         if (resendToken != null) {
             val options = PhoneAuthOptions.newBuilder(auth)
-                .setPhoneNumber("+84${navArgs.customerInfoModel.phoneNumber}") // Phone number to verify
+                .setPhoneNumber("+84${navArgs.customerInfoModel?.phoneNumber ?: navArgs.phoneNumber}") // Phone number to verify
                 .setTimeout(60L, TimeUnit.SECONDS) // Timeout and unit
                 .setActivity(requireActivity()) // Activity (for callback binding)
                 .setCallbacks(callbacks) // OnVerificationStateChangedCallbacks
@@ -322,6 +332,7 @@ class VerifyPhoneNumberFragment :
                     "Lỗi hệ thống. Vui lòng thử lại!"
                 )
             }
+            Log.d("khatag", e.toString())
         }
 
         override fun onCodeSent(
@@ -347,7 +358,12 @@ class VerifyPhoneNumberFragment :
         auth.signInWithCredential(credential)
             .addOnCompleteListener(requireActivity()) { task ->
                 if (task.isSuccessful) {
-                    updateLoadCustomerInfo ()
+                    if (navArgs.customerInfoModel?.phoneNumber != null) {
+                        updateLoadCustomerInfo ()
+                    } else {
+                        findNavController().navigate(VerifyPhoneNumberFragmentDirections.actionVerifyPhoneNumberFragmentToUpdatePasswordFragment(navArgs.phoneNumber!!))
+                    }
+
                 } else {
                     showDialog(requireContext(), "Mã OTP đã hết hạn hoặc không chính xác. Vui lòng nhập lại!")
                     binding.progressBar.visibility = View.GONE
@@ -356,9 +372,9 @@ class VerifyPhoneNumberFragment :
     }
 
     private fun updateLoadCustomerInfo() {
-        val newDataKey = navArgs.customerInfoModel.phoneNumber
+        val newDataKey = navArgs.customerInfoModel!!.phoneNumber
         if (newDataKey != null) {
-            databaseReference.child("data").child(newDataKey).setValue(navArgs.customerInfoModel)
+            databaseReference.child("data").child(newDataKey).child(getString(R.string.key_customer_info)).setValue(navArgs.customerInfoModel)
                 .addOnSuccessListener {
                     findNavController().navigate(VerifyPhoneNumberFragmentDirections.actionVerifyPhoneNumberFragmentToCompleteFragment())
                     binding.progressBar.visibility = View.GONE

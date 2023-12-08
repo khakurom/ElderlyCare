@@ -16,7 +16,6 @@ import android.widget.ToggleButton
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import com.google.android.material.textfield.TextInputEditText
-import com.google.android.material.textfield.TextInputLayout
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
@@ -231,6 +230,24 @@ object Utils {
 
     fun getTextFromEdittext (ed : EditText) : String {
         return ed.text.toString().trim()
+    }
+
+    // calculate age from birthday
+    fun calculateAge (birthdate: String): Int {
+        // Define the date format
+        val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+
+        // Parse the birthdate string to a Date object
+        val birthDate: Date = dateFormat.parse(birthdate) ?: return -1
+
+        // Get the current date
+        val currentDate: Date = Calendar.getInstance().time
+
+        // Calculate the age
+        val ageInMillis: Long = currentDate.time - birthDate.time
+        val ageCalendar = Calendar.getInstance().apply { timeInMillis = ageInMillis }
+
+        return ageCalendar.get(Calendar.YEAR) - 1970
     }
 
 

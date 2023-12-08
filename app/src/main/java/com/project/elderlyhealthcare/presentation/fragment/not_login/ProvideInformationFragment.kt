@@ -97,7 +97,7 @@ class ProvideInformationFragment :
                         address = getTextFromEdittext(provideInfoEdAddress)
                         prefecture = provideInfoEdPrefecture.text.toString().trim()
                     }
-                    findNavController().navigate(ProvideInformationFragmentDirections.actionProvideInformationFragmentToVerifyPhoneNumberFragment(navArgs.customerInfoModel))
+                    findNavController().navigate(ProvideInformationFragmentDirections.actionProvideInformationFragmentToVerifyPhoneNumberFragment(navArgs.customerInfoModel, null))
                 } else {
                     showDialog(requireContext(), "Vui lòng chọn giới tính")
                 }

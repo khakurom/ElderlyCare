@@ -15,6 +15,8 @@ import com.project.elderlyhealthcare.databinding.FragmentLoginBinding
 import com.project.elderlyhealthcare.presentation.activity.MainActivity
 import com.project.elderlyhealthcare.presentation.fragment.base.BaseFragment
 import com.project.elderlyhealthcare.presentation.viewmodels.not_login.NotLoginViewModel
+import com.project.elderlyhealthcare.utils.Constant.PHONE_NUMBER
+import com.project.elderlyhealthcare.utils.DelegatedPreferences
 import com.project.elderlyhealthcare.utils.SingleClickListener
 import com.project.elderlyhealthcare.utils.Utils.getTextFromEdittext
 import com.project.elderlyhealthcare.utils.Utils.hideKeyboard
@@ -59,17 +61,17 @@ class LoginFragment : BaseFragment<NotLoginViewModel, FragmentLoginBinding>(R.la
 
             loginBtLogin.setOnClickListener(object : SingleClickListener() {
                 override fun onSingleClick(v: View) {
-                    checkNetworkIsAvailable ()
+                    checkNetworkIsAvailable()
                 }
             })
         }
     }
 
-    private fun checkNetworkIsAvailable () {
+    private fun checkNetworkIsAvailable() {
         if (isNetworkAvailable(requireContext())) {
             validateAccount()
         } else {
-            showDialog(requireContext(),"Vui lòng kết nối internet")
+            showDialog(requireContext(), "Vui lòng kết nối internet")
         }
     }
 
@@ -81,6 +83,7 @@ class LoginFragment : BaseFragment<NotLoginViewModel, FragmentLoginBinding>(R.la
             } else {
                 getPassword {
                     if (loginEdPassword.text?.trim().toString() == it) {
+                        DelegatedPreferences(requireContext(), PHONE_NUMBER, "").setValue(getTextFromEdittext(loginEdPhoneNumber))
                         startActivity(Intent(requireActivity(), MainActivity::class.java))
                         activity?.finish()
                     } else {
@@ -93,8 +96,9 @@ class LoginFragment : BaseFragment<NotLoginViewModel, FragmentLoginBinding>(R.la
 
 
     private fun getPassword(callback: (String?) -> Unit) {
-       binding.progressBar.visibility = View.VISIBLE
-        val dataNodeReference = databaseReference.child("data").child(getTextFromEdittext(binding.loginEdPhoneNumber))
+        binding.progressBar.visibility = View.VISIBLE
+        val dataNodeReference =
+            databaseReference.child("data").child(getTextFromEdittext(binding.loginEdPhoneNumber)).child(getString(R.string.key_customer_info))
         dataNodeReference.orderByKey().equalTo("password")
             .addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -114,7 +118,6 @@ class LoginFragment : BaseFragment<NotLoginViewModel, FragmentLoginBinding>(R.la
                 }
             })
     }
-
 
 
 }

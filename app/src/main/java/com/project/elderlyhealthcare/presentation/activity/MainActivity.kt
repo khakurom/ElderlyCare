@@ -2,16 +2,18 @@ package com.project.elderlyhealthcare.presentation.activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.project.elderlyhealthcare.R
 import com.project.elderlyhealthcare.databinding.ActivityMainBinding
+import com.project.elderlyhealthcare.utils.OnFragmentInteractionListener
 import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), OnFragmentInteractionListener {
 	private lateinit var binding: ActivityMainBinding
 	private lateinit var navController: NavController
 
@@ -25,5 +27,9 @@ class MainActivity : AppCompatActivity() {
 		) as NavHostFragment
 		navController = navHostFragment.navController
 		binding.bottomNav.setupWithNavController(navController)
+	}
+
+	override fun updateBottomNavVisible(hide: Boolean) {
+		binding.bottomNav.visibility = if (hide) View.GONE else View.VISIBLE
 	}
 }

@@ -44,6 +44,11 @@
 
     // item
     <string name="item_medicine_dose">%s liều/ngày</string>
+
+    // child key firebase
+    <string name="key_customer_info">CustomerInfo</string>
+    <string name="key_health_param">HealthParam</string>
+
     // list tỉnh thành
     <string-array name="list_prefecture">
         <item>Hồ Chí Minh</item>

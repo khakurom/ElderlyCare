@@ -6,9 +6,9 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class CustomerInfoModel(
-    val customerName: String?,
-    val phoneNumber: String?,
-    val password: String?,
+    val customerName: String? = null,
+    val phoneNumber: String? = null,
+    val password: String? = null,
     var elderName: String? = null,
     var elderDob: String? = null,
     var elderGender: String? = null,
