@@ -16,6 +16,7 @@ import com.project.elderlyhealthcare.utils.Constant
 import com.project.elderlyhealthcare.utils.SingleClickListener
 import com.project.elderlyhealthcare.utils.Utils
 import com.project.elderlyhealthcare.utils.Utils.getCurrentTime
+import com.project.elderlyhealthcare.utils.Utils.hideKeyboard
 import com.project.elderlyhealthcare.utils.Utils.settingDayPicker
 import java.util.Calendar
 
@@ -69,6 +70,12 @@ class UpdateExerciseEventFragment :
             layoutDatePicker.setOnClickListener(object : SingleClickListener() {
                 override fun onSingleClick(v: View) {
                     selectDate()
+                }
+            })
+
+            layoutUpdateExerciseEvent.setOnClickListener(object : SingleClickListener() {
+                override fun onSingleClick(v: View) {
+                    v.hideKeyboard()
                 }
             })
 
