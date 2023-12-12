@@ -52,6 +52,13 @@ class ExerciseAdapter :
         holder.binding.itemExerciseIvClear.setOnClickListener {
             onItemRemoveListener?.onItemRemove(getItem(holder.absoluteAdapterPosition), holder.absoluteAdapterPosition)
         }
+        holder.binding.itemExerciseSwitch.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+                onItemTurnOnListener?.onItemTurnOn(getItem(holder.absoluteAdapterPosition), holder.absoluteAdapterPosition)
+            } else {
+                onItemTurnOnListener?.onItemTurnOff(getItem(holder.absoluteAdapterPosition), holder.absoluteAdapterPosition)
+            }
+        }
     }
 }
 

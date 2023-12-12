@@ -59,8 +59,8 @@ class UserManager(private val context: Context) {
     }
 
     companion object {
-        const val AUTH_TOKEN_TYPE = "com.aris.SimpleBaseApp"
-        const val ACCOUNT_TYPE = "com-aris-SimpleBaseApp"
+        const val AUTH_TOKEN_TYPE = "com.project.elderlyhealthcare"
+        const val ACCOUNT_TYPE = "com-project-elderlyhealthcare"
         const val ID = "id"
         const val TOKEN = "token"
 

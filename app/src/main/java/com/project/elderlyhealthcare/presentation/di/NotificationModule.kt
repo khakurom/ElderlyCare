@@ -7,6 +7,7 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import com.project.elderlyhealthcare.R
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -24,11 +25,13 @@ object NotificationModule {
 	fun provideNotificationBuilder(@ApplicationContext context: Context): NotificationCompat.Builder {
 		return NotificationCompat.Builder(context, "Main Channel")
 			.setContentTitle("Welcome")
+			.setSmallIcon(R.drawable.ic_notification)
 			.setContentText("This is notification")
+			.setAutoCancel(true)
+			.setDefaults(NotificationCompat.DEFAULT_ALL)
 			.setPriority(NotificationCompat.PRIORITY_DEFAULT)
 	}
 
-	@RequiresApi(Build.VERSION_CODES.O)
 	@Singleton
 	@Provides
 	fun provideNotificationManager(@ApplicationContext context: Context): NotificationManagerCompat {

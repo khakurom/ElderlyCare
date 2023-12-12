@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="SplashscreenTheme" parent="Theme.ElderlyHealthcare">
+        <item name="android:windowBackground">@drawable/bg_splashscreen</item>
+        <item name="android:windowSplashScreenAnimatedIcon">@android:color/transparent</item>
+    </style>
+
+
+
+</resources>

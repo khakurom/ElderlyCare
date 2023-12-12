@@ -22,6 +22,7 @@ import com.project.elderlyhealthcare.utils.Utils.getTextFromEdittext
 import com.project.elderlyhealthcare.utils.Utils.hideKeyboard
 import com.project.elderlyhealthcare.utils.Utils.isNetworkAvailable
 import com.project.elderlyhealthcare.utils.Utils.showDialog
+import com.project.elderlyhealthcare.utils.authenticate.UserManager
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -83,6 +84,7 @@ class LoginFragment : BaseFragment<NotLoginViewModel, FragmentLoginBinding>(R.la
             } else {
                 getPassword {
                     if (loginEdPassword.text?.trim().toString() == it) {
+                        UserManager.getInstance(requireContext()).addAccount("1", "")
                         DelegatedPreferences(requireContext(), PHONE_NUMBER, "").setValue(getTextFromEdittext(loginEdPhoneNumber))
                         startActivity(Intent(requireActivity(), MainActivity::class.java))
                         activity?.finish()

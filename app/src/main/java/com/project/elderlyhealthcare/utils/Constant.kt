@@ -1,5 +1,9 @@
 package com.project.elderlyhealthcare.utils
 
+import android.Manifest
+import android.os.Build
+import androidx.annotation.RequiresApi
+
 object Constant {
 
 
@@ -10,6 +14,13 @@ object Constant {
 	// key preference
 	const val PHONE_NUMBER = "phone number"
 
+	// permission
+	@RequiresApi(Build.VERSION_CODES.TIRAMISU)
+	const val NOTIFICATION_PERMISSION = Manifest.permission.POST_NOTIFICATIONS
+
+
+	// key intent
+	const val KEY_EXERCISE_EVENT = "item exercise event"
 
 
     val listPrefecture = listOf(

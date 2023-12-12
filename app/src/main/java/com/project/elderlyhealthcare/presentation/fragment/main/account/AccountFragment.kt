@@ -13,6 +13,7 @@ import com.project.elderlyhealthcare.presentation.activity.NotLoginActivity
 import com.project.elderlyhealthcare.presentation.fragment.base.BaseFragment
 import com.project.elderlyhealthcare.presentation.viewmodels.main.AccountViewModel
 import com.project.elderlyhealthcare.utils.SingleClickListener
+import com.project.elderlyhealthcare.utils.authenticate.UserManager
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -56,6 +57,7 @@ class AccountFragment : BaseFragment<AccountViewModel, FragmentAccountBinding>(R
                 dialog.dismiss()
             }
             setPositiveButton("OK") { dialog: DialogInterface, _: Int ->
+                UserManager.getInstance(requireContext()).removeAccount()
                 startActivity(Intent(requireContext(), NotLoginActivity::class.java))
                 activity?.finish()
                 dialog.dismiss()

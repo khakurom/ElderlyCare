@@ -129,7 +129,7 @@
                     app:layout_constraintGuide_percent="0.95" />
 
                 <androidx.appcompat.widget.SwitchCompat
-                    android:id="@+id/switch1"
+                    android:id="@+id/item_exercise_switch"
                     android:backgroundTint="@color/login_blue"
                     android:layout_width="wrap_content"
                     android:layout_height="20dp"
