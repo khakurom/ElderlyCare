@@ -7,22 +7,26 @@ import com.project.elderlyhealthcare.domain.models.ExerciseEventModel
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-class ExerciseUseCase @Inject constructor(private val exerciseRepositoryImpl: ExerciseRepositoryImpl){
+class ExerciseUseCase @Inject constructor(private val exerciseRepositoryImpl: ExerciseRepositoryImpl) {
 
-    fun insertExerciseEvent (exerciseEvent : ExerciseEventEntity) {
+    fun insertExerciseEvent(exerciseEvent: ExerciseEventEntity) {
         exerciseRepositoryImpl.getInsertExerciseEvent(exerciseEvent)
     }
 
-    fun getAllExerciseEvent () : Flow<List<ExerciseEventModel>> {
+    fun getAllExerciseEvent(): Flow<List<ExerciseEventModel>> {
         return exerciseRepositoryImpl.getAllExerciseEvent()
     }
 
-    fun deleteExerciseEvent (id : Int) {
+    fun deleteExerciseEvent(id: Int) {
         exerciseRepositoryImpl.deleteExerciseEvent(id)
     }
 
-    fun updateExerciseEvent (exerciseEvent: ExerciseEventEntity) {
+    fun updateExerciseEvent(exerciseEvent: ExerciseEventEntity) {
         exerciseRepositoryImpl.updateExerciseEvent(exerciseEvent)
+    }
+
+    fun updateExerciseEventOnOff(id: Int, isOn: Boolean) {
+        exerciseRepositoryImpl.updateExerciseEventOnOff(id, isOn)
     }
 
 

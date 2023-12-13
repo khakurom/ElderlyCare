@@ -44,7 +44,7 @@ class AlarmReceiver : BroadcastReceiver() {
 
     private fun setNotification(pendingIntent: PendingIntent, item : ExerciseEventModel?): Notification {
         notificationBuilder.apply {
-            setContentTitle(item?.exerciseName)
+//            setContentTitle(item?.exerciseName)
             setContentIntent(pendingIntent)
         }
         return notificationBuilder.build()

@@ -13,7 +13,8 @@ class ExerciseMapper: Mapper<List<ExerciseEventEntity>, List<ExerciseEventModel>
                 dayRepeat = entity.dayRepeat,
                 dayBegin = entity.dayBegin,
                 exerciseName = entity.exerciseName,
-                description = entity.description)
+                description = entity.description,
+                isOn = entity.isOn)
         }
     }
 
@@ -26,7 +27,8 @@ class ExerciseMapper: Mapper<List<ExerciseEventEntity>, List<ExerciseEventModel>
                 dayRepeat = model.dayRepeat,
                 dayBegin = model.dayBegin,
                 exerciseName = model.exerciseName,
-                description = model.description)
+                description = model.description,
+                isOn = model.isOn)
         }
     }
 }

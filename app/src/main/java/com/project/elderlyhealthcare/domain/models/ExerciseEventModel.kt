@@ -12,6 +12,7 @@ data class ExerciseEventModel(
     val dayRepeat : List <String?> ,
     val dayBegin : String? = null,
     val exerciseName : String? = null,
-    val description : String? = null
+    val description : String? = null,
+    val isOn : Boolean? = null
 
 ) : Parcelable

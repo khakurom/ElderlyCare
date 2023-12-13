@@ -1,9 +1,14 @@
 package com.project.elderlyhealthcare.presentation.di
 
+import android.annotation.SuppressLint
+import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
+import android.content.res.Resources
+import android.graphics.BitmapFactory
 import android.os.Build
+import android.widget.RemoteViews
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
@@ -20,16 +25,18 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object NotificationModule {
 
+	@SuppressLint("RemoteViewLayout")
 	@Singleton
 	@Provides
 	fun provideNotificationBuilder(@ApplicationContext context: Context): NotificationCompat.Builder {
+		val notificationLayout = RemoteViews(context.packageName, R.layout.small_notification)
 		return NotificationCompat.Builder(context, "Main Channel")
-			.setContentTitle("Welcome")
-			.setSmallIcon(R.drawable.ic_notification)
-			.setContentText("This is notification")
+			.setSmallIcon(R.drawable.background_login)
+			.setCustomContentView(notificationLayout)
+			.setStyle(NotificationCompat.DecoratedCustomViewStyle())
 			.setAutoCancel(true)
 			.setDefaults(NotificationCompat.DEFAULT_ALL)
-			.setPriority(NotificationCompat.PRIORITY_DEFAULT)
+			.setPriority(NotificationCompat.PRIORITY_HIGH)
 	}
 
 	@Singleton
@@ -39,8 +46,12 @@ object NotificationModule {
 		val channel = NotificationChannel(
 			"Main Channel",
 			"Channel 1",
-			NotificationManager.IMPORTANCE_DEFAULT
+			NotificationManager.IMPORTANCE_HIGH
 		)
+		with(channel) {
+			enableVibration(true)
+			lockscreenVisibility = Notification.VISIBILITY_PUBLIC
+		}
 		notificationManager.createNotificationChannel(channel)
 
 		return notificationManager

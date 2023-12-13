@@ -22,4 +22,8 @@ class ExerciseLocalDataSource @Inject constructor(private val appDatabase: AppDa
     fun updateExerciseEvent (exerciseEntity: ExerciseEventEntity) {
         return appDatabase.exerciseDao().updateExerciseEvent(exerciseEntity)
     }
+
+    fun updateExerciseEventOnOff (id : Int , isOn : Boolean) {
+        return appDatabase.exerciseDao().updateExerciseEventOnOff(id, isOn)
+    }
 }

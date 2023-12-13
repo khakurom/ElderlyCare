@@ -65,9 +65,13 @@ object Utils {
     }
 
     // format time text
-    fun formatTime(editText: NumberPicker): String {
-        val time = editText.value.toString()
+    fun formatTimeNumberPicker(value: NumberPicker): String {
+        val time = value.value.toString()
         return if (time.length == 1) "0$time" else time
+    }
+
+    fun formatTimeString (value: String): String {
+        return if (value.length == 1) "0$value" else value
     }
 
 

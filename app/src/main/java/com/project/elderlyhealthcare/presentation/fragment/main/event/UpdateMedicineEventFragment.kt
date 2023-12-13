@@ -233,16 +233,16 @@ class UpdateMedicineEventFragment :
                 } else {
                     if (Utils.compareToCurrentTime(
                             updateMedicineTvBeginDate.text.trim().toString(),
-                            Utils.formatTime(pickerHour),
-                            Utils.formatTime(pickerMinute)
+                            Utils.formatTimeNumberPicker(pickerHour),
+                            Utils.formatTimeNumberPicker(pickerMinute)
                         )
                     ) {
                         Utils.showDialog(requireContext(), "Không thể đặt giờ trong quá khứ")
                     } else {
                         val medicineEvent = MedicineEventEntity(
                             id = navArgs.medicineEventModel.id,
-                            hour = Utils.formatTime(pickerHour),
-                            minutes = Utils.formatTime(pickerMinute),
+                            hour = Utils.formatTimeNumberPicker(pickerHour),
+                            minutes = Utils.formatTimeNumberPicker(pickerMinute),
                             dayRepeat = dayRepeatList,
                             dayBegin = updateMedicineTvBeginDate.text.trim().toString(),
                             dayEnd = updateMedicineTvEndDate.text.trim().toString(),

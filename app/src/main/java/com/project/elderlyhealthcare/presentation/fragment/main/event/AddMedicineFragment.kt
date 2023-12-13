@@ -22,7 +22,7 @@ import com.project.elderlyhealthcare.utils.Constant
 import com.project.elderlyhealthcare.utils.CustomBottomSheet
 import com.project.elderlyhealthcare.utils.SingleClickListener
 import com.project.elderlyhealthcare.utils.Utils.compareToCurrentTime
-import com.project.elderlyhealthcare.utils.Utils.formatTime
+import com.project.elderlyhealthcare.utils.Utils.formatTimeNumberPicker
 import com.project.elderlyhealthcare.utils.Utils.getDayMonthYearFromCurrentDate
 import com.project.elderlyhealthcare.utils.Utils.showDialog
 import dagger.hilt.android.AndroidEntryPoint
@@ -110,15 +110,15 @@ class AddMedicineFragment :
                 } else {
                     if (compareToCurrentTime(
                             addMedicineTvBeginDate.text.trim().toString(),
-                            formatTime(pickerHour),
-                            formatTime(pickerMinute)
+                            formatTimeNumberPicker(pickerHour),
+                            formatTimeNumberPicker(pickerMinute)
                         )
                     ) {
                         showDialog(requireContext(), "Không thể đặt giờ trong quá khứ")
                     } else {
                         val medicineEvent = MedicineEventEntity(
-                            hour = formatTime(pickerHour),
-                            minutes = formatTime(pickerMinute),
+                            hour = formatTimeNumberPicker(pickerHour),
+                            minutes = formatTimeNumberPicker(pickerMinute),
                             dayRepeat = dayRepeatList,
                             dayBegin = addMedicineTvBeginDate.text.trim().toString(),
                             dayEnd = addMedicineTvEndDate.text.trim().toString(),

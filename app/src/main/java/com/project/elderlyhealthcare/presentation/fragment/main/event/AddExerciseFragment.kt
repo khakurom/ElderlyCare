@@ -1,7 +1,6 @@
 package com.project.elderlyhealthcare.presentation.fragment.main.event
 
 import android.app.DatePickerDialog
-import android.content.res.ColorStateList
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
@@ -16,7 +15,7 @@ import com.project.elderlyhealthcare.utils.Constant.listMinutes
 import com.project.elderlyhealthcare.utils.SingleClickListener
 import com.project.elderlyhealthcare.utils.Utils
 import com.project.elderlyhealthcare.utils.Utils.compareToCurrentTime
-import com.project.elderlyhealthcare.utils.Utils.formatTime
+import com.project.elderlyhealthcare.utils.Utils.formatTimeNumberPicker
 import com.project.elderlyhealthcare.utils.Utils.getCurrentTime
 import com.project.elderlyhealthcare.utils.Utils.hideKeyboard
 import com.project.elderlyhealthcare.utils.Utils.showDialog
@@ -163,19 +162,20 @@ class AddExerciseFragment :
             } else {
                 if (compareToCurrentTime(
                         addExTvDate.text.trim().toString(),
-                        formatTime(pickerHour),
-                        formatTime(pickerMinute)
+                        formatTimeNumberPicker(pickerHour),
+                        formatTimeNumberPicker(pickerMinute)
                     )
                 ) {
                     showDialog(requireContext(), "Không thể đặt giờ trong quá khứ")
                 } else {
                     val exerciseEvent = ExerciseEventEntity(
-                        hour = formatTime(pickerHour),
-                        minutes = formatTime(pickerMinute),
+                        hour = formatTimeNumberPicker(pickerHour),
+                        minutes = formatTimeNumberPicker(pickerMinute),
                         dayRepeat = dayRepeatList.distinct(),
                         dayBegin = addExTvDate.text.trim().toString(),
                         exerciseName = addExEdtExerciseName.text?.trim().toString(),
-                        description = addExEdtDescription.text?.trim().toString()
+                        description = addExEdtDescription.text?.trim().toString(),
+                        isOn = true
                     )
                     viewModel?.insertExerciseEvent(exerciseEvent)
                     backToPreScreen()

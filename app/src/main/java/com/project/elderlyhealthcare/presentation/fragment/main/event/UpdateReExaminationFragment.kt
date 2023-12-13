@@ -1,7 +1,6 @@
 package com.project.elderlyhealthcare.presentation.fragment.main.event
 
 import android.app.DatePickerDialog
-import android.util.Log
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
@@ -117,8 +116,8 @@ class UpdateReExaminationFragment :
                 } else {
                     val reExEvent = ReExaminationEventEntity(
                         id = navArgs.reExEventModel.id,
-                        hour = Utils.formatTime(pickerHour),
-                        minutes = Utils.formatTime(pickerMinute),
+                        hour = Utils.formatTimeNumberPicker(pickerHour),
+                        minutes = Utils.formatTimeNumberPicker(pickerMinute),
                         dayBegin = updateReExTvDate.text.trim().toString(),
                         diseaseName = updateReExEdDiseaseName.text?.trim().toString(),
                         address = updateReExEdAddress.text?.trim().toString()

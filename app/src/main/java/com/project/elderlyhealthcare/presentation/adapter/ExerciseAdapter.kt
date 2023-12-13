@@ -13,13 +13,13 @@ class ExerciseAdapter :
         BaseViewHolder<ExerciseEventModel, ItemExerciseEventBinding>(binding) {
         override fun bind(item: ExerciseEventModel) {
             binding.exerciseModel = item
-            binding.dayRepeat = formatDayRepeatList (item)
+            binding.dayRepeat = formatDayRepeatList(item)
         }
 
-        private fun formatDayRepeatList (item : ExerciseEventModel) : String {
+        private fun formatDayRepeatList(item: ExerciseEventModel): String {
             var dayRepeat = ""
             if (item.dayRepeat.isNotEmpty()) {
-                val eventList = sortDayList (item.dayRepeat)
+                val eventList = sortDayList(item.dayRepeat)
                 for ((index, i) in eventList.withIndex()) {
                     dayRepeat += i
                     if (index < eventList.size - 1) {
@@ -36,7 +36,7 @@ class ExerciseAdapter :
         parent: ViewGroup,
         viewType: Int
     ): ItemExerciseEventBinding {
-        return ItemExerciseEventBinding.inflate(inflater,parent,false)
+        return ItemExerciseEventBinding.inflate(inflater, parent, false)
     }
 
 
@@ -54,7 +54,8 @@ class ExerciseAdapter :
         }
         holder.binding.itemExerciseSwitch.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
-                onItemTurnOnListener?.onItemTurnOn(getItem(holder.absoluteAdapterPosition), holder.absoluteAdapterPosition)
+                holder.binding.itemExerciseSwitch.isChecked =
+                    onItemTurnOnListener?.onItemTurnOn(getItem(holder.absoluteAdapterPosition), holder.absoluteAdapterPosition) == true
             } else {
                 onItemTurnOnListener?.onItemTurnOff(getItem(holder.absoluteAdapterPosition), holder.absoluteAdapterPosition)
             }

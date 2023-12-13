@@ -33,4 +33,8 @@ class ExerciseRepositoryImpl @Inject constructor(
         localExercise.updateExerciseEvent(exerciseEventEntity)
     }
 
+    override fun updateExerciseEventOnOff(id: Int, isOn: Boolean) {
+        localExercise.updateExerciseEventOnOff(id, isOn)
+    }
+
 }

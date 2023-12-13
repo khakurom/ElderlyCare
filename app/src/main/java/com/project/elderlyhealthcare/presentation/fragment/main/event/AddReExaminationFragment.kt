@@ -6,7 +6,6 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import com.project.elderlyhealthcare.BR
 import com.project.elderlyhealthcare.R
-import com.project.elderlyhealthcare.data.models.ExerciseEventEntity
 import com.project.elderlyhealthcare.data.models.ReExaminationEventEntity
 import com.project.elderlyhealthcare.databinding.FragmentAddReExaminationBinding
 import com.project.elderlyhealthcare.presentation.fragment.base.BaseFragment
@@ -14,7 +13,6 @@ import com.project.elderlyhealthcare.presentation.viewmodels.main.EventViewModel
 import com.project.elderlyhealthcare.utils.Constant
 import com.project.elderlyhealthcare.utils.SingleClickListener
 import com.project.elderlyhealthcare.utils.Utils
-import com.project.elderlyhealthcare.utils.Utils.getCurrentTime
 import com.project.elderlyhealthcare.utils.Utils.hideKeyboard
 import com.project.elderlyhealthcare.utils.Utils.showDialog
 import dagger.hilt.android.AndroidEntryPoint
@@ -111,8 +109,8 @@ class AddReExaminationFragment :
                     showDialog(requireContext(), "Vui lòng đặt tên bệnh cần tái khám")
                 } else {
                     val reExEvent = ReExaminationEventEntity(
-                        hour = Utils.formatTime(pickerHour),
-                        minutes = Utils.formatTime(pickerMinute),
+                        hour = Utils.formatTimeNumberPicker(pickerHour),
+                        minutes = Utils.formatTimeNumberPicker(pickerMinute),
                         dayBegin = addReExTvDate.text.trim().toString(),
                         diseaseName = addReExEdDiseaseName.text?.trim().toString(),
                         address = addReExEdAddress.text?.trim().toString()

@@ -4,7 +4,6 @@ import android.app.DatePickerDialog
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import com.project.elderlyhealthcare.BR
 import com.project.elderlyhealthcare.R
@@ -96,20 +95,21 @@ class UpdateExerciseEventFragment :
             } else {
                 if (Utils.compareToCurrentTime(
                         updateExTvDate.text.trim().toString(),
-                        Utils.formatTime(pickerHour),
-                        Utils.formatTime(pickerMinute)
+                        Utils.formatTimeNumberPicker(pickerHour),
+                        Utils.formatTimeNumberPicker(pickerMinute)
                     )
                 ) {
                     Utils.showDialog(requireContext(), "Không thể đặt giờ trong quá khứ")
                 } else {
                     val exerciseEvent = ExerciseEventEntity(
                         id = navArgs.exerciseEventModel.id,
-                        hour = Utils.formatTime(pickerHour),
-                        minutes = Utils.formatTime(pickerMinute),
+                        hour = Utils.formatTimeNumberPicker(pickerHour),
+                        minutes = Utils.formatTimeNumberPicker(pickerMinute),
                         dayRepeat = dayRepeatList.distinct(),
                         dayBegin = updateExTvDate.text.trim().toString(),
                         exerciseName = updateExEdtExerciseName.text?.trim().toString(),
-                        description = updateExEdtDescription.text?.trim().toString()
+                        description = updateExEdtDescription.text?.trim().toString(),
+                        isOn = true
                     )
                     viewModel?.updateExerciseEvent(exerciseEvent)
                     backToPreScreen()

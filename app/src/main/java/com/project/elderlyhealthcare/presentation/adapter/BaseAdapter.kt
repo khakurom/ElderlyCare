@@ -16,7 +16,7 @@ interface OnItemRemoveListener<T> {
 }
 
 interface OnItemTurnOnListener<T> {
-    fun onItemTurnOn(item: T, position: Int)
+    fun onItemTurnOn(item: T, position: Int) : Boolean
     fun onItemTurnOff(item: T, position: Int)
 
 

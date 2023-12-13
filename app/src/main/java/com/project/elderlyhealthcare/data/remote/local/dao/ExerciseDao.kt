@@ -23,4 +23,7 @@ interface ExerciseDao {
     @Update
     fun updateExerciseEvent (exerciseEventEntity: ExerciseEventEntity)
 
+    @Query("UPDATE $TABLE_EXERCISE_EVENT SET isOn = :isOn WHERE id = :id")
+    fun updateExerciseEventOnOff (id : Int, isOn : Boolean)
+
 }

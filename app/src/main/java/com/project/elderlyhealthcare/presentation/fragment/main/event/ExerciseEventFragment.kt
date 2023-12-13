@@ -1,15 +1,12 @@
 package com.project.elderlyhealthcare.presentation.fragment.main.event
 
+import android.annotation.SuppressLint
 import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context.ALARM_SERVICE
 import android.content.Intent
-import android.os.Build
-import android.util.Log
 import android.view.View
-import android.widget.Toast
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.project.elderlyhealthcare.BR
 import com.project.elderlyhealthcare.R
@@ -24,9 +21,12 @@ import com.project.elderlyhealthcare.presentation.viewmodels.main.EventViewModel
 import com.project.elderlyhealthcare.utils.AlarmReceiver
 import com.project.elderlyhealthcare.utils.Constant
 import com.project.elderlyhealthcare.utils.SingleClickListener
+import com.project.elderlyhealthcare.utils.Utils
+import com.project.elderlyhealthcare.utils.Utils.showDialog
 import dagger.hilt.android.AndroidEntryPoint
+import java.text.SimpleDateFormat
 import java.util.Calendar
-import java.util.TimeZone
+import java.util.Locale
 
 @AndroidEntryPoint
 class ExerciseEventFragment :
@@ -45,11 +45,7 @@ class ExerciseEventFragment :
             ExerciseAdapter().apply {
                 onItemSelectListener = object : OnItemSelectListener<ExerciseEventModel> {
                     override fun onItemSelected(item: ExerciseEventModel, position: Int) {
-                        findNavController().navigate(
-                            ExerciseEventFragmentDirections.actionExerciseEventFragmentToUpdateExerciseEventFragment(
-                                item
-                            )
-                        )
+                        findNavController().navigate(ExerciseEventFragmentDirections.actionExerciseEventFragmentToUpdateExerciseEventFragment(item))
                     }
                 }
                 onItemRemoveListener = object : OnItemRemoveListener<ExerciseEventModel> {
@@ -59,12 +55,27 @@ class ExerciseEventFragment :
                 }
 
                 onItemTurnOnListener = object : OnItemTurnOnListener<ExerciseEventModel> {
-                    override fun onItemTurnOn(item: ExerciseEventModel, position: Int) {
-                        createAlarm(item)
+                    override fun onItemTurnOn(item: ExerciseEventModel, position: Int): Boolean {
+                        return if (Utils.compareToCurrentTime(
+                                item.dayBegin!!,
+                                Utils.formatTimeString(item.hour!!),
+                                Utils.formatTimeString(item.minutes!!)
+                            )
+                        ) {
+                            viewModel?.updateExerciseEventOnOff(item.id, false)
+                            showDialog(requireContext(), "Không thể đặt giờ trong quá khứ. Vui lòng cập nhật lại")
+                            false
+                        } else {
+                            viewModel?.updateExerciseEventOnOff(item.id, true)
+                            createAlarm(item)
+                            true
+                        }
+
                     }
 
                     override fun onItemTurnOff(item: ExerciseEventModel, position: Int) {
-                        cancelAlarm()
+                        viewModel?.updateExerciseEventOnOff(item.id, false)
+                        cancelAlarm(item)
                     }
                 }
             }
@@ -93,8 +104,13 @@ class ExerciseEventFragment :
         getExerciseEvent()
     }
 
+    @SuppressLint("ScheduleExactAlarm")
     private fun createAlarm(item: ExerciseEventModel) {
+        val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+        val date = dateFormat.parse(item.dayBegin!!)
         val calendar = Calendar.getInstance()
+
+        calendar.time = date!!
         calendar.set(Calendar.HOUR_OF_DAY, item.hour!!.toInt())
         calendar.set(Calendar.MINUTE, item.minutes!!.toInt())
         calendar.set(Calendar.MILLISECOND, 0)
@@ -103,7 +119,7 @@ class ExerciseEventFragment :
         val alarmManager = activity?.getSystemService(ALARM_SERVICE) as AlarmManager
         val intent = Intent(requireContext(), AlarmReceiver::class.java)
         intent.putExtra(Constant.KEY_EXERCISE_EVENT, item)
-        val pendingIntent = PendingIntent.getBroadcast(requireContext(), 0, intent, PendingIntent.FLAG_IMMUTABLE)
+        val pendingIntent = PendingIntent.getBroadcast(requireContext(), item.id, intent, PendingIntent.FLAG_IMMUTABLE)
 
         alarmManager.setExactAndAllowWhileIdle(
             AlarmManager.RTC_WAKEUP,
@@ -112,10 +128,15 @@ class ExerciseEventFragment :
         )
     }
 
-    private fun cancelAlarm() {
+    private fun cancelAlarm(item: ExerciseEventModel) {
         val alarmManager = activity?.getSystemService(ALARM_SERVICE) as AlarmManager
         val intent = Intent(requireContext(), AlarmReceiver::class.java)
-        val pendingIntent = PendingIntent.getBroadcast(requireContext(), 0, intent, PendingIntent.FLAG_IMMUTABLE)
+        val pendingIntent = PendingIntent.getBroadcast(
+            requireContext(),
+            item.id,
+            intent,
+            PendingIntent.FLAG_IMMUTABLE
+        )
         alarmManager.cancel(pendingIntent)
     }
 

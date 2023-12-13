@@ -6,12 +6,14 @@ import kotlinx.coroutines.flow.Flow
 
 interface ExerciseRepository {
 
-    fun getInsertExerciseEvent (exerciseEventEntity: ExerciseEventEntity)
+    fun getInsertExerciseEvent(exerciseEventEntity: ExerciseEventEntity)
 
-    fun getAllExerciseEvent () : Flow <List<ExerciseEventModel>>
+    fun getAllExerciseEvent(): Flow<List<ExerciseEventModel>>
 
-    fun deleteExerciseEvent (id : Int)
+    fun deleteExerciseEvent(id: Int)
 
-    fun updateExerciseEvent (exerciseEventEntity: ExerciseEventEntity)
+    fun updateExerciseEvent(exerciseEventEntity: ExerciseEventEntity)
+
+    fun updateExerciseEventOnOff(id: Int, isOn: Boolean)
 
 }

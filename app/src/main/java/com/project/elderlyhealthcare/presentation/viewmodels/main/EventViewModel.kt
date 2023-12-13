@@ -62,6 +62,12 @@ class EventViewModel @Inject constructor(
         }
     }
 
+    fun updateExerciseEventOnOff (id : Int , isOn : Boolean) {
+        viewModelScope.launch (Dispatchers.IO){
+            exerciseUseCase.updateExerciseEventOnOff(id, isOn)
+        }
+    }
+
     fun insertMedicineEvent(medicineEventEntity: MedicineEventEntity) {
         viewModelScope.launch(Dispatchers.IO) {
             medicineUseCase.insertMedicineEvent(medicineEventEntity)
