@@ -16,6 +16,9 @@
         <action
             android:id="@+id/action_overallFragment_to_avgOxygenFragment"
             app:destination="@id/avgOxygenFragment" />
+        <action
+            android:id="@+id/action_overallFragment_to_eventFragment"
+            app:destination="@id/eventFragment" />
     </fragment>
     <fragment
         android:id="@+id/avgHeartRateFragment"
@@ -27,4 +30,8 @@
         android:name="com.project.elderlyhealthcare.presentation.fragment.main.overall.AvgOxygenFragment"
         android:label="fragment_avg_oxygen"
         tools:layout="@layout/fragment_avg_oxygen" />
+    <fragment
+        android:id="@+id/eventFragment"
+        android:name="com.project.elderlyhealthcare.presentation.fragment.main.event.EventFragment"
+        android:label="EventFragment" />
 </navigation>

@@ -21,6 +21,7 @@ object Constant {
 
 	// key intent
 	const val KEY_EXERCISE_EVENT = "item exercise event"
+	const val KEY_NOTIFICATION = "from notification"
 
 
     val listPrefecture = listOf(

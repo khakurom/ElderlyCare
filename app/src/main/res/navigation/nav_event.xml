@@ -19,6 +19,9 @@
         <action
             android:id="@+id/action_eventFragment_to_reExaminationEventFragment"
             app:destination="@id/reExaminationEventFragment" />
+        <action
+            android:id="@+id/action_eventFragment_to_displayExerciseNotificationFragment"
+            app:destination="@id/displayExerciseNotificationFragment" />
     </fragment>
     <fragment
         android:id="@+id/exerciseEventFragment"
@@ -92,5 +95,14 @@
         <argument
             android:name="reExEventModel"
             app:argType="com.project.elderlyhealthcare.domain.models.ReExaminationEventModel" />
+    </fragment>
+    <fragment
+        android:id="@+id/displayExerciseNotificationFragment"
+        android:name="com.project.elderlyhealthcare.presentation.fragment.main.event.notification_event.DisplayExerciseNotificationFragment"
+        android:label="DisplayExerciseNotificationFragment" >
+        <argument
+            android:name="exerciseEventModel"
+            app:nullable="true"
+            app:argType="com.project.elderlyhealthcare.domain.models.ExerciseEventModel" />
     </fragment>
 </navigation>

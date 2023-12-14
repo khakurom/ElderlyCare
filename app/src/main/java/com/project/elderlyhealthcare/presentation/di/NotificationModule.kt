@@ -8,6 +8,9 @@ import android.content.Context
 import android.content.res.Resources
 import android.graphics.BitmapFactory
 import android.os.Build
+import android.os.VibrationEffect
+import android.os.Vibrator
+import android.provider.Settings
 import android.widget.RemoteViews
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
@@ -29,14 +32,15 @@ object NotificationModule {
 	@Singleton
 	@Provides
 	fun provideNotificationBuilder(@ApplicationContext context: Context): NotificationCompat.Builder {
-		val notificationLayout = RemoteViews(context.packageName, R.layout.small_notification)
 		return NotificationCompat.Builder(context, "Main Channel")
 			.setSmallIcon(R.drawable.background_login)
-			.setCustomContentView(notificationLayout)
 			.setStyle(NotificationCompat.DecoratedCustomViewStyle())
 			.setAutoCancel(true)
-			.setDefaults(NotificationCompat.DEFAULT_ALL)
+			.setOngoing(true)
+			.setVibrate(longArrayOf(1000, 1000, 1000, 1000, 1000))
 			.setPriority(NotificationCompat.PRIORITY_HIGH)
+			.setDefaults(NotificationCompat.DEFAULT_ALL)
+
 	}
 
 	@Singleton
@@ -51,6 +55,7 @@ object NotificationModule {
 		with(channel) {
 			enableVibration(true)
 			lockscreenVisibility = Notification.VISIBILITY_PUBLIC
+			vibrationPattern = longArrayOf(1000, 1000, 1000, 1000, 1000)
 		}
 		notificationManager.createNotificationChannel(channel)
 
