@@ -8,6 +8,10 @@
         <variable
             name="displayExViewModel"
             type="com.project.elderlyhealthcare.presentation.viewmodels.main.EventViewModel" />
+
+        <variable
+            name="exerciseEventModel"
+            type="com.project.elderlyhealthcare.domain.models.ExerciseEventModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -46,6 +50,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/josefinsans_bold"
+            android:layout_marginTop="20dp"
             android:text="Tên bài tập thể dục"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
             android:textColor="@color/black"
@@ -57,7 +62,7 @@
             android:id="@+id/display_ex_tv_exercise_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="mua mua mua"
+            android:text="@{exerciseEventModel.exerciseName}"
             android:layout_marginTop="5dp"
             android:textSize="15sp"
             app:layout_constraintStart_toStartOf="@+id/gl_vertical_1"
@@ -80,7 +85,7 @@
             android:id="@+id/display_ex_tv_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="23:40"
+            android:text="@{@string/display_ex_ex_time (exerciseEventModel.hour,exerciseEventModel.minutes)}"
             android:layout_marginTop="5dp"
             android:textSize="15sp"
             app:layout_constraintStart_toStartOf="@+id/gl_vertical_1"
@@ -103,7 +108,7 @@
             android:id="@+id/display_ex_tv_day_begin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="17/12/2023"
+            android:text="@{exerciseEventModel.dayBegin}"
             android:layout_marginTop="5dp"
             android:textSize="15sp"
             app:layout_constraintStart_toStartOf="@+id/gl_vertical_1"
@@ -139,7 +144,6 @@
             android:id="@+id/display_ex_tv_day_repeat"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="T2,T3"
             android:layout_marginTop="5dp"
             android:textSize="15sp"
             app:layout_constraintStart_toStartOf="@+id/gl_vertical_1"
@@ -162,7 +166,7 @@
             android:id="@+id/display_ex_tv_description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Day la mo ta"
+            android:text="@{exerciseEventModel.description}"
             android:layout_marginTop="5dp"
             android:textSize="15sp"
             app:layout_constraintStart_toStartOf="@+id/gl_vertical_1"
@@ -180,6 +184,15 @@
             android:textColor="@color/white"
             bind:layout_constraintEnd_toStartOf="@id/gl_vertical_3"
             bind:layout_constraintStart_toEndOf="@id/gl_vertical_1" />
+
+        <View
+            android:id="@+id/view1"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="@color/grey"
+            app:layout_constraintStart_toEndOf="@id/gl_vertical_1"
+            app:layout_constraintEnd_toStartOf="@id/gl_vertical_3"
+            app:layout_constraintBottom_toTopOf="@+id/gl_horizontal_1" />
 
 
         <androidx.constraintlayout.widget.Guideline

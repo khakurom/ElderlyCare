@@ -118,7 +118,8 @@ class ExerciseEventFragment :
 
         val alarmManager = activity?.getSystemService(ALARM_SERVICE) as AlarmManager
         val intent = Intent(requireContext(), AlarmReceiver::class.java)
-        intent.putExtra(Constant.KEY_EXERCISE_EVENT, item)
+        intent.putExtra(Constant.KEY_EXERCISE_EVENT_ITEM, item)
+        intent.putExtra(Constant.KEY_EVENT, Constant.MODE_EXERCISE)
         val pendingIntent = PendingIntent.getBroadcast(requireContext(), item.id, intent, PendingIntent.FLAG_IMMUTABLE)
 
         alarmManager.setExactAndAllowWhileIdle(

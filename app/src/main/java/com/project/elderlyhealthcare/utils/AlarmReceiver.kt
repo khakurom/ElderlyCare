@@ -20,8 +20,11 @@ import androidx.core.app.NotificationManagerCompat
 import com.project.elderlyhealthcare.R
 import com.project.elderlyhealthcare.domain.models.ExerciseEventModel
 import com.project.elderlyhealthcare.presentation.activity.MainActivity
+import com.project.elderlyhealthcare.utils.Constant.KEY_EVENT
 import com.project.elderlyhealthcare.utils.Constant.KEY_EXERCISE_EVENT
+import com.project.elderlyhealthcare.utils.Constant.KEY_EXERCISE_EVENT_ITEM
 import com.project.elderlyhealthcare.utils.Constant.KEY_NOTIFICATION
+import com.project.elderlyhealthcare.utils.Constant.MODE_EXERCISE
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -37,21 +40,27 @@ class AlarmReceiver : BroadcastReceiver() {
 
     @RequiresApi(Build.VERSION_CODES.R)
     override fun onReceive(context: Context?, intent: Intent?) {
+        when (intent?.getStringExtra(KEY_EVENT)) {
+            MODE_EXERCISE -> fromExerciseNotification(context, intent)
+        }
         val dataItemEvent = getDataItemEvent(intent)
-        val i = Intent(context, MainActivity::class.java)
-        i.putExtra(KEY_EXERCISE_EVENT, dataItemEvent)
-        i.putExtra(KEY_NOTIFICATION, true)
+
 
         intent!!.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-
         setVibration(context)
-        val pendingIntent = PendingIntent.getActivity(context, 0, i, PendingIntent.FLAG_IMMUTABLE)
 
         if (context?.let { ActivityCompat.checkSelfPermission(it, Manifest.permission.POST_NOTIFICATIONS) } != PackageManager.PERMISSION_GRANTED) {
             Toast.makeText(context, "Vui lòng bật cho phép thông báo đến thiết bị", Toast.LENGTH_SHORT).show()
         } else {
-            notificationManager.notify(1, setNotification(context,pendingIntent, dataItemEvent))
+            notificationManager.notify(1, setNotification(context, pendingIntent, dataItemEvent))
         }
+    }
+
+    private fun fromExerciseNotification(context: Context?, intent: Intent?): PendingIntent {
+        val i = Intent(context, MainActivity::class.java)
+        i.putExtra(KEY_EXERCISE_EVENT_ITEM, getDataItemEvent(intent))
+        i.putExtra(KEY_NOTIFICATION, true)
+        return PendingIntent.getActivity(context, 0, i, PendingIntent.FLAG_IMMUTABLE)
     }
 
     private fun setNotification(context: Context?, pendingIntent: PendingIntent, item: ExerciseEventModel?): Notification {
@@ -68,9 +77,9 @@ class AlarmReceiver : BroadcastReceiver() {
 
     private fun getDataItemEvent(intent: Intent?): ExerciseEventModel? {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            intent?.getParcelableExtra(Constant.KEY_EXERCISE_EVENT, ExerciseEventModel::class.java)
+            intent?.getParcelableExtra(Constant.KEY_EXERCISE_EVENT_ITEM, ExerciseEventModel::class.java)
         } else {
-            intent?.getParcelableExtra(Constant.KEY_EXERCISE_EVENT)
+            intent?.getParcelableExtra(Constant.KEY_RE_EXAMINATION_EVENT_ITEM)
         }
     }
 

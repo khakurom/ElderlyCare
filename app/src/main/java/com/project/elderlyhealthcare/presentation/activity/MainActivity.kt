@@ -39,10 +39,8 @@ class MainActivity : AppCompatActivity(), OnFragmentInteractionListener {
 		binding.bottomNav.setupWithNavController(navController)
 		when (this.intent?.getBooleanExtra(Constant.KEY_NOTIFICATION,false)) {
 			true -> {
-				navController.navigate(OverallFragmentDirections.actionOverallFragmentToEventFragment())
-				navController.navigate(EventFragmentDirections.actionEventFragmentToDisplayExerciseNotificationFragment(getDataItemEvent(this.intent) as ExerciseEventModel?))
+				navController.navigate(OverallFragmentDirections.actionOverallFragmentToDisplayExerciseNotificationFragment(getDataItemEvent(this.intent) as ExerciseEventModel?))
 				this@MainActivity.intent?.removeExtra(Constant.KEY_NOTIFICATION)
-				binding.bottomNav.selectedItemId = R.id.nav_event
 			}
 			else -> binding.bottomNav.setupWithNavController(navController)
 		}

@@ -28,6 +28,8 @@
     <string name="add_re_ex_pick_date">Vui lòng chọn sau ngày hiện tại</string>
     <string name="add_re_ex_screen">Thêm lịch tái khám</string>
 
+    // display exercise event fragment
+    <string name="display_ex_ex_time">%s:%s</string>
 
     //title screen
     <string name="no_title"> </string>
