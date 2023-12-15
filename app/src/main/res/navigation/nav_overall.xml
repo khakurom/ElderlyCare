@@ -22,6 +22,12 @@
         <action
             android:id="@+id/action_overallFragment_to_displayExerciseNotificationFragment"
             app:destination="@id/displayExerciseNotificationFragment" />
+        <action
+            android:id="@+id/action_overallFragment_to_displayMedicineNotificationFragment"
+            app:destination="@id/displayMedicineNotificationFragment" />
+        <action
+            android:id="@+id/action_overallFragment_to_displayReExaminationNotificationFragment"
+            app:destination="@id/displayReExaminationNotificationFragment" />
     </fragment>
     <fragment
         android:id="@+id/avgHeartRateFragment"
@@ -45,5 +51,23 @@
             android:name="exerciseEventModel"
             app:nullable="true"
             app:argType="com.project.elderlyhealthcare.domain.models.ExerciseEventModel" />
+    </fragment>
+    <fragment
+        android:id="@+id/displayMedicineNotificationFragment"
+        android:name="com.project.elderlyhealthcare.presentation.fragment.main.event.notification_event.DisplayMedicineNotificationFragment"
+        android:label="DisplayMedicineNotificationFragment" >
+        <argument
+            android:name="medicineModel"
+            app:argType="com.project.elderlyhealthcare.domain.models.MedicineEventModel"
+            app:nullable="true"/>
+    </fragment>
+    <fragment
+        android:id="@+id/displayReExaminationNotificationFragment"
+        android:name="com.project.elderlyhealthcare.presentation.fragment.main.event.notification_event.DisplayReExaminationNotificationFragment"
+        android:label="DisplayReExaminationNotificationFragment" >
+        <argument
+            android:name="reExaminationModel"
+            app:argType="com.project.elderlyhealthcare.domain.models.ReExaminationEventModel"
+            app:nullable="true" />
     </fragment>
 </navigation>

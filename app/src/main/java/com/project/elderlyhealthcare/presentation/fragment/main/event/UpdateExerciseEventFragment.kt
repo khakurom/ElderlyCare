@@ -72,7 +72,7 @@ class UpdateExerciseEventFragment :
                 }
             })
 
-            layoutUpdateExerciseEvent.setOnClickListener(object : SingleClickListener() {
+            layoutUpdateEx.setOnClickListener(object : SingleClickListener() {
                 override fun onSingleClick(v: View) {
                     v.hideKeyboard()
                 }

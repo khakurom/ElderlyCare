@@ -7,17 +7,20 @@ import androidx.navigation.fragment.navArgs
 import com.project.elderlyhealthcare.BR
 import com.project.elderlyhealthcare.R
 import com.project.elderlyhealthcare.databinding.FragmentDisplayExerciseNotificationBinding
+import com.project.elderlyhealthcare.domain.models.ExerciseEventModel
 import com.project.elderlyhealthcare.presentation.fragment.base.BaseFragment
 import com.project.elderlyhealthcare.presentation.viewmodels.main.EventViewModel
 import com.project.elderlyhealthcare.utils.OnFragmentInteractionListener
 import com.project.elderlyhealthcare.utils.SingleClickListener
+import com.project.elderlyhealthcare.utils.Utils
 
 class DisplayExerciseNotificationFragment :  BaseFragment<EventViewModel, FragmentDisplayExerciseNotificationBinding>(R.layout.fragment_display_exercise_notification) {
 
     private val navArgs : DisplayExerciseNotificationFragmentArgs by navArgs()
+    private var listener: OnFragmentInteractionListener? = null
     override fun variableId(): Int = BR.displayExViewModel
 
-    private var listener: OnFragmentInteractionListener? = null
+
     override fun createViewModel(): Lazy<EventViewModel> = activityViewModels ()
 
     override fun bindView(view: View): FragmentDisplayExerciseNotificationBinding {
@@ -40,7 +43,10 @@ class DisplayExerciseNotificationFragment :  BaseFragment<EventViewModel, Fragme
                 }
             })
 
-            exerciseEventModel = navArgs.exerciseEventModel
+            navArgs.exerciseEventModel?.let {
+                displayExTvDayRepeat.text = formatDayRepeatList(it)
+                exerciseEventModel = it
+            }
         }
         listener?.updateBottomNavVisible(true)
     }
@@ -48,5 +54,19 @@ class DisplayExerciseNotificationFragment :  BaseFragment<EventViewModel, Fragme
     override fun onDestroy() {
         super.onDestroy()
         listener?.updateBottomNavVisible(false)
+    }
+
+    private fun formatDayRepeatList(item: ExerciseEventModel): String {
+        var dayRepeat = ""
+        if (item.dayRepeat.isNotEmpty()) {
+            val eventList = Utils.sortDayList(item.dayRepeat)
+            for ((index, i) in eventList.withIndex()) {
+                dayRepeat += i
+                if (index < eventList.size - 1) {
+                    dayRepeat += ","
+                }
+            }
+        }
+        return dayRepeat
     }
 }

@@ -27,6 +27,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
+import java.util.Random
 
 @AndroidEntryPoint
 class ExerciseEventFragment :
@@ -63,7 +64,6 @@ class ExerciseEventFragment :
                             )
                         ) {
                             viewModel?.updateExerciseEventOnOff(item.id, false)
-                            showDialog(requireContext(), "Không thể đặt giờ trong quá khứ. Vui lòng cập nhật lại")
                             false
                         } else {
                             viewModel?.updateExerciseEventOnOff(item.id, true)
@@ -118,9 +118,9 @@ class ExerciseEventFragment :
 
         val alarmManager = activity?.getSystemService(ALARM_SERVICE) as AlarmManager
         val intent = Intent(requireContext(), AlarmReceiver::class.java)
-        intent.putExtra(Constant.KEY_EXERCISE_EVENT_ITEM, item)
+        intent.putExtra(Constant.KEY_EVENT_ITEM, item)
         intent.putExtra(Constant.KEY_EVENT, Constant.MODE_EXERCISE)
-        val pendingIntent = PendingIntent.getBroadcast(requireContext(), item.id, intent, PendingIntent.FLAG_IMMUTABLE)
+        val pendingIntent = PendingIntent.getBroadcast(requireContext(), Random().nextInt(), intent, PendingIntent.FLAG_MUTABLE)
 
         alarmManager.setExactAndAllowWhileIdle(
             AlarmManager.RTC_WAKEUP,

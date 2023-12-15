@@ -29,7 +29,14 @@
     <string name="add_re_ex_screen">Thêm lịch tái khám</string>
 
     // display exercise event fragment
-    <string name="display_ex_ex_time">%s:%s</string>
+    <string name="display_ex_time">%s:%s</string>
+
+    // display medicine event fragment
+    <string name="display_medicine_time">%s:%s</string>
+    <string name="display_medicine_day_begin_end">Từ %s đến %s</string>
+
+    // display re-examination event fragment
+    <string name="display_re_ex_time">%s:%s</string>
 
     //title screen
     <string name="no_title"> </string>

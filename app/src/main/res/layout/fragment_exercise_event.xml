@@ -42,12 +42,12 @@
             android:id="@+id/exercise_fab_add"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
             android:backgroundTint="@color/login_blue"
             android:clickable="true"
+            android:scaleType="fitXY"
             android:src="@drawable/ic_add"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@id/reg_gl_vertical_2" />
+            app:layout_constraintEnd_toStartOf="@+id/reg_gl_vertical_2"
+            app:layout_constraintTop_toBottomOf="@id/exercise_fr_cs_bar" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/gl_horizontal_1"
@@ -71,8 +71,8 @@
             app:layout_constraintGuide_percent="0.95" />
 
         <androidx.recyclerview.widget.RecyclerView
-            submitListExerciseEvent="@{exerciseViewModel.listExerciseEvent}"
             android:id="@+id/exercise_rcv_list_exercise"
+            submitListExerciseEvent="@{exerciseViewModel.listExerciseEvent}"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:orientation="vertical"

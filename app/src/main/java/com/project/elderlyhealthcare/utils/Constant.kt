@@ -21,9 +21,7 @@ object Constant {
 
 	// key intent
 	const val KEY_EVENT = "key event"
-	const val KEY_EXERCISE_EVENT_ITEM = "item exercise event"
-	const val KEY_MEDICINE_EVENT_ITEM = "item medicine event"
-	const val KEY_RE_EXAMINATION_EVENT_ITEM = "item re-examination event"
+	const val KEY_EVENT_ITEM = "item exercise event"
 	const val KEY_NOTIFICATION = "from notification"
 
 	// mode event
