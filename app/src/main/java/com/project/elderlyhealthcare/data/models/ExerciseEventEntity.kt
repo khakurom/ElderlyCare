@@ -33,7 +33,11 @@ data class ExerciseEventEntity(
     @ColumnInfo(name = "description")
     val description: String? = null,
 
+    @ColumnInfo(name = "uniqueIntent")
+    val uniqueIntent: Int? = 0,
+
     @ColumnInfo(name = "isOn")
     val isOn: Boolean? = null
+
 
 )

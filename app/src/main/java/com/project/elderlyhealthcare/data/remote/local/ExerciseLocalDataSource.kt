@@ -26,4 +26,12 @@ class ExerciseLocalDataSource @Inject constructor(private val appDatabase: AppDa
     fun updateExerciseEventOnOff (id : Int , isOn : Boolean) {
         return appDatabase.exerciseDao().updateExerciseEventOnOff(id, isOn)
     }
+
+    fun updateUniqueIntentExercise (uniqueIntent : Int?, id : Int) {
+        return appDatabase.exerciseDao().updateUniqueIntentExercise(uniqueIntent,id)
+    }
+
+    fun getUniqueIntentExercise (id : Int) : Flow<Int> {
+        return appDatabase.exerciseDao().getUniqueIntentExercise(id)
+    }
 }

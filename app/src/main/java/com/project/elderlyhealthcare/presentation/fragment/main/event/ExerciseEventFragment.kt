@@ -5,8 +5,10 @@ import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context.ALARM_SERVICE
 import android.content.Intent
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.project.elderlyhealthcare.BR
 import com.project.elderlyhealthcare.R
@@ -24,6 +26,8 @@ import com.project.elderlyhealthcare.utils.SingleClickListener
 import com.project.elderlyhealthcare.utils.Utils
 import com.project.elderlyhealthcare.utils.Utils.showDialog
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
@@ -120,7 +124,9 @@ class ExerciseEventFragment :
         val intent = Intent(requireContext(), AlarmReceiver::class.java)
         intent.putExtra(Constant.KEY_EVENT_ITEM, item)
         intent.putExtra(Constant.KEY_EVENT, Constant.MODE_EXERCISE)
-        val pendingIntent = PendingIntent.getBroadcast(requireContext(), Random().nextInt(), intent, PendingIntent.FLAG_MUTABLE)
+        val uniqueIntent = 1387423326
+        viewModel?.updateUniqueIntentExercise(uniqueIntent, item.id)
+        val pendingIntent = PendingIntent.getBroadcast(activity?.applicationContext, uniqueIntent, intent, PendingIntent.FLAG_MUTABLE)
 
         alarmManager.setExactAndAllowWhileIdle(
             AlarmManager.RTC_WAKEUP,
@@ -130,15 +136,20 @@ class ExerciseEventFragment :
     }
 
     private fun cancelAlarm(item: ExerciseEventModel) {
-        val alarmManager = activity?.getSystemService(ALARM_SERVICE) as AlarmManager
-        val intent = Intent(requireContext(), AlarmReceiver::class.java)
-        val pendingIntent = PendingIntent.getBroadcast(
-            requireContext(),
-            item.id,
-            intent,
-            PendingIntent.FLAG_IMMUTABLE
-        )
-        alarmManager.cancel(pendingIntent)
+        lifecycleScope.launch {
+            val uniqueIntent = viewModel?.getUniqueIntentExercise(item.id)
+            uniqueIntent?.collectLatest {
+                val alarmManager = activity?.getSystemService(ALARM_SERVICE) as AlarmManager
+                val intent = Intent(requireContext(), AlarmReceiver::class.java)
+                val pendingIntent = PendingIntent.getBroadcast(
+                    activity?.applicationContext,
+                    138742336,
+                    intent,
+                    PendingIntent.FLAG_MUTABLE
+                )
+                alarmManager.cancel(pendingIntent)
+            }
+        }
     }
 
     private fun getExerciseEvent() {

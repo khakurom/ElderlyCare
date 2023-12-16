@@ -13,6 +13,7 @@ data class ExerciseEventModel(
     val dayBegin : String? = null,
     val exerciseName : String? = null,
     val description : String? = null,
+    val uniqueIntent : Int? = null,
     val isOn : Boolean? = null
 
 ) : Parcelable

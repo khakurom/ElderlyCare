@@ -23,7 +23,13 @@ interface ExerciseDao {
     @Update
     fun updateExerciseEvent (exerciseEventEntity: ExerciseEventEntity)
 
+    @Query("UPDATE $TABLE_EXERCISE_EVENT SET uniqueIntent = :uniqueIntent WHERE id = :id")
+    fun updateUniqueIntentExercise (uniqueIntent : Int?, id : Int)
+
     @Query("UPDATE $TABLE_EXERCISE_EVENT SET isOn = :isOn WHERE id = :id")
     fun updateExerciseEventOnOff (id : Int, isOn : Boolean)
+
+    @Query("SELECT uniqueIntent FROM $TABLE_EXERCISE_EVENT WHERE id = :id")
+    fun getUniqueIntentExercise (id : Int) : Flow <Int>
 
 }

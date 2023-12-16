@@ -37,4 +37,12 @@ class ExerciseRepositoryImpl @Inject constructor(
         localExercise.updateExerciseEventOnOff(id, isOn)
     }
 
+    override fun updateUniqueIntentExercise(uniqueIntent: Int?, id: Int) {
+        localExercise.updateUniqueIntentExercise(uniqueIntent, id)
+    }
+
+    override fun getUniqueIntentExercise(id: Int) : Flow <Int> {
+        return localExercise.getUniqueIntentExercise(id)
+    }
+
 }

@@ -16,4 +16,8 @@ interface ExerciseRepository {
 
     fun updateExerciseEventOnOff(id: Int, isOn: Boolean)
 
+    fun updateUniqueIntentExercise (uniqueIntent: Int?, id: Int)
+
+    fun getUniqueIntentExercise (id: Int) : Flow <Int>
+
 }

@@ -11,7 +11,6 @@ import android.media.AudioAttributes
 import android.os.Build
 import android.os.VibrationEffect
 import android.os.Vibrator
-import android.util.Log
 import android.widget.RemoteViews
 import android.widget.Toast
 import androidx.annotation.RequiresApi

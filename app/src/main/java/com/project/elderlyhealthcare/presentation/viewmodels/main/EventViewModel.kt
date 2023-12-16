@@ -1,6 +1,5 @@
 package com.project.elderlyhealthcare.presentation.viewmodels.main
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.project.elderlyhealthcare.data.models.ExerciseEventEntity
@@ -9,14 +8,16 @@ import com.project.elderlyhealthcare.data.models.ReExaminationEventEntity
 import com.project.elderlyhealthcare.domain.models.ExerciseEventModel
 import com.project.elderlyhealthcare.domain.models.MedicineEventModel
 import com.project.elderlyhealthcare.domain.models.ReExaminationEventModel
+import com.project.elderlyhealthcare.presentation.viewmodels.base.BaseViewModel
 import com.project.elderlyhealthcare.presentation.viewmodels.main.usecases.ExerciseUseCase
 import com.project.elderlyhealthcare.presentation.viewmodels.main.usecases.MedicineUseCase
-import com.project.elderlyhealthcare.presentation.viewmodels.base.BaseViewModel
 import com.project.elderlyhealthcare.presentation.viewmodels.main.usecases.ReExaminationUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
@@ -30,11 +31,15 @@ class EventViewModel @Inject constructor(
     private val _listExerciseEvent = MutableLiveData<List<ExerciseEventModel>?>()
     val listExerciseEvent: MutableLiveData<List<ExerciseEventModel>?> = _listExerciseEvent
 
+    private val _uniqueIntentExercise = MutableLiveData<Int?>()
+    val uniqueIntentExercise: MutableLiveData<Int?> = _uniqueIntentExercise
+
     private val _listMedicineEvent = MutableLiveData<List<MedicineEventModel>?>()
     val listMedicineEvent: MutableLiveData<List<MedicineEventModel>?> = _listMedicineEvent
 
     private val _listReExEvent = MutableLiveData<List<ReExaminationEventModel>?>()
     val listReExEvent: MutableLiveData<List<ReExaminationEventModel>?> = _listReExEvent
+
 
     fun insertExerciseEvent(exerciseEvent: ExerciseEventEntity) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -43,7 +48,7 @@ class EventViewModel @Inject constructor(
     }
 
     fun getExerciseEvent() {
-        viewModelScope.launch  () {
+        viewModelScope.launch() {
             exerciseUseCase.getAllExerciseEvent().collectLatest {
                 _listExerciseEvent.value = it
             }
@@ -56,15 +61,27 @@ class EventViewModel @Inject constructor(
         }
     }
 
-    fun updateExerciseEvent (exerciseEvent: ExerciseEventEntity) {
-        viewModelScope.launch (Dispatchers.IO){
+    fun updateExerciseEvent(exerciseEvent: ExerciseEventEntity) {
+        viewModelScope.launch(Dispatchers.IO) {
             exerciseUseCase.updateExerciseEvent(exerciseEvent)
         }
     }
 
-    fun updateExerciseEventOnOff (id : Int , isOn : Boolean) {
-        viewModelScope.launch (Dispatchers.IO){
+    fun updateExerciseEventOnOff(id: Int, isOn: Boolean) {
+        viewModelScope.launch(Dispatchers.IO) {
             exerciseUseCase.updateExerciseEventOnOff(id, isOn)
+        }
+    }
+
+    fun updateUniqueIntentExercise(uniqueIntent: Int?, id: Int) {
+        viewModelScope.launch(Dispatchers.IO) {
+            exerciseUseCase.updateUniqueIntentExercise(uniqueIntent, id)
+        }
+    }
+
+    suspend fun getUniqueIntentExercise(id: Int) : Flow<Int> {
+        return withContext(Dispatchers.IO) {
+            exerciseUseCase.getUniqueIntentExercise(id)
         }
     }
 
@@ -75,46 +92,47 @@ class EventViewModel @Inject constructor(
     }
 
     fun getMedicineEvent() {
-        viewModelScope.launch  {
+        viewModelScope.launch {
             medicineUseCase.getAllMedicineEvent().collectLatest {
                 _listMedicineEvent.postValue(it)
             }
         }
     }
 
-    fun deleteMedicineEvent (id : Int) {
-        viewModelScope.launch (Dispatchers.IO) {
+    fun deleteMedicineEvent(id: Int) {
+        viewModelScope.launch(Dispatchers.IO) {
             medicineUseCase.deleteMedicineEvent(id)
         }
     }
 
-    fun updateMedicineEvent (medicineEventEntity: MedicineEventEntity) {
-        viewModelScope.launch (Dispatchers.IO) {
+    fun updateMedicineEvent(medicineEventEntity: MedicineEventEntity) {
+        viewModelScope.launch(Dispatchers.IO) {
             medicineUseCase.updateMedicineEvent(medicineEventEntity)
         }
     }
 
-    fun insertReExEvent (reExaminationEventEntity: ReExaminationEventEntity) {
+    fun insertReExEvent(reExaminationEventEntity: ReExaminationEventEntity) {
         viewModelScope.launch(Dispatchers.IO) {
             reExaminationUseCase.insertReExEvent(reExaminationEventEntity)
         }
     }
 
     fun getReExEvent() {
-        viewModelScope.launch  {
+        viewModelScope.launch {
             reExaminationUseCase.getReExEvent().collectLatest {
                 _listReExEvent.postValue(it)
             }
         }
     }
-    fun deleteReExEvent (id : Int) {
+
+    fun deleteReExEvent(id: Int) {
         viewModelScope.launch(Dispatchers.IO) {
             reExaminationUseCase.deleteReExEvent(id)
         }
     }
 
-    fun updateReExEvent (reExaminationEventEntity: ReExaminationEventEntity) {
-        viewModelScope.launch (Dispatchers.IO){
+    fun updateReExEvent(reExaminationEventEntity: ReExaminationEventEntity) {
+        viewModelScope.launch(Dispatchers.IO) {
             reExaminationUseCase.updateReExEvent(reExaminationEventEntity)
         }
     }
