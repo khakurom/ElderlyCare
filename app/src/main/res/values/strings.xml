@@ -53,6 +53,7 @@
 
     // item
     <string name="item_medicine_dose">%s liều/ngày</string>
+    <string name="item_medicine_disease_name">Thuốc bệnh: %s</string>
 
     // child key firebase
     <string name="key_customer_info">CustomerInfo</string>

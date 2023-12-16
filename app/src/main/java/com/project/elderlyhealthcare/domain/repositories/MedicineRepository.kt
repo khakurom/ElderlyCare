@@ -16,4 +16,8 @@ interface MedicineRepository {
 
     fun updateMedicineEvent (medicineEventEntity: MedicineEventEntity)
 
+    fun updateMedicineEventOnOff (id : Int, isOn : Boolean)
+
+    fun getUniqueIntentMedicine (id : Int) : Int
+
 }

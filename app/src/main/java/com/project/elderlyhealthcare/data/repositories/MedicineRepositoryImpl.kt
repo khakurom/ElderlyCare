@@ -32,4 +32,12 @@ class MedicineRepositoryImpl @Inject constructor(
     override fun updateMedicineEvent(medicineEventEntity: MedicineEventEntity) {
         medicineLocalDataSource.updateMedicineEvent(medicineEventEntity)
     }
+
+    override fun updateMedicineEventOnOff(id: Int, isOn: Boolean) {
+        medicineLocalDataSource.updateMedicineEventOnOff(id, isOn)
+    }
+
+    override fun getUniqueIntentMedicine(id: Int): Int {
+        return medicineLocalDataSource.getUniqueIntentMedicine(id)
+    }
 }

@@ -14,10 +14,8 @@ import com.project.elderlyhealthcare.presentation.viewmodels.main.usecases.Medic
 import com.project.elderlyhealthcare.presentation.viewmodels.main.usecases.ReExaminationUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
@@ -73,16 +71,9 @@ class EventViewModel @Inject constructor(
         }
     }
 
-    fun updateUniqueIntentExercise(uniqueIntent: Int?, id: Int) {
-        viewModelScope.launch(Dispatchers.IO) {
-            exerciseUseCase.updateUniqueIntentExercise(uniqueIntent, id)
-        }
-    }
 
-    suspend fun getUniqueIntentExercise(id: Int) : Flow<Int> {
-        return withContext(Dispatchers.IO) {
-            exerciseUseCase.getUniqueIntentExercise(id)
-        }
+    fun getUniqueIntentExercise(id: Int) : Int  {
+        return exerciseUseCase.getUniqueIntentExercise(id)
     }
 
     fun insertMedicineEvent(medicineEventEntity: MedicineEventEntity) {
@@ -109,6 +100,15 @@ class EventViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             medicineUseCase.updateMedicineEvent(medicineEventEntity)
         }
+    }
+
+    fun updateMedicineEventOnOff (id : Int, isOn: Boolean) {
+        viewModelScope.launch(Dispatchers.IO) {
+            medicineUseCase.updateMedicineEventOnOff(id, isOn)
+        }
+    }
+    fun getUniqueIntentMedicine(id: Int) : Int  {
+        return medicineUseCase.getUniqueIntent(id)
     }
 
     fun insertReExEvent(reExaminationEventEntity: ReExaminationEventEntity) {

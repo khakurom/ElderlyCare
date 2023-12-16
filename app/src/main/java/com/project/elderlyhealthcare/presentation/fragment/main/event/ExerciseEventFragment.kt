@@ -8,7 +8,6 @@ import android.content.Intent
 import android.util.Log
 import android.view.View
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.project.elderlyhealthcare.BR
 import com.project.elderlyhealthcare.R
@@ -19,15 +18,16 @@ import com.project.elderlyhealthcare.presentation.adapter.OnItemRemoveListener
 import com.project.elderlyhealthcare.presentation.adapter.OnItemSelectListener
 import com.project.elderlyhealthcare.presentation.adapter.OnItemTurnOnListener
 import com.project.elderlyhealthcare.presentation.fragment.base.BaseFragment
+import com.project.elderlyhealthcare.presentation.fragment.not_login.LoginFragmentDirections
 import com.project.elderlyhealthcare.presentation.viewmodels.main.EventViewModel
 import com.project.elderlyhealthcare.utils.AlarmReceiver
 import com.project.elderlyhealthcare.utils.Constant
 import com.project.elderlyhealthcare.utils.SingleClickListener
 import com.project.elderlyhealthcare.utils.Utils
-import com.project.elderlyhealthcare.utils.Utils.showDialog
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.runBlocking
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
@@ -109,7 +109,7 @@ class ExerciseEventFragment :
     }
 
     @SuppressLint("ScheduleExactAlarm")
-    private fun createAlarm(item: ExerciseEventModel) {
+    private fun createAlarm(item: ExerciseEventModel) = runBlocking {
         val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
         val date = dateFormat.parse(item.dayBegin!!)
         val calendar = Calendar.getInstance()
@@ -124,33 +124,33 @@ class ExerciseEventFragment :
         val intent = Intent(requireContext(), AlarmReceiver::class.java)
         intent.putExtra(Constant.KEY_EVENT_ITEM, item)
         intent.putExtra(Constant.KEY_EVENT, Constant.MODE_EXERCISE)
-        val uniqueIntent = 1387423326
-        viewModel?.updateUniqueIntentExercise(uniqueIntent, item.id)
-        val pendingIntent = PendingIntent.getBroadcast(activity?.applicationContext, uniqueIntent, intent, PendingIntent.FLAG_MUTABLE)
 
-        alarmManager.setExactAndAllowWhileIdle(
-            AlarmManager.RTC_WAKEUP,
-            calendar.timeInMillis,
-            pendingIntent
-        )
-    }
-
-    private fun cancelAlarm(item: ExerciseEventModel) {
-        lifecycleScope.launch {
-            val uniqueIntent = viewModel?.getUniqueIntentExercise(item.id)
-            uniqueIntent?.collectLatest {
-                val alarmManager = activity?.getSystemService(ALARM_SERVICE) as AlarmManager
-                val intent = Intent(requireContext(), AlarmReceiver::class.java)
-                val pendingIntent = PendingIntent.getBroadcast(
-                    activity?.applicationContext,
-                    138742336,
-                    intent,
-                    PendingIntent.FLAG_MUTABLE
-                )
-                alarmManager.cancel(pendingIntent)
-            }
+        val uniqueIntent = async(Dispatchers.IO) { viewModel?.getUniqueIntentExercise(item.id) }
+        uniqueIntent.await()?.let {
+            val pendingIntent = PendingIntent.getBroadcast(activity?.applicationContext, it, intent, PendingIntent.FLAG_MUTABLE)
+            alarmManager.setExactAndAllowWhileIdle(
+                AlarmManager.RTC_WAKEUP,
+                calendar.timeInMillis,
+                pendingIntent
+            )
         }
     }
+
+    private fun cancelAlarm(item: ExerciseEventModel) = runBlocking {
+        val uniqueIntent = async(Dispatchers.IO) { viewModel?.getUniqueIntentExercise(item.id) }
+        uniqueIntent.await()?.let {
+            val alarmManager = activity?.getSystemService(ALARM_SERVICE) as AlarmManager
+            val intent = Intent(requireContext(), AlarmReceiver::class.java)
+            val pendingIntent = PendingIntent.getBroadcast(
+                activity?.applicationContext,
+                it,
+                intent,
+                PendingIntent.FLAG_MUTABLE
+            )
+            alarmManager.cancel(pendingIntent)
+        }
+    }
+
 
     private fun getExerciseEvent() {
         viewModel?.getExerciseEvent()

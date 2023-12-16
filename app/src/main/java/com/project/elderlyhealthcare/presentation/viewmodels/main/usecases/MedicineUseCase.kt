@@ -23,4 +23,12 @@ class MedicineUseCase @Inject constructor(private val medicineRepositoryImpl: Me
     fun updateMedicineEvent (medicineEventEntity: MedicineEventEntity) {
         medicineRepositoryImpl.updateMedicineEvent(medicineEventEntity)
     }
+
+    fun updateMedicineEventOnOff (id : Int, isOn : Boolean) {
+        medicineRepositoryImpl.updateMedicineEventOnOff(id, isOn)
+    }
+
+    fun getUniqueIntent (id : Int) : Int {
+        return medicineRepositoryImpl.getUniqueIntentMedicine(id)
+    }
 }

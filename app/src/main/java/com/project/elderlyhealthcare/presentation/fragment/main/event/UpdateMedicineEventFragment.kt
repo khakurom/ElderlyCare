@@ -24,8 +24,8 @@ import com.project.elderlyhealthcare.utils.CustomBottomSheet
 import com.project.elderlyhealthcare.utils.SingleClickListener
 import com.project.elderlyhealthcare.utils.Utils
 import com.project.elderlyhealthcare.utils.Utils.getDayMonthYearFromCurrentDate
-import com.project.elderlyhealthcare.utils.Utils.settingDayRepeat
 import java.util.Calendar
+import java.util.Random
 
 class UpdateMedicineEventFragment :
     BaseFragment<EventViewModel, FragmentUpdateMedicineEventBinding>(R.layout.fragment_update_medicine_event) {
@@ -47,7 +47,7 @@ class UpdateMedicineEventFragment :
     override fun init() {
         super.init()
         val medicineTypeAdapter: MedicineTypeAdapter by lazy {
-            MedicineTypeAdapter().apply {
+            MedicineTypeAdapter(false).apply {
                 onItemSelectListener = object : OnItemSelectListener<MedicineTypeModel> {
                     override fun onItemSelected(item: MedicineTypeModel, position: Int) {
                     }
@@ -99,111 +99,17 @@ class UpdateMedicineEventFragment :
             updateMedicineTvEndDate.text = navArgs.medicineEventModel.dayEnd
 
             updateMedicineEdDiseaseName.setText(navArgs.medicineEventModel.diseaseName)
-            settingDayRepeat(
-                navArgs.medicineEventModel.dayRepeat, toggleBtMon,
-                toggleBtTu,
-                toggleBtWe,
-                toggleBtTh,
-                toggleBtFr,
-                toggleBtSa,
-                toggleBtSun
-            )
+
 
         }
         settingTimePicker()
-        settingDayPicker()
         createMedicineTypeList(medicineTypeAdapter)
-        getValueDayRepeat()
     }
 
     private fun removeItemMedicineType(adapter: MedicineTypeAdapter, position: Int) {
         medicineTypeList.removeAt(position)
         adapter.submitList(medicineTypeList)
         adapter.notifyDataSetChanged()
-    }
-
-
-    private fun getValueDayRepeat() {
-        dayRepeatList = navArgs.medicineEventModel.dayRepeat as MutableList<String?>
-        binding.apply {
-            toggleBtMon.setOnCheckedChangeListener { _, isChecked ->
-                if (isChecked) {
-                    dayRepeatList.add("T2")
-                } else {
-                    dayRepeatList.remove("T2")
-                }
-            }
-
-            toggleBtTu.setOnCheckedChangeListener { _, isChecked ->
-                if (isChecked) {
-                    dayRepeatList.add("T3")
-                } else {
-                    dayRepeatList.remove("T3")
-                }
-            }
-            toggleBtWe.setOnCheckedChangeListener { _, isChecked ->
-                if (isChecked) {
-                    dayRepeatList.add("T4")
-                } else {
-                    dayRepeatList.remove("T4")
-                }
-            }
-            toggleBtTh.setOnCheckedChangeListener { _, isChecked ->
-                if (isChecked) {
-                    dayRepeatList.add("T5")
-                } else {
-                    dayRepeatList.remove("T5")
-                }
-            }
-
-            toggleBtFr.setOnCheckedChangeListener { _, isChecked ->
-                if (isChecked) {
-                    dayRepeatList.add("T6")
-                } else {
-                    dayRepeatList.remove("T6")
-                }
-            }
-            toggleBtSa.setOnCheckedChangeListener { _, isChecked ->
-                if (isChecked) {
-                    dayRepeatList.add("T7")
-                } else {
-                    dayRepeatList.remove("T7")
-                }
-            }
-            toggleBtSun.setOnCheckedChangeListener { _, isChecked ->
-                if (isChecked) {
-                    dayRepeatList.add("CN")
-                } else {
-                    dayRepeatList.remove("CN")
-                }
-            }
-        }
-    }
-
-    private fun settingDayPicker() {
-
-        val colorStateList = ColorStateList(
-            arrayOf(
-                intArrayOf(android.R.attr.state_checked), // Checked state
-                intArrayOf(-android.R.attr.state_checked)  // Unchecked state
-            ),
-            intArrayOf(
-                ContextCompat.getColor(
-                    requireContext(),
-                    R.color.login_blue
-                ),   // Color when checked
-                ContextCompat.getColor(requireContext(), R.color.blue),   // Color when uncheck
-            )
-        )
-        binding.apply {
-            toggleBtMon.backgroundTintList = colorStateList
-            toggleBtTu.backgroundTintList = colorStateList
-            toggleBtWe.backgroundTintList = colorStateList
-            toggleBtTh.backgroundTintList = colorStateList
-            toggleBtFr.backgroundTintList = colorStateList
-            toggleBtSa.backgroundTintList = colorStateList
-            toggleBtSun.backgroundTintList = colorStateList
-        }
     }
 
 
@@ -243,12 +149,13 @@ class UpdateMedicineEventFragment :
                             id = navArgs.medicineEventModel.id,
                             hour = Utils.formatTimeNumberPicker(pickerHour),
                             minutes = Utils.formatTimeNumberPicker(pickerMinute),
-                            dayRepeat = dayRepeatList,
                             dayBegin = updateMedicineTvBeginDate.text.trim().toString(),
                             dayEnd = updateMedicineTvEndDate.text.trim().toString(),
                             medicineName = getMedicineName(),
                             medicineDose = getMedicineDose(),
-                            diseaseName = updateMedicineEdDiseaseName.text?.trim().toString()
+                            diseaseName = updateMedicineEdDiseaseName.text?.trim().toString(),
+                            uniqueIntent = Random().nextInt(),
+                            isOn = true
                         )
                         viewModel?.updateMedicineEvent(medicineEvent)
                         backToPreScreen()

@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.DiffUtil
 import com.project.elderlyhealthcare.databinding.ItemMedicineTypeBinding
 import com.project.elderlyhealthcare.domain.models.MedicineTypeModel
 
-class MedicineTypeAdapter :
+class MedicineTypeAdapter (private val imvClearIsGon : Boolean) :
     BaseAdapterDiffUtil<MedicineTypeModel, ItemMedicineTypeBinding, MedicineTypeAdapter.MedicineTypeHolder>(
         ItemMedicineTypeDiffCallback()
     ) {
@@ -15,6 +15,7 @@ class MedicineTypeAdapter :
 
         override fun bind(item: MedicineTypeModel) {
             binding.medicineType = item
+            binding.imvClearIsGone = imvClearIsGon
         }
     }
 

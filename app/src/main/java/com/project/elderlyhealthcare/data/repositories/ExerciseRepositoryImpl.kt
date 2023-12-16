@@ -1,14 +1,11 @@
 package com.project.elderlyhealthcare.data.repositories
 
-import android.util.Log
 import com.project.elderlyhealthcare.data.mappers.ExerciseMapper
 import com.project.elderlyhealthcare.data.models.ExerciseEventEntity
 import com.project.elderlyhealthcare.data.remote.local.ExerciseLocalDataSource
 import com.project.elderlyhealthcare.domain.models.ExerciseEventModel
 import com.project.elderlyhealthcare.domain.repositories.ExerciseRepository
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
@@ -37,11 +34,7 @@ class ExerciseRepositoryImpl @Inject constructor(
         localExercise.updateExerciseEventOnOff(id, isOn)
     }
 
-    override fun updateUniqueIntentExercise(uniqueIntent: Int?, id: Int) {
-        localExercise.updateUniqueIntentExercise(uniqueIntent, id)
-    }
-
-    override fun getUniqueIntentExercise(id: Int) : Flow <Int> {
+    override fun getUniqueIntentExercise(id: Int) : Int {
         return localExercise.getUniqueIntentExercise(id)
     }
 

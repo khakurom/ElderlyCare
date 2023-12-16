@@ -1,13 +1,13 @@
 package com.project.elderlyhealthcare.presentation.fragment.main.event
 
 import android.app.DatePickerDialog
-import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.view.View
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
+import androidx.recyclerview.widget.DividerItemDecoration
 import com.project.elderlyhealthcare.BR
 import com.project.elderlyhealthcare.R
 import com.project.elderlyhealthcare.data.models.MedicineEventEntity
@@ -20,20 +20,23 @@ import com.project.elderlyhealthcare.presentation.fragment.base.BaseFragment
 import com.project.elderlyhealthcare.presentation.viewmodels.main.EventViewModel
 import com.project.elderlyhealthcare.utils.Constant
 import com.project.elderlyhealthcare.utils.CustomBottomSheet
+import com.project.elderlyhealthcare.utils.SimpleDividerItemDecoration
 import com.project.elderlyhealthcare.utils.SingleClickListener
 import com.project.elderlyhealthcare.utils.Utils.compareToCurrentTime
 import com.project.elderlyhealthcare.utils.Utils.formatTimeNumberPicker
 import com.project.elderlyhealthcare.utils.Utils.getDayMonthYearFromCurrentDate
+import com.project.elderlyhealthcare.utils.Utils.hideKeyboard
 import com.project.elderlyhealthcare.utils.Utils.showDialog
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.Calendar
+import java.util.Random
+
 
 @AndroidEntryPoint
 class AddMedicineFragment :
     BaseFragment<EventViewModel, FragmentAddMedicineBinding>(R.layout.fragment_add_medicine) {
 
     private val medicineTypeList = mutableListOf<MedicineTypeModel>()
-    private lateinit var dayRepeatList: MutableList<String?>
     override fun variableId(): Int = BR.addMedicineViewModel
 
     override fun createViewModel(): Lazy<EventViewModel> = activityViewModels()
@@ -46,7 +49,7 @@ class AddMedicineFragment :
         super.init()
 
         val adapter : MedicineTypeAdapter by lazy {
-            MedicineTypeAdapter().apply {
+            MedicineTypeAdapter(false).apply {
                 onItemSelectListener = object : OnItemSelectListener<MedicineTypeModel> {
                     override fun onItemSelected(item: MedicineTypeModel, position: Int) {
                     }
@@ -55,7 +58,6 @@ class AddMedicineFragment :
                     override fun onItemRemove(item: MedicineTypeModel, position: Int) {
                         removeItemMedicineType(this@apply, position)
                     }
-
                 }
             }
         }
@@ -68,6 +70,13 @@ class AddMedicineFragment :
                     backToPreScreen()
                 }
             })
+
+            layoutAddMedicine.setOnClickListener(object : SingleClickListener() {
+                override fun onSingleClick(v: View) {
+                    v.hideKeyboard()
+                }
+            })
+
 
             addMedicineLayoutBeginDatePicker.setOnClickListener(object : SingleClickListener() {
                 override fun onSingleClick(v: View) {
@@ -91,13 +100,13 @@ class AddMedicineFragment :
                 }
             })
             addMedicineRcvMedicineType.adapter = adapter
+            addMedicineRcvMedicineType.addItemDecoration(SimpleDividerItemDecoration(requireContext(),R.drawable.line_divider))
             pickerHour.textColor = ContextCompat.getColor(requireContext(), R.color.black)
             pickerMinute.textColor = ContextCompat.getColor(requireContext(), R.color.black)
         }
         settingTimePicker()
-        settingDayPicker()
         getCurrentDate()
-        getValueDayRepeat()
+
     }
 
     private fun createMedicineEvent() {
@@ -119,12 +128,13 @@ class AddMedicineFragment :
                         val medicineEvent = MedicineEventEntity(
                             hour = formatTimeNumberPicker(pickerHour),
                             minutes = formatTimeNumberPicker(pickerMinute),
-                            dayRepeat = dayRepeatList,
                             dayBegin = addMedicineTvBeginDate.text.trim().toString(),
                             dayEnd = addMedicineTvEndDate.text.trim().toString(),
                             medicineName = getMedicineName(),
                             medicineDose = getMedicineDose(),
-                            diseaseName = addMedicineEdDiseaseName.text?.trim().toString()
+                            diseaseName = addMedicineEdDiseaseName.text?.trim().toString(),
+                            uniqueIntent = Random().nextInt(),
+                            isOn = true
                         )
                         viewModel?.insertMedicineEvent(medicineEvent)
                         backToPreScreen()
@@ -150,62 +160,7 @@ class AddMedicineFragment :
         return medicineDoseList
     }
 
-    private fun getValueDayRepeat() {
-        dayRepeatList = mutableListOf()
-        binding.apply {
-            toggleBtMon.setOnCheckedChangeListener { _, isChecked ->
-                if (isChecked) {
-                    dayRepeatList.add("T2")
-                } else {
-                    dayRepeatList.remove("T2")
-                }
-            }
 
-            toggleBtTu.setOnCheckedChangeListener { _, isChecked ->
-                if (isChecked) {
-                    dayRepeatList.add("T3")
-                } else {
-                    dayRepeatList.remove("T3")
-                }
-            }
-            toggleBtWe.setOnCheckedChangeListener { _, isChecked ->
-                if (isChecked) {
-                    dayRepeatList.add("T4")
-                } else {
-                    dayRepeatList.remove("T4")
-                }
-            }
-            toggleBtTh.setOnCheckedChangeListener { _, isChecked ->
-                if (isChecked) {
-                    dayRepeatList.add("T5")
-                } else {
-                    dayRepeatList.remove("T5")
-                }
-            }
-
-            toggleBtFr.setOnCheckedChangeListener { _, isChecked ->
-                if (isChecked) {
-                    dayRepeatList.add("T6")
-                } else {
-                    dayRepeatList.remove("T6")
-                }
-            }
-            toggleBtSa.setOnCheckedChangeListener { _, isChecked ->
-                if (isChecked) {
-                    dayRepeatList.add("T7")
-                } else {
-                    dayRepeatList.remove("T7")
-                }
-            }
-            toggleBtSun.setOnCheckedChangeListener { _, isChecked ->
-                if (isChecked) {
-                    dayRepeatList.add("CN")
-                } else {
-                    dayRepeatList.remove("CN")
-                }
-            }
-        }
-    }
 
     private fun removeItemMedicineType(adapter: MedicineTypeAdapter, position: Int) {
         medicineTypeList.removeAt(position)
@@ -237,31 +192,6 @@ class AddMedicineFragment :
         }
     }
 
-    private fun settingDayPicker() {
-
-        val colorStateList = ColorStateList(
-            arrayOf(
-                intArrayOf(android.R.attr.state_checked), // Checked state
-                intArrayOf(-android.R.attr.state_checked)  // Unchecked state
-            ),
-            intArrayOf(
-                ContextCompat.getColor(
-                    requireContext(),
-                    R.color.login_blue
-                ),   // Color when checked
-                ContextCompat.getColor(requireContext(), R.color.blue),   // Color when uncheck
-            )
-        )
-        binding.apply {
-            toggleBtMon.backgroundTintList = colorStateList
-            toggleBtTu.backgroundTintList = colorStateList
-            toggleBtWe.backgroundTintList = colorStateList
-            toggleBtTh.backgroundTintList = colorStateList
-            toggleBtFr.backgroundTintList = colorStateList
-            toggleBtSa.backgroundTintList = colorStateList
-            toggleBtSun.backgroundTintList = colorStateList
-        }
-    }
 
     private fun getCurrentDate() {
         val calendar = Calendar.getInstance()

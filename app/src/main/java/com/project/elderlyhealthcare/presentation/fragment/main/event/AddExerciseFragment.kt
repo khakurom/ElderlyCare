@@ -22,6 +22,7 @@ import com.project.elderlyhealthcare.utils.Utils.showDialog
 import com.project.elderlyhealthcare.utils.Utils.uncheckedRepeatDay
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.Calendar
+import java.util.Random
 
 @AndroidEntryPoint
 class AddExerciseFragment :
@@ -175,7 +176,8 @@ class AddExerciseFragment :
                         dayBegin = addExTvDate.text.trim().toString(),
                         exerciseName = addExEdtExerciseName.text?.trim().toString(),
                         description = addExEdtDescription.text?.trim().toString(),
-                        isOn = true
+                        isOn = true,
+                        uniqueIntent = Random().nextInt()
                     )
                     viewModel?.insertExerciseEvent(exerciseEvent)
                     backToPreScreen()

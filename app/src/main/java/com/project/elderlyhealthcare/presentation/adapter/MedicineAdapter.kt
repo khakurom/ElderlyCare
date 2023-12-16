@@ -16,21 +16,6 @@ class MedicineAdapter :
         BaseViewHolder<MedicineEventModel, ItemMedicineEventBinding>(binding) {
         override fun bind(item: MedicineEventModel) {
             binding.medicineModel = item
-            binding.dayRepeat = formatDayRepeatList (item)
-        }
-
-        private fun formatDayRepeatList (item : MedicineEventModel) : String {
-            var dayRepeat = ""
-            if (item.dayRepeat.isNotEmpty()) {
-                val eventList = sortDayList (item.dayRepeat)
-                for ((index, i) in eventList.withIndex()) {
-                    dayRepeat += i
-                    if (index < eventList.size - 1) {
-                        dayRepeat += ","
-                    }
-                }
-            }
-            return dayRepeat
         }
     }
 
@@ -54,6 +39,14 @@ class MedicineAdapter :
         }
         holder.binding.itemMedicineIvClear.setOnClickListener {
             onItemRemoveListener?.onItemRemove(getItem(holder.absoluteAdapterPosition), holder.absoluteAdapterPosition)
+        }
+        holder.binding.itemMedicineSwitch.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+                holder.binding.itemMedicineSwitch.isChecked =
+                    onItemTurnOnListener?.onItemTurnOn(getItem(holder.absoluteAdapterPosition), holder.absoluteAdapterPosition) == true
+            } else {
+                onItemTurnOnListener?.onItemTurnOff(getItem(holder.absoluteAdapterPosition), holder.absoluteAdapterPosition)
+            }
         }
     }
 }

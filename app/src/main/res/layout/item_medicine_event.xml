@@ -6,9 +6,6 @@
         <variable
             name="medicineModel"
             type="com.project.elderlyhealthcare.domain.models.MedicineEventModel" />
-        <variable
-            name="dayRepeat"
-            type="String" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -35,16 +32,6 @@
                 android:layout_height="match_parent">
 
 
-                <TextView
-                    android:id="@+id/item_medicine_tv_dayRepeat"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:text="@{dayRepeat}"
-                    android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
-                    android:textColor="@color/black"
-                    app:layout_constraintStart_toEndOf="@id/gl_vertical_1"
-                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/item_medicine_tv_time"
@@ -57,19 +44,19 @@
                     android:textSize="25sp"
                     android:textStyle="bold"
                     app:layout_constraintStart_toEndOf="@id/gl_vertical_1"
-                    app:layout_constraintTop_toBottomOf="@id/item_medicine_tv_dayRepeat" />
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/item_medicine_tv_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
-                    android:text="@{medicineModel.diseaseName}"
+                    android:text="@{@string/item_medicine_disease_name(medicineModel.diseaseName)}"
                     android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
                     android:textColor="@color/black"
-                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_marginBottom="10dp"
                     app:layout_constraintStart_toEndOf="@id/gl_vertical_1"
-                    app:layout_constraintTop_toBottomOf="@id/item_medicine_tv_time" />
+                    app:layout_constraintBottom_toBottomOf="parent" />
 
                 <ImageView
                     android:id="@+id/item_medicine_iv_clear"
@@ -82,12 +69,14 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <androidx.appcompat.widget.SwitchCompat
-                    android:id="@+id/item_medicine_switchr"
+                    android:id="@+id/item_medicine_switch"
                     android:layout_width="wrap_content"
                     android:layout_height="20dp"
+                    android:layout_marginBottom="10dp"
+                    android:checked="@{medicineModel.isOn ? true : false}"
                     android:backgroundTint="@color/login_blue"
                     app:layout_constraintEnd_toStartOf="@+id/gl_vertical_2"
-                    app:layout_constraintTop_toTopOf="@id/item_medicine_tv_title" />
+                    app:layout_constraintBottom_toBottomOf="parent" />
 
                 <androidx.constraintlayout.widget.Guideline
                     android:id="@+id/gl_vertical_1"

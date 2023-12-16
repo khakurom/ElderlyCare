@@ -5,9 +5,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
-import com.project.elderlyhealthcare.data.models.ExerciseEventEntity
 import com.project.elderlyhealthcare.data.models.MedicineEventEntity
-import com.project.elderlyhealthcare.utils.Constant.TABLE_EXERCISE_EVENT
 import com.project.elderlyhealthcare.utils.Constant.TABLE_MEDICINE_EVENT
 import kotlinx.coroutines.flow.Flow
 
@@ -24,5 +22,11 @@ interface MedicineDao {
 
     @Update
     fun updateMedicineEvent (entity: MedicineEventEntity)
+
+    @Query("UPDATE $TABLE_MEDICINE_EVENT SET isOn = :isOn WHERE id = :id")
+    fun updateMedicineEventOnOff (id : Int, isOn : Boolean)
+
+    @Query("SELECT uniqueIntent FROM $TABLE_MEDICINE_EVENT WHERE id = :id")
+    fun getUniqueIntentMedicine (id : Int) : Int
 
 }

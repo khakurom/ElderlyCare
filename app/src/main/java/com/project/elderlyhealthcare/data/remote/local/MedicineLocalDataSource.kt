@@ -24,4 +24,12 @@ class MedicineLocalDataSource @Inject constructor(private val appDatabase: AppDa
     fun updateMedicineEvent (medicineEventEntity: MedicineEventEntity) {
         appDatabase.medicineDao().updateMedicineEvent(medicineEventEntity)
     }
+
+    fun updateMedicineEventOnOff (id : Int, isOn : Boolean) {
+        appDatabase.medicineDao().updateMedicineEventOnOff(id, isOn)
+    }
+
+    fun getUniqueIntentMedicine (id : Int) : Int {
+        return appDatabase.medicineDao().getUniqueIntentMedicine(id)
+    }
 }

@@ -18,6 +18,7 @@ import com.project.elderlyhealthcare.utils.Utils.getCurrentTime
 import com.project.elderlyhealthcare.utils.Utils.hideKeyboard
 import com.project.elderlyhealthcare.utils.Utils.settingDayPicker
 import java.util.Calendar
+import java.util.Random
 
 
 class UpdateExerciseEventFragment :
@@ -109,7 +110,8 @@ class UpdateExerciseEventFragment :
                         dayBegin = updateExTvDate.text.trim().toString(),
                         exerciseName = updateExEdtExerciseName.text?.trim().toString(),
                         description = updateExEdtDescription.text?.trim().toString(),
-                        isOn = true
+                        isOn = true,
+                        uniqueIntent = Random().nextInt()
                     )
                     viewModel?.updateExerciseEvent(exerciseEvent)
                     backToPreScreen()

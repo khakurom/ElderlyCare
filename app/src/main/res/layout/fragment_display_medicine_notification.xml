@@ -67,6 +67,7 @@
             android:layout_height="wrap_content"
             android:text="@{medicineEventModel.diseaseName}"
             android:layout_marginTop="5dp"
+            android:textColor="@color/login_blue"
             android:textSize="15sp"
             app:layout_constraintStart_toStartOf="@+id/gl_vertical_1"
             app:layout_constraintTop_toBottomOf="@+id/textView1" />
@@ -90,6 +91,7 @@
             android:layout_height="wrap_content"
             android:text="@{@string/display_medicine_time (medicineEventModel.hour,medicineEventModel.minutes)}"
             android:layout_marginTop="5dp"
+            android:textColor="@color/login_blue"
             android:textSize="15sp"
             app:layout_constraintStart_toStartOf="@+id/gl_vertical_1"
             app:layout_constraintTop_toBottomOf="@+id/textView3" />
@@ -113,6 +115,7 @@
             android:layout_height="wrap_content"
             android:text="@{@string/display_medicine_day_begin_end(medicineEventModel.dayBegin,medicineEventModel.dayEnd)}"
             android:layout_marginTop="5dp"
+            android:textColor="@color/login_blue"
             android:textSize="15sp"
             app:layout_constraintStart_toStartOf="@+id/gl_vertical_1"
             app:layout_constraintTop_toBottomOf="@+id/textView4" />
@@ -130,27 +133,6 @@
             app:layout_constraintStart_toEndOf="@id/gl_vertical_1"
             app:layout_constraintTop_toBottomOf="@+id/display_re_ex_tv_time" />
 
-        <TextView
-            android:id="@+id/textView6"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/josefinsans_bold"
-            android:text="Các ngày uống thuốc trong tuần"
-            android:layout_marginTop="30dp"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
-            android:textColor="@color/black"
-            android:textSize="20sp"
-            app:layout_constraintStart_toEndOf="@id/gl_vertical_1"
-            app:layout_constraintTop_toBottomOf="@+id/display_re_ex_tv_day_begin" />
-
-        <TextView
-            android:id="@+id/display_ex_tv_day_repeat"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:textSize="15sp"
-            app:layout_constraintStart_toStartOf="@+id/gl_vertical_1"
-            app:layout_constraintTop_toBottomOf="@+id/textView6" />
 
         <TextView
             android:id="@+id/textView7"
@@ -163,7 +145,7 @@
             android:textColor="@color/black"
             android:textSize="20sp"
             app:layout_constraintStart_toEndOf="@id/gl_vertical_1"
-            app:layout_constraintTop_toBottomOf="@+id/display_ex_tv_day_repeat" />
+            app:layout_constraintTop_toBottomOf="@+id/display_re_ex_tv_day_begin" />
 
 
         <androidx.recyclerview.widget.RecyclerView

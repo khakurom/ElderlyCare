@@ -11,12 +11,13 @@ class MedicineMapper : Mapper<List<MedicineEventEntity>, List<MedicineEventModel
                 id = entity.id,
                 hour = entity.hour,
                 minutes = entity.minutes,
-                dayRepeat = entity.dayRepeat,
                 dayBegin = entity.dayBegin,
                 dayEnd = entity.dayEnd,
                 medicineName = entity.medicineName,
                 medicineDose = entity.medicineDose,
-                diseaseName = entity.diseaseName
+                diseaseName = entity.diseaseName,
+                uniqueIntent = entity.uniqueIntent,
+                isOn = entity.isOn
             )
         }
     }
@@ -27,12 +28,13 @@ class MedicineMapper : Mapper<List<MedicineEventEntity>, List<MedicineEventModel
                 id = model.id,
                 hour = model.hour,
                 minutes = model.minutes,
-                dayRepeat = model.dayRepeat,
                 dayBegin = model.dayBegin,
                 dayEnd = model.dayEnd,
                 medicineName = model.medicineName,
                 medicineDose = model.medicineDose,
-                diseaseName = model.diseaseName
+                diseaseName = model.diseaseName,
+                uniqueIntent = model.uniqueIntent,
+                isOn = model.isOn
             )
         }
     }
@@ -42,12 +44,13 @@ class MedicineMapper : Mapper<List<MedicineEventEntity>, List<MedicineEventModel
             id = from.id,
             hour = from.hour,
             minutes = from.minutes,
-            dayRepeat = from.dayRepeat,
             dayBegin = from.dayBegin,
             dayEnd = from.dayEnd,
             medicineName = from.medicineName,
             medicineDose = from.medicineDose,
-            diseaseName = from.diseaseName
+            diseaseName = from.diseaseName,
+            uniqueIntent = from.uniqueIntent,
+            isOn = from.isOn
         )
     }
 
@@ -56,12 +59,13 @@ class MedicineMapper : Mapper<List<MedicineEventEntity>, List<MedicineEventModel
             id = from.id,
             hour = from.hour,
             minutes = from.minutes,
-            dayRepeat = from.dayRepeat,
             dayBegin = from.dayBegin,
             dayEnd = from.dayEnd,
             medicineName = from.medicineName,
             medicineDose = from.medicineDose,
-            diseaseName = from.diseaseName
+            diseaseName = from.diseaseName,
+            uniqueIntent = from.uniqueIntent,
+            isOn = from.isOn
         )
     }
 }

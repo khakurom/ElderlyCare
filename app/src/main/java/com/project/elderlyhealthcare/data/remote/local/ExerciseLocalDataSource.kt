@@ -1,6 +1,5 @@
 package com.project.elderlyhealthcare.data.remote.local
 
-import android.util.Log
 import com.project.elderlyhealthcare.data.models.ExerciseEventEntity
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
@@ -27,11 +26,7 @@ class ExerciseLocalDataSource @Inject constructor(private val appDatabase: AppDa
         return appDatabase.exerciseDao().updateExerciseEventOnOff(id, isOn)
     }
 
-    fun updateUniqueIntentExercise (uniqueIntent : Int?, id : Int) {
-        return appDatabase.exerciseDao().updateUniqueIntentExercise(uniqueIntent,id)
-    }
-
-    fun getUniqueIntentExercise (id : Int) : Flow<Int> {
+    fun getUniqueIntentExercise (id : Int) : Int {
         return appDatabase.exerciseDao().getUniqueIntentExercise(id)
     }
 }

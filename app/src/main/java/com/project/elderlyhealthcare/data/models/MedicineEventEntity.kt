@@ -20,11 +20,8 @@ data class MedicineEventEntity(
     @ColumnInfo(name = "minutes")
     val minutes : String? = null,
 
-    @ColumnInfo(name = "dayRepeat")
-    val dayRepeat : List <String?> ,
-
     @ColumnInfo(name = "dayBegin")
-    val dayBegin : String,
+    val dayBegin : String ,
 
     @ColumnInfo(name = "dayEnd")
     val dayEnd : String ,
@@ -36,5 +33,12 @@ data class MedicineEventEntity(
     val medicineDose : List <Int>,
 
     @ColumnInfo(name = "diseaseName")
-    val diseaseName : String
+    val diseaseName : String,
+
+    @ColumnInfo(name = "uniqueIntent")
+    val uniqueIntent : Int,
+
+    @ColumnInfo(name = "isOn")
+    val isOn : Boolean? = null,
+
 )

@@ -29,11 +29,9 @@ class ExerciseUseCase @Inject constructor(private val exerciseRepositoryImpl: Ex
         exerciseRepositoryImpl.updateExerciseEventOnOff(id, isOn)
     }
 
-    fun updateUniqueIntentExercise(uniqueIntent: Int?, id: Int) {
-        exerciseRepositoryImpl.updateUniqueIntentExercise(uniqueIntent,id)
-    }
 
-    fun getUniqueIntentExercise (id: Int) : Flow <Int> {
+
+    fun getUniqueIntentExercise (id: Int) : Int {
         return exerciseRepositoryImpl.getUniqueIntentExercise(id)
     }
 

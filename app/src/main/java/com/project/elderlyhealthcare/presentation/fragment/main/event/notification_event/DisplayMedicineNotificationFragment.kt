@@ -7,9 +7,14 @@ import androidx.navigation.fragment.navArgs
 import com.project.elderlyhealthcare.R
 import com.project.elderlyhealthcare.BR
 import com.project.elderlyhealthcare.databinding.FragmentDisplayMedicineNotificationBinding
+import com.project.elderlyhealthcare.domain.models.MedicineTypeModel
+import com.project.elderlyhealthcare.presentation.adapter.MedicineTypeAdapter
+import com.project.elderlyhealthcare.presentation.adapter.OnItemRemoveListener
+import com.project.elderlyhealthcare.presentation.adapter.OnItemSelectListener
 import com.project.elderlyhealthcare.presentation.fragment.base.BaseFragment
 import com.project.elderlyhealthcare.presentation.viewmodels.main.EventViewModel
 import com.project.elderlyhealthcare.utils.OnFragmentInteractionListener
+import com.project.elderlyhealthcare.utils.SimpleDividerItemDecoration
 import com.project.elderlyhealthcare.utils.SingleClickListener
 
 
@@ -36,16 +41,30 @@ class DisplayMedicineNotificationFragment :
 
     override fun init() {
         super.init()
+        val adapter : MedicineTypeAdapter by lazy {
+           MedicineTypeAdapter(true)
+        }
         binding.apply {
             displayMedicineBtBack.setOnClickListener(object : SingleClickListener() {
                 override fun onSingleClick(v: View) {
                     backToPreScreen()
                 }
             })
-
             medicineEventModel = navArgs.medicineModel
+            displayMedicineRcvMedicineType.adapter = adapter
+            displayMedicineRcvMedicineType.addItemDecoration(SimpleDividerItemDecoration(requireContext(),R.drawable.line_divider))
+
+            adapter.submitList(createMedicineTypeList())
         }
         listener?.updateBottomNavVisible(true)
+    }
+
+    private fun createMedicineTypeList () : List <MedicineTypeModel> {
+        val medicineNameList = navArgs.medicineModel?.medicineName!!
+        val medicineDoseList = navArgs.medicineModel?.medicineDose!!
+        return medicineNameList.zip(medicineDoseList) { string, int ->
+            MedicineTypeModel(string, int)
+        }
     }
 
     override fun onDestroy() {
