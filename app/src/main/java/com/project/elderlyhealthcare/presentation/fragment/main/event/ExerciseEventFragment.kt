@@ -3,6 +3,7 @@ package com.project.elderlyhealthcare.presentation.fragment.main.event
 import android.annotation.SuppressLint
 import android.app.AlarmManager
 import android.app.PendingIntent
+import android.content.Context
 import android.content.Context.ALARM_SERVICE
 import android.content.Intent
 import android.util.Log
@@ -22,6 +23,7 @@ import com.project.elderlyhealthcare.presentation.fragment.not_login.LoginFragme
 import com.project.elderlyhealthcare.presentation.viewmodels.main.EventViewModel
 import com.project.elderlyhealthcare.utils.AlarmReceiver
 import com.project.elderlyhealthcare.utils.Constant
+import com.project.elderlyhealthcare.utils.OnFragmentInteractionListener
 import com.project.elderlyhealthcare.utils.SingleClickListener
 import com.project.elderlyhealthcare.utils.Utils
 import dagger.hilt.android.AndroidEntryPoint
@@ -29,6 +31,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.runBlocking
 import java.text.SimpleDateFormat
+import java.time.DayOfWeek
 import java.util.Calendar
 import java.util.Locale
 import java.util.Random
@@ -37,11 +40,25 @@ import java.util.Random
 class ExerciseEventFragment :
     BaseFragment<EventViewModel, FragmentExerciseEventBinding>(R.layout.fragment_exercise_event) {
 
+    private var listener: OnFragmentInteractionListener? = null
     override fun variableId(): Int = BR.exerciseViewModel
 
     override fun createViewModel(): Lazy<EventViewModel> = activityViewModels()
     override fun bindView(view: View): FragmentExerciseEventBinding {
         return FragmentExerciseEventBinding.bind(view)
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is OnFragmentInteractionListener) {
+            listener = context
+        }
+    }
+
+
+    override fun onDestroy() {
+        super.onDestroy()
+        listener?.updateBottomNavVisible(false)
     }
 
     override fun init() {
@@ -105,6 +122,7 @@ class ExerciseEventFragment :
 
 
         }
+        listener?.updateBottomNavVisible(true)
         getExerciseEvent()
     }
 
@@ -124,7 +142,6 @@ class ExerciseEventFragment :
         val intent = Intent(requireContext(), AlarmReceiver::class.java)
         intent.putExtra(Constant.KEY_EVENT_ITEM, item)
         intent.putExtra(Constant.KEY_EVENT, Constant.MODE_EXERCISE)
-
         val uniqueIntent = async(Dispatchers.IO) { viewModel?.getUniqueIntentExercise(item.id) }
         uniqueIntent.await()?.let {
             val pendingIntent = PendingIntent.getBroadcast(activity?.applicationContext, it, intent, PendingIntent.FLAG_MUTABLE)
@@ -134,6 +151,7 @@ class ExerciseEventFragment :
                 pendingIntent
             )
         }
+
     }
 
     private fun cancelAlarm(item: ExerciseEventModel) = runBlocking {
@@ -150,8 +168,6 @@ class ExerciseEventFragment :
             alarmManager.cancel(pendingIntent)
         }
     }
-
-
     private fun getExerciseEvent() {
         viewModel?.getExerciseEvent()
     }

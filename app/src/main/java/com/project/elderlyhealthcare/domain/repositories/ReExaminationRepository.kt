@@ -14,4 +14,8 @@ interface ReExaminationRepository {
     fun deleteReExEvent (id : Int)
 
     fun updateReExEvent (reExaminationEventEntity: ReExaminationEventEntity)
+
+    fun updateReExEventOnOff (id : Int, isOn : Boolean)
+
+    fun getUniqueIntentRex (id : Int) : Int
 }

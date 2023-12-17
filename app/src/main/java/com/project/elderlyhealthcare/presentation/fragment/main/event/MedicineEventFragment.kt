@@ -11,7 +11,6 @@ import androidx.navigation.fragment.findNavController
 import com.project.elderlyhealthcare.BR
 import com.project.elderlyhealthcare.R
 import com.project.elderlyhealthcare.databinding.FragmentMedicineEventBinding
-import com.project.elderlyhealthcare.domain.models.ExerciseEventModel
 import com.project.elderlyhealthcare.domain.models.MedicineEventModel
 import com.project.elderlyhealthcare.presentation.adapter.MedicineAdapter
 import com.project.elderlyhealthcare.presentation.adapter.OnItemRemoveListener
@@ -21,6 +20,7 @@ import com.project.elderlyhealthcare.presentation.fragment.base.BaseFragment
 import com.project.elderlyhealthcare.presentation.viewmodels.main.EventViewModel
 import com.project.elderlyhealthcare.utils.AlarmReceiver
 import com.project.elderlyhealthcare.utils.Constant
+import com.project.elderlyhealthcare.utils.OnFragmentInteractionListener
 import com.project.elderlyhealthcare.utils.SingleClickListener
 import com.project.elderlyhealthcare.utils.Utils
 import dagger.hilt.android.AndroidEntryPoint
@@ -35,6 +35,8 @@ import java.util.Locale
 class MedicineEventFragment :
     BaseFragment<EventViewModel, FragmentMedicineEventBinding>(R.layout.fragment_medicine_event) {
 
+    private var listener: OnFragmentInteractionListener? = null
+
     private val medicineAdapter = MedicineAdapter()
 
 
@@ -46,8 +48,24 @@ class MedicineEventFragment :
         return FragmentMedicineEventBinding.bind(view)
     }
 
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is OnFragmentInteractionListener) {
+            listener = context
+        }
+    }
+
+
+    override fun onDestroy() {
+        super.onDestroy()
+        listener?.updateBottomNavVisible(false)
+    }
+
+
     override fun init() {
         super.init()
+        listener?.updateBottomNavVisible(true)
         medicineAdapter.apply {
             onItemSelectListener = object : OnItemSelectListener<MedicineEventModel> {
                 override fun onItemSelected(item: MedicineEventModel, position: Int) {
@@ -110,10 +128,12 @@ class MedicineEventFragment :
     @SuppressLint("ScheduleExactAlarm")
     private fun createAlarm(item: MedicineEventModel) = runBlocking {
         val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-        val date = dateFormat.parse(item.dayBegin)
+        val startDate = dateFormat.parse(item.dayBegin)
+        val endDate = dateFormat.parse(item.dayEnd)
         val calendar = Calendar.getInstance()
+        val interval = startDate?.time?.minus(endDate?.time!!)
 
-        calendar.time = date!!
+        calendar.time = startDate!!
         calendar.set(Calendar.HOUR_OF_DAY, item.hour!!.toInt())
         calendar.set(Calendar.MINUTE, item.minutes!!.toInt())
         calendar.set(Calendar.MILLISECOND, 0)
@@ -124,16 +144,23 @@ class MedicineEventFragment :
         intent.putExtra(Constant.KEY_EVENT_ITEM, item)
         intent.putExtra(Constant.KEY_EVENT, Constant.MODE_MEDICINE)
 
-        val uniqueIntent = async(Dispatchers.IO) { viewModel?.getUniqueIntentMedicine(item.id) }
-        uniqueIntent.await()?.let {
-            val pendingIntent = PendingIntent.getBroadcast(activity?.applicationContext, it, intent, PendingIntent.FLAG_MUTABLE)
-            alarmManager.setExactAndAllowWhileIdle(
-                AlarmManager.RTC_WAKEUP,
-                calendar.timeInMillis,
-                pendingIntent
-            )
+        while (calendar.time.before(endDate)) {
+            val uniqueIntent = async(Dispatchers.IO) { viewModel?.getUniqueIntentMedicine(item.id) }
+            uniqueIntent.await()?.let {
+                val pendingIntent = PendingIntent.getBroadcast(activity?.applicationContext, it, intent, PendingIntent.FLAG_MUTABLE)
+                alarmManager.setRepeating(
+                    AlarmManager.RTC_WAKEUP,
+                    calendar.timeInMillis,
+                    interval!!,
+                    pendingIntent
+                )
+            }
+            calendar.add(Calendar.DAY_OF_MONTH, 1)
         }
+
     }
+
+
 
     private fun cancelAlarm(item: MedicineEventModel) = runBlocking {
         val uniqueIntent = async(Dispatchers.IO) { viewModel?.getUniqueIntentMedicine(item.id) }

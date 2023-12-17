@@ -42,11 +42,6 @@ class DisplayExerciseNotificationFragment :  BaseFragment<EventViewModel, Fragme
                     backToPreScreen()
                 }
             })
-
-            navArgs.exerciseEventModel?.let {
-                displayExTvDayRepeat.text = formatDayRepeatList(it)
-                exerciseEventModel = it
-            }
         }
         listener?.updateBottomNavVisible(true)
     }
@@ -56,17 +51,4 @@ class DisplayExerciseNotificationFragment :  BaseFragment<EventViewModel, Fragme
         listener?.updateBottomNavVisible(false)
     }
 
-    private fun formatDayRepeatList(item: ExerciseEventModel): String {
-        var dayRepeat = ""
-        if (item.dayRepeat.isNotEmpty()) {
-            val eventList = Utils.sortDayList(item.dayRepeat)
-            for ((index, i) in eventList.withIndex()) {
-                dayRepeat += i
-                if (index < eventList.size - 1) {
-                    dayRepeat += ","
-                }
-            }
-        }
-        return dayRepeat
-    }
 }

@@ -1,6 +1,7 @@
 package com.project.elderlyhealthcare.presentation.fragment.main.event
 
 import android.app.DatePickerDialog
+import android.content.Context
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
@@ -11,16 +12,19 @@ import com.project.elderlyhealthcare.databinding.FragmentAddReExaminationBinding
 import com.project.elderlyhealthcare.presentation.fragment.base.BaseFragment
 import com.project.elderlyhealthcare.presentation.viewmodels.main.EventViewModel
 import com.project.elderlyhealthcare.utils.Constant
+import com.project.elderlyhealthcare.utils.OnFragmentInteractionListener
 import com.project.elderlyhealthcare.utils.SingleClickListener
 import com.project.elderlyhealthcare.utils.Utils
 import com.project.elderlyhealthcare.utils.Utils.hideKeyboard
 import com.project.elderlyhealthcare.utils.Utils.showDialog
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.Calendar
+import java.util.Random
 
 @AndroidEntryPoint
 class AddReExaminationFragment :
     BaseFragment<EventViewModel, FragmentAddReExaminationBinding>(R.layout.fragment_add_re_examination) {
+    private var listener: OnFragmentInteractionListener? = null
     override fun variableId(): Int = BR.addReExViewModel
 
     override fun createViewModel(): Lazy<EventViewModel> = activityViewModels()
@@ -29,7 +33,16 @@ class AddReExaminationFragment :
         return FragmentAddReExaminationBinding.bind(view)
     }
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is OnFragmentInteractionListener) {
+            listener = context
+        }
+    }
+
+
     override fun init() {
+        listener?.updateBottomNavVisible(true)
         binding.apply {
             layoutAddReEx.setOnClickListener(object : SingleClickListener() {
                 override fun onSingleClick(v: View) {
@@ -77,7 +90,6 @@ class AddReExaminationFragment :
 
         val minDateCalendar = Calendar.getInstance()
         minDateCalendar.set(year, month, day)
-        minDateCalendar.add(Calendar.DAY_OF_MONTH, 1)
         val minDateInMillis = minDateCalendar.timeInMillis
 
         binding.apply {
@@ -108,15 +120,26 @@ class AddReExaminationFragment :
                 if (addReExEdDiseaseName.text?.trim().toString().isEmpty()) {
                     showDialog(requireContext(), "Vui lòng đặt tên bệnh cần tái khám")
                 } else {
-                    val reExEvent = ReExaminationEventEntity(
-                        hour = Utils.formatTimeNumberPicker(pickerHour),
-                        minutes = Utils.formatTimeNumberPicker(pickerMinute),
-                        dayBegin = addReExTvDate.text.trim().toString(),
-                        diseaseName = addReExEdDiseaseName.text?.trim().toString(),
-                        address = addReExEdAddress.text?.trim().toString()
-                    )
-                    viewModel?.insertReExEvent(reExEvent)
-                    backToPreScreen()
+                    if (Utils.compareToCurrentTime(
+                            addReExTvDate.text.trim().toString(),
+                            Utils.formatTimeNumberPicker(pickerHour),
+                            Utils.formatTimeNumberPicker(pickerMinute)
+                        )
+                    ) {
+                        showDialog(requireContext(), "Không thể đặt giờ trong quá khứ")
+                    } else {
+                        val reExEvent = ReExaminationEventEntity(
+                            hour = Utils.formatTimeNumberPicker(pickerHour),
+                            minutes = Utils.formatTimeNumberPicker(pickerMinute),
+                            dayBegin = addReExTvDate.text.trim().toString(),
+                            diseaseName = addReExEdDiseaseName.text?.trim().toString(),
+                            address = addReExEdAddress.text?.trim().toString(),
+                            isOn = true,
+                            uniqueIntent = Random().nextInt()
+                        )
+                        viewModel?.insertReExEvent(reExEvent)
+                        backToPreScreen()
+                    }
                 }
             }
 

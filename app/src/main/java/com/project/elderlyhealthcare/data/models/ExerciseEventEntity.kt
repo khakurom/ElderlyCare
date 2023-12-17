@@ -21,9 +21,6 @@ data class ExerciseEventEntity(
     @ColumnInfo(name = "minutes")
     val minutes: String? = null,
 
-    @ColumnInfo(name = "dayRepeat")
-    val dayRepeat: List<String?>,
-
     @ColumnInfo(name = "dayBegin")
     val dayBegin: String? = null,
 

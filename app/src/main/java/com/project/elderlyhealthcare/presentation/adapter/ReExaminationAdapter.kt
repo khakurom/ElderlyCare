@@ -42,11 +42,19 @@ class ReExaminationAdapter :
                 holder.absoluteAdapterPosition
             )
         }
-        holder.binding.itemExerciseIvClear.setOnClickListener {
+        holder.binding.itemReExIvClear.setOnClickListener {
             onItemRemoveListener?.onItemRemove(
                 getItem(holder.absoluteAdapterPosition),
                 holder.absoluteAdapterPosition
             )
+        }
+        holder.binding.itemReExSwitch.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+                holder.binding.itemReExSwitch.isChecked =
+                    onItemTurnOnListener?.onItemTurnOn(getItem(holder.absoluteAdapterPosition), holder.absoluteAdapterPosition) == true
+            } else {
+                onItemTurnOnListener?.onItemTurnOff(getItem(holder.absoluteAdapterPosition), holder.absoluteAdapterPosition)
+            }
         }
     }
 }

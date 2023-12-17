@@ -16,6 +16,14 @@
     <string name="login_txt_enter_code_otp">Nhập mã otp được gửi đến số điện thoại %s</string>
 
 
+    // re-ex event fragment
+    <string name="re_ex_display_address">Địa chỉ tái khám: %s</string>
+    <string name="re_ex_display_day_begin">Ngày tái khám: %s</string>
+    <string name="re_ex_display_disease_name">Tái khám bệnh: %s</string>
+
+    // exercise event fragment
+    <string name="exercise_display_exercise_name">Tên bài tập: %s</string>
+
     // addExerciseFragment
     <string name="add_exercise_screen">Thêm lịch tập thể dục</string>
     <string name="addEx_hour_minutes">%s:%s</string>
@@ -25,7 +33,7 @@
     <string name="add_medicine_screen">Thêm lịch uống thuốc</string>
 
     // addReExFragment
-    <string name="add_re_ex_pick_date">Vui lòng chọn sau ngày hiện tại</string>
+    <string name="add_re_ex_pick_date">Vui lòng chọn ngày tái khám</string>
     <string name="add_re_ex_screen">Thêm lịch tái khám</string>
 
     // display exercise event fragment

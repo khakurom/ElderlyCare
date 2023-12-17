@@ -66,7 +66,7 @@ class AlarmReceiver : BroadcastReceiver() {
         if (context?.let { ActivityCompat.checkSelfPermission(it, Manifest.permission.POST_NOTIFICATIONS) } != PackageManager.PERMISSION_GRANTED) {
             Toast.makeText(context, "Vui lòng bật cho phép thông báo đến thiết bị", Toast.LENGTH_SHORT).show()
         } else {
-            notificationManager.notify(1, settingNotification(context, pendingIntent, dataItemEvent, mode))
+            notificationManager.notify(Random().nextInt(), settingNotification(context, pendingIntent, dataItemEvent, mode))
         }
     }
 

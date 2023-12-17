@@ -12,21 +12,27 @@ import com.squareup.moshi.JsonClass
 data class ReExaminationEventEntity(
     @ColumnInfo(name = "id")
     @PrimaryKey(autoGenerate = true)
-    val id : Int = 0,
+    val id: Int = 0,
 
     @ColumnInfo(name = "hour")
-    val hour : String? = null,
+    val hour: String,
 
     @ColumnInfo(name = "minutes")
-    val minutes : String? = null,
+    val minutes: String,
 
     @ColumnInfo(name = "dayBegin")
-    val dayBegin : String? = null,
+    val dayBegin: String,
 
     @ColumnInfo(name = "nameDisease")
-    val diseaseName : String? = null,
+    val diseaseName: String,
 
     @ColumnInfo(name = "address")
-    val address : String? = null
+    val address: String? = null,
 
-)
+    @ColumnInfo(name = "uniqueIntent")
+    val uniqueIntent: Int,
+
+    @ColumnInfo(name = "isOn")
+    val isOn: Boolean,
+
+    )

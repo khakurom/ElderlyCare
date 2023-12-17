@@ -1,6 +1,7 @@
 package com.project.elderlyhealthcare.presentation.fragment.main.event
 
 import android.app.DatePickerDialog
+import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.view.View
@@ -20,6 +21,7 @@ import com.project.elderlyhealthcare.presentation.fragment.base.BaseFragment
 import com.project.elderlyhealthcare.presentation.viewmodels.main.EventViewModel
 import com.project.elderlyhealthcare.utils.Constant
 import com.project.elderlyhealthcare.utils.CustomBottomSheet
+import com.project.elderlyhealthcare.utils.OnFragmentInteractionListener
 import com.project.elderlyhealthcare.utils.SimpleDividerItemDecoration
 import com.project.elderlyhealthcare.utils.SingleClickListener
 import com.project.elderlyhealthcare.utils.Utils.compareToCurrentTime
@@ -35,6 +37,7 @@ import java.util.Random
 @AndroidEntryPoint
 class AddMedicineFragment :
     BaseFragment<EventViewModel, FragmentAddMedicineBinding>(R.layout.fragment_add_medicine) {
+    private var listener: OnFragmentInteractionListener? = null
 
     private val medicineTypeList = mutableListOf<MedicineTypeModel>()
     override fun variableId(): Int = BR.addMedicineViewModel
@@ -45,10 +48,17 @@ class AddMedicineFragment :
         return FragmentAddMedicineBinding.bind(view)
     }
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is OnFragmentInteractionListener) {
+            listener = context
+        }
+    }
+
     override fun init() {
         super.init()
-
-        val adapter : MedicineTypeAdapter by lazy {
+        listener?.updateBottomNavVisible(true)
+        val adapter: MedicineTypeAdapter by lazy {
             MedicineTypeAdapter(false).apply {
                 onItemSelectListener = object : OnItemSelectListener<MedicineTypeModel> {
                     override fun onItemSelected(item: MedicineTypeModel, position: Int) {
@@ -100,7 +110,7 @@ class AddMedicineFragment :
                 }
             })
             addMedicineRcvMedicineType.adapter = adapter
-            addMedicineRcvMedicineType.addItemDecoration(SimpleDividerItemDecoration(requireContext(),R.drawable.line_divider))
+            addMedicineRcvMedicineType.addItemDecoration(SimpleDividerItemDecoration(requireContext(), R.drawable.line_divider))
             pickerHour.textColor = ContextCompat.getColor(requireContext(), R.color.black)
             pickerMinute.textColor = ContextCompat.getColor(requireContext(), R.color.black)
         }
@@ -159,7 +169,6 @@ class AddMedicineFragment :
         }
         return medicineDoseList
     }
-
 
 
     private fun removeItemMedicineType(adapter: MedicineTypeAdapter, position: Int) {
@@ -259,7 +268,6 @@ class AddMedicineFragment :
             Toast.makeText(requireContext(), "Error", Toast.LENGTH_SHORT).show()
         }
     }
-
 
 
 }

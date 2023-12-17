@@ -25,4 +25,10 @@ interface ReExaminationDao {
     @Update
     fun updateReExEvent (reExaminationEventEntity: ReExaminationEventEntity)
 
+    @Query("UPDATE $TABLE_RE_EXAM_EVENT SET isOn = :isOn WHERE id = :id")
+    fun updateReExEventOnOff (id : Int, isOn : Boolean)
+
+    @Query("SELECT uniqueIntent FROM $TABLE_RE_EXAM_EVENT WHERE id = :id")
+    fun getUniqueIntentReEx (id : Int) : Int
+
 }

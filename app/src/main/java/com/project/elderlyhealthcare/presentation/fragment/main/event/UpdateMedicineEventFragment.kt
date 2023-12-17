@@ -1,6 +1,7 @@
 package com.project.elderlyhealthcare.presentation.fragment.main.event
 
 import android.app.DatePickerDialog
+import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -21,6 +22,7 @@ import com.project.elderlyhealthcare.presentation.fragment.base.BaseFragment
 import com.project.elderlyhealthcare.presentation.viewmodels.main.EventViewModel
 import com.project.elderlyhealthcare.utils.Constant
 import com.project.elderlyhealthcare.utils.CustomBottomSheet
+import com.project.elderlyhealthcare.utils.OnFragmentInteractionListener
 import com.project.elderlyhealthcare.utils.SingleClickListener
 import com.project.elderlyhealthcare.utils.Utils
 import com.project.elderlyhealthcare.utils.Utils.getDayMonthYearFromCurrentDate
@@ -29,7 +31,9 @@ import java.util.Random
 
 class UpdateMedicineEventFragment :
     BaseFragment<EventViewModel, FragmentUpdateMedicineEventBinding>(R.layout.fragment_update_medicine_event) {
-    private lateinit var dayRepeatList: MutableList<String?>
+
+    private var listener: OnFragmentInteractionListener? = null
+
 
     private val medicineTypeList = mutableListOf<MedicineTypeModel>()
 
@@ -44,8 +48,17 @@ class UpdateMedicineEventFragment :
         return FragmentUpdateMedicineEventBinding.bind(view)
     }
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is OnFragmentInteractionListener) {
+            listener = context
+        }
+    }
+
+
     override fun init() {
         super.init()
+        listener?.updateBottomNavVisible(true)
         val medicineTypeAdapter: MedicineTypeAdapter by lazy {
             MedicineTypeAdapter(false).apply {
                 onItemSelectListener = object : OnItemSelectListener<MedicineTypeModel> {

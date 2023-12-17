@@ -13,22 +13,8 @@ class ExerciseAdapter :
         BaseViewHolder<ExerciseEventModel, ItemExerciseEventBinding>(binding) {
         override fun bind(item: ExerciseEventModel) {
             binding.exerciseModel = item
-            binding.dayRepeat = formatDayRepeatList(item)
         }
 
-        private fun formatDayRepeatList(item: ExerciseEventModel): String {
-            var dayRepeat = ""
-            if (item.dayRepeat.isNotEmpty()) {
-                val eventList = sortDayList(item.dayRepeat)
-                for ((index, i) in eventList.withIndex()) {
-                    dayRepeat += i
-                    if (index < eventList.size - 1) {
-                        dayRepeat += ","
-                    }
-                }
-            }
-            return dayRepeat
-        }
     }
 
     override fun inflateBinding(

@@ -1,6 +1,7 @@
 package com.project.elderlyhealthcare.presentation.fragment.main.event
 
 import android.app.DatePickerDialog
+import android.content.Context
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
@@ -12,13 +13,18 @@ import com.project.elderlyhealthcare.databinding.FragmentUpdateReExaminationBind
 import com.project.elderlyhealthcare.presentation.fragment.base.BaseFragment
 import com.project.elderlyhealthcare.presentation.viewmodels.main.EventViewModel
 import com.project.elderlyhealthcare.utils.Constant
+import com.project.elderlyhealthcare.utils.OnFragmentInteractionListener
 import com.project.elderlyhealthcare.utils.SingleClickListener
 import com.project.elderlyhealthcare.utils.Utils
 import com.project.elderlyhealthcare.utils.Utils.compareToCurrentDay
 import java.util.Calendar
+import java.util.Random
 
 class UpdateReExaminationFragment :
     BaseFragment<EventViewModel, FragmentUpdateReExaminationBinding>(R.layout.fragment_update_re_examination) {
+
+    private var listener: OnFragmentInteractionListener? = null
+
 
     private val navArgs: UpdateReExaminationFragmentArgs by navArgs()
 
@@ -30,8 +36,16 @@ class UpdateReExaminationFragment :
         return FragmentUpdateReExaminationBinding.bind(view)
     }
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is OnFragmentInteractionListener) {
+            listener = context
+        }
+    }
+
     override fun init() {
         super.init()
+        listener?.updateBottomNavVisible(true)
         binding.apply {
             reExEventModel = navArgs.reExEventModel
             updateReExFrCsBar.customAppBarIvBack.setOnClickListener(object :
@@ -54,7 +68,7 @@ class UpdateReExaminationFragment :
             })
 
             updateReExTvDate.text =
-                if (compareToCurrentDay(navArgs.reExEventModel.dayBegin!!)) getString(R.string.add_re_ex_pick_date) else navArgs.reExEventModel.dayBegin
+                if (compareToCurrentDay(navArgs.reExEventModel.dayBegin)) getString(R.string.add_re_ex_pick_date) else navArgs.reExEventModel.dayBegin
 
 
             pickerHour.textColor = ContextCompat.getColor(requireContext(), R.color.black)
@@ -83,7 +97,6 @@ class UpdateReExaminationFragment :
 
         val minDateCalendar = Calendar.getInstance()
         minDateCalendar.set(year, month, day)
-        minDateCalendar.add(Calendar.DAY_OF_MONTH, 1)
         val minDateInMillis = minDateCalendar.timeInMillis
 
         binding.apply {
@@ -114,16 +127,27 @@ class UpdateReExaminationFragment :
                 if (updateReExEdDiseaseName.text?.trim().toString().isEmpty()) {
                     Utils.showDialog(requireContext(), "Vui lòng đặt tên bệnh cần tái khám")
                 } else {
-                    val reExEvent = ReExaminationEventEntity(
-                        id = navArgs.reExEventModel.id,
-                        hour = Utils.formatTimeNumberPicker(pickerHour),
-                        minutes = Utils.formatTimeNumberPicker(pickerMinute),
-                        dayBegin = updateReExTvDate.text.trim().toString(),
-                        diseaseName = updateReExEdDiseaseName.text?.trim().toString(),
-                        address = updateReExEdAddress.text?.trim().toString()
-                    )
-                    viewModel?.updateReExEvent(reExEvent)
-                    backToPreScreen()
+                    if (Utils.compareToCurrentTime(
+                            updateReExTvDate.text.trim().toString(),
+                            Utils.formatTimeNumberPicker(pickerHour),
+                            Utils.formatTimeNumberPicker(pickerMinute)
+                        )
+                    ) {
+                        Utils.showDialog(requireContext(), "Không thể đặt giờ trong quá khứ")
+                    } else {
+                        val reExEvent = ReExaminationEventEntity(
+                            id = navArgs.reExEventModel.id,
+                            hour = Utils.formatTimeNumberPicker(pickerHour),
+                            minutes = Utils.formatTimeNumberPicker(pickerMinute),
+                            dayBegin = updateReExTvDate.text.trim().toString(),
+                            diseaseName = updateReExEdDiseaseName.text?.trim().toString(),
+                            address = updateReExEdAddress.text?.trim().toString(),
+                            isOn = true,
+                            uniqueIntent = Random().nextInt()
+                        )
+                        viewModel?.updateReExEvent(reExEvent)
+                        backToPreScreen()
+                    }
                 }
             }
         }

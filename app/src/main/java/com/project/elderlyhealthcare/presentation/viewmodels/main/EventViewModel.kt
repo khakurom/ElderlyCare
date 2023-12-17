@@ -136,4 +136,14 @@ class EventViewModel @Inject constructor(
             reExaminationUseCase.updateReExEvent(reExaminationEventEntity)
         }
     }
+
+    fun updateReExEventOnOff (id: Int, isOn: Boolean) {
+        viewModelScope.launch(Dispatchers.IO) {
+            reExaminationUseCase.updateReExEventOnOff(id, isOn)
+        }
+    }
+
+    fun getUniqueIntentReEx (id: Int) : Int{
+        return reExaminationUseCase.getUniqueIntentRex(id)
+    }
 }

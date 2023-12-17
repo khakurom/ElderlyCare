@@ -12,7 +12,9 @@ class ReExaminationMapper : Mapper<List<ReExaminationEventEntity>, List<ReExamin
                 minutes = entity.minutes,
                 dayBegin = entity.dayBegin,
                 diseaseName = entity.diseaseName,
-                address = entity.address
+                address = entity.address,
+                uniqueIntent = entity.uniqueIntent,
+                isOn = entity.isOn
             )
         }
     }
@@ -25,7 +27,9 @@ class ReExaminationMapper : Mapper<List<ReExaminationEventEntity>, List<ReExamin
                 minutes = model.minutes,
                 dayBegin = model.dayBegin,
                 diseaseName = model.diseaseName,
-                address = model.address
+                address = model.address,
+                uniqueIntent = model.uniqueIntent,
+                isOn = model.isOn
             )
         }
     }

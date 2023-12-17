@@ -68,7 +68,7 @@
             android:text="@{medicineEventModel.diseaseName}"
             android:layout_marginTop="5dp"
             android:textColor="@color/login_blue"
-            android:textSize="15sp"
+            android:textSize="20sp"
             app:layout_constraintStart_toStartOf="@+id/gl_vertical_1"
             app:layout_constraintTop_toBottomOf="@+id/textView1" />
 
@@ -92,7 +92,7 @@
             android:text="@{@string/display_medicine_time (medicineEventModel.hour,medicineEventModel.minutes)}"
             android:layout_marginTop="5dp"
             android:textColor="@color/login_blue"
-            android:textSize="15sp"
+            android:textSize="20sp"
             app:layout_constraintStart_toStartOf="@+id/gl_vertical_1"
             app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
@@ -116,7 +116,7 @@
             android:text="@{@string/display_medicine_day_begin_end(medicineEventModel.dayBegin,medicineEventModel.dayEnd)}"
             android:layout_marginTop="5dp"
             android:textColor="@color/login_blue"
-            android:textSize="15sp"
+            android:textSize="20sp"
             app:layout_constraintStart_toStartOf="@+id/gl_vertical_1"
             app:layout_constraintTop_toBottomOf="@+id/textView4" />
 

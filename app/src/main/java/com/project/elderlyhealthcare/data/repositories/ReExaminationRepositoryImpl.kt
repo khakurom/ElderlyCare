@@ -32,5 +32,13 @@ class ReExaminationRepositoryImpl @Inject constructor(
         reExaminationLocalDataSource.updateReExEvent(reExaminationEventEntity)
     }
 
+    override fun updateReExEventOnOff(id: Int, isOn: Boolean) {
+        reExaminationLocalDataSource.updateReExEventOnOff(id,isOn)
+    }
+
+    override fun getUniqueIntentRex(id: Int): Int {
+        return reExaminationLocalDataSource.getUniqueIntentRex(id)
+    }
+
 
 }

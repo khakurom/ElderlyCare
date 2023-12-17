@@ -1,6 +1,7 @@
 package com.project.elderlyhealthcare.presentation.fragment.main.event
 
 import android.app.DatePickerDialog
+import android.content.Context
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
@@ -12,14 +13,13 @@ import com.project.elderlyhealthcare.presentation.fragment.base.BaseFragment
 import com.project.elderlyhealthcare.presentation.viewmodels.main.EventViewModel
 import com.project.elderlyhealthcare.utils.Constant.listHour
 import com.project.elderlyhealthcare.utils.Constant.listMinutes
+import com.project.elderlyhealthcare.utils.OnFragmentInteractionListener
 import com.project.elderlyhealthcare.utils.SingleClickListener
-import com.project.elderlyhealthcare.utils.Utils
 import com.project.elderlyhealthcare.utils.Utils.compareToCurrentTime
 import com.project.elderlyhealthcare.utils.Utils.formatTimeNumberPicker
 import com.project.elderlyhealthcare.utils.Utils.getCurrentTime
 import com.project.elderlyhealthcare.utils.Utils.hideKeyboard
 import com.project.elderlyhealthcare.utils.Utils.showDialog
-import com.project.elderlyhealthcare.utils.Utils.uncheckedRepeatDay
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.Calendar
 import java.util.Random
@@ -27,6 +27,7 @@ import java.util.Random
 @AndroidEntryPoint
 class AddExerciseFragment :
     BaseFragment<EventViewModel, FragmentAddExerciseBinding>(R.layout.fragment_add_exercise) {
+    private var listener: OnFragmentInteractionListener? = null
 
     private lateinit var dayRepeatList: MutableList<String?>
     override fun variableId(): Int = BR.addExViewModel
@@ -35,6 +36,13 @@ class AddExerciseFragment :
 
     override fun bindView(view: View): FragmentAddExerciseBinding {
         return FragmentAddExerciseBinding.bind(view)
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is OnFragmentInteractionListener) {
+            listener = context
+        }
     }
 
     override fun init() {
@@ -64,21 +72,10 @@ class AddExerciseFragment :
             pickerHour.textColor = ContextCompat.getColor(requireContext(), R.color.black)
             pickerMinute.textColor = ContextCompat.getColor(requireContext(), R.color.black)
 
-            Utils.settingDayPicker(
-                requireContext(),
-                toggleBtMon,
-                toggleBtTu,
-                toggleBtWe,
-                toggleBtTh,
-                toggleBtFr,
-                toggleBtSa,
-                toggleBtSun
-            )
             getCurrentTime(addExTvDate, requireContext())
 
             settingTimePicker()
-            getValueDayRepeat()
-
+            listener?.updateBottomNavVisible(true)
         }
     }
 
@@ -93,68 +90,6 @@ class AddExerciseFragment :
     }
 
 
-    private fun getValueDayRepeat() {
-        dayRepeatList = mutableListOf()
-        binding.apply {
-            toggleBtMon.setOnCheckedChangeListener { _, isChecked ->
-                if (isChecked) {
-                    dayRepeatList.add("T2")
-                    getCurrentTime(addExTvDate, requireContext())
-                } else {
-                    dayRepeatList.remove("T2")
-                }
-            }
-            toggleBtTu.setOnCheckedChangeListener { _, isChecked ->
-                if (isChecked) {
-                    dayRepeatList.add("T3")
-                    getCurrentTime(addExTvDate, requireContext())
-                } else {
-                    dayRepeatList.remove("T3")
-                }
-            }
-            toggleBtWe.setOnCheckedChangeListener { _, isChecked ->
-                if (isChecked) {
-                    dayRepeatList.add("T4")
-                    getCurrentTime(addExTvDate, requireContext())
-                } else {
-                    dayRepeatList.remove("T4")
-                }
-            }
-            toggleBtTh.setOnCheckedChangeListener { _, isChecked ->
-                if (isChecked) {
-                    dayRepeatList.add("T5")
-                    getCurrentTime(addExTvDate, requireContext())
-                } else {
-                    dayRepeatList.remove("T5")
-                }
-            }
-
-            toggleBtFr.setOnCheckedChangeListener { _, isChecked ->
-                if (isChecked) {
-                    dayRepeatList.add("T6")
-                    getCurrentTime(addExTvDate, requireContext())
-                } else {
-                    dayRepeatList.remove("T6")
-                }
-            }
-            toggleBtSa.setOnCheckedChangeListener { _, isChecked ->
-                if (isChecked) {
-                    dayRepeatList.add("T7")
-                    getCurrentTime(addExTvDate, requireContext())
-                } else {
-                    dayRepeatList.remove("T7")
-                }
-            }
-            toggleBtSun.setOnCheckedChangeListener { _, isChecked ->
-                if (isChecked) {
-                    dayRepeatList.add("CN")
-                    getCurrentTime(addExTvDate, requireContext())
-                } else {
-                    dayRepeatList.remove("CN")
-                }
-            }
-        }
-    }
 
     private fun createExerciseEvent() {
         binding.apply {
@@ -172,7 +107,6 @@ class AddExerciseFragment :
                     val exerciseEvent = ExerciseEventEntity(
                         hour = formatTimeNumberPicker(pickerHour),
                         minutes = formatTimeNumberPicker(pickerMinute),
-                        dayRepeat = dayRepeatList.distinct(),
                         dayBegin = addExTvDate.text.trim().toString(),
                         exerciseName = addExEdtExerciseName.text?.trim().toString(),
                         description = addExEdtDescription.text?.trim().toString(),
@@ -201,15 +135,6 @@ class AddExerciseFragment :
                         selectedDay.toString(),
                         (selectedMonth + 1).toString(),
                         selectedYear.toString()
-                    )
-                    uncheckedRepeatDay(
-                        toggleBtMon,
-                        toggleBtTu,
-                        toggleBtWe,
-                        toggleBtTh,
-                        toggleBtFr,
-                        toggleBtSa,
-                        toggleBtSun
                     )
                 },
                 year,

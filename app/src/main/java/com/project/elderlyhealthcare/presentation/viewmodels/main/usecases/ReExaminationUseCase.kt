@@ -24,5 +24,13 @@ class ReExaminationUseCase @Inject constructor(private val reExaminationReposito
         reExaminationRepositoryImpl.updateReExEvent(reExaminationEventEntity)
     }
 
+     fun updateReExEventOnOff(id: Int, isOn: Boolean) {
+         reExaminationRepositoryImpl.updateReExEventOnOff(id,isOn)
+    }
+
+     fun getUniqueIntentRex(id: Int): Int {
+        return reExaminationRepositoryImpl.getUniqueIntentRex(id)
+    }
+
 
 }

@@ -217,7 +217,7 @@
                     style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:hint="..."
+                    android:hint="Ví dụ: bệnh phổi, xương khớp..."
                     bind:counterMaxLength="40"
                     bind:endIconMode="clear_text"
                     bind:helperText="Bắt buộc"

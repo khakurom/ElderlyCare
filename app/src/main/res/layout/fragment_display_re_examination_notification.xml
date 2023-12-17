@@ -10,7 +10,7 @@
             type="com.project.elderlyhealthcare.presentation.viewmodels.main.EventViewModel" />
 
         <variable
-            name="reExaminationViewModel"
+            name="reExaminationVModel"
             type="com.project.elderlyhealthcare.domain.models.ReExaminationEventModel" />
     </data>
 
@@ -65,9 +65,10 @@
             android:id="@+id/display_re_ex_tv_diseaseName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{reExaminationViewModel.diseaseName}"
+            android:text="@{reExaminationVModel.diseaseName}"
             android:layout_marginTop="5dp"
-            android:textSize="15sp"
+            android:textColor="@color/login_blue"
+            android:textSize="20sp"
             app:layout_constraintStart_toStartOf="@+id/gl_vertical_1"
             app:layout_constraintTop_toBottomOf="@+id/textView1" />
 
@@ -88,9 +89,10 @@
             android:id="@+id/display_re_ex_tv_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{@string/display_re_ex_time (reExaminationViewModel.hour,reExaminationViewModel.minutes)}"
+            android:textColor="@color/login_blue"
+            android:text="@{@string/display_re_ex_time (reExaminationVModel.hour,reExaminationVModel.minutes)}"
             android:layout_marginTop="5dp"
-            android:textSize="15sp"
+            android:textSize="20sp"
             app:layout_constraintStart_toStartOf="@+id/gl_vertical_1"
             app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
@@ -100,7 +102,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/josefinsans_bold"
-            android:text="Ngày bắt đầu"
+            android:text="Ngày tái khám"
             android:layout_marginTop="30dp"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
             android:textColor="@color/black"
@@ -113,9 +115,10 @@
             android:id="@+id/display_re_ex_tv_day_begin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{reExaminationViewModel.dayBegin}"
+            android:textColor="@color/login_blue"
+            android:text="@{reExaminationVModel.dayBegin}"
             android:layout_marginTop="5dp"
-            android:textSize="15sp"
+            android:textSize="20sp"
             app:layout_constraintStart_toStartOf="@+id/gl_vertical_1"
             app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
@@ -124,7 +127,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/josefinsans_bold"
-            android:text="Địa chỉ tái khám"
+            android:text="Địa chỉ tái khám (Bệnh viện)"
             android:layout_marginTop="30dp"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
             android:textColor="@color/black"
@@ -136,22 +139,27 @@
             android:id="@+id/display_re_ex_tv_address"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{reExaminationViewModel.address}"
+            android:textColor="@color/login_blue"
+            android:text="@{reExaminationVModel.address}"
             android:layout_marginTop="5dp"
-            android:textSize="15sp"
+            android:textSize="20sp"
             app:layout_constraintStart_toStartOf="@+id/gl_vertical_1"
             app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
-
-        <androidx.appcompat.widget.AppCompatImageButton
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/display_re_ex_bt_search"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:src="@drawable/ic_search"
-            android:scaleType="fitCenter"
-            app:layout_constraintBottom_toBottomOf="@+id/textView4"
-            app:layout_constraintEnd_toStartOf="@+id/gl_vertical_3"
-            app:layout_constraintTop_toTopOf="@+id/textView4" />
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ripple_button_1"
+            android:text="Tìm kiếm địa chỉ tái khám"
+            android:layout_marginBottom="20dp"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toTopOf="@id/display_re_ex_bt_back"
+            app:layout_constraintEnd_toStartOf="@id/gl_vertical_3"
+            app:layout_constraintStart_toEndOf="@id/gl_vertical_1" />
+
+
+
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/display_re_ex_bt_back"
@@ -159,7 +167,6 @@
             android:layout_height="wrap_content"
             android:background="@drawable/ripple_button"
             android:text="Trở về"
-            android:layout_marginTop="50dp"
             app:layout_constraintBottom_toBottomOf="parent"
             android:layout_marginBottom="50dp"
             android:textColor="@color/white"

@@ -5,14 +5,7 @@ import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
-import android.content.res.Resources
-import android.graphics.BitmapFactory
-import android.os.Build
-import android.os.VibrationEffect
-import android.os.Vibrator
-import android.provider.Settings
-import android.widget.RemoteViews
-import androidx.annotation.RequiresApi
+import android.media.RingtoneManager
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.project.elderlyhealthcare.R
@@ -32,11 +25,13 @@ object NotificationModule {
 	@Singleton
 	@Provides
 	fun provideNotificationBuilder(@ApplicationContext context: Context): NotificationCompat.Builder {
+		val notificationSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM)
 		return NotificationCompat.Builder(context, "Main Channel")
 			.setSmallIcon(R.drawable.background_login)
 			.setStyle(NotificationCompat.DecoratedCustomViewStyle())
 			.setAutoCancel(true)
 			.setOngoing(true)
+			.setSound(notificationSoundUri)
 			.setVibrate(longArrayOf(1000, 1000, 1000, 1000, 1000))
 			.setPriority(NotificationCompat.PRIORITY_HIGH)
 			.setDefaults(NotificationCompat.DEFAULT_ALL)

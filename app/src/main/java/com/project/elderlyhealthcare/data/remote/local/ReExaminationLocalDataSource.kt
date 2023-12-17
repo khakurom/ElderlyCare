@@ -22,4 +22,12 @@ class ReExaminationLocalDataSource @Inject constructor(private val appDatabase: 
         appDatabase.reExaminationDao().updateReExEvent(reExaminationEventEntity)
     }
 
+    fun updateReExEventOnOff (id : Int, isOn : Boolean) {
+        appDatabase.reExaminationDao().updateReExEventOnOff(id, isOn)
+    }
+
+    fun getUniqueIntentRex (id : Int) : Int {
+        return appDatabase.reExaminationDao().getUniqueIntentReEx(id)
+    }
+
 }
