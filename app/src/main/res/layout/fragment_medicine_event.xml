@@ -49,6 +49,15 @@
             app:layout_constraintEnd_toStartOf="@+id/gl_vertical_2"
             app:layout_constraintTop_toBottomOf="@id/medicine_fr_cs_bar" />
 
+        <View
+            android:id="@+id/view1"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="@color/grey"
+            app:layout_constraintStart_toEndOf="@id/gl_vertical_1"
+            app:layout_constraintEnd_toStartOf="@id/gl_vertical_2"
+            app:layout_constraintBottom_toTopOf="@+id/gl_horizontal_1" />
+
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/gl_vertical_1"
             android:layout_width="match_parent"
@@ -76,13 +85,12 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:orientation="vertical"
+            android:layout_marginTop="15dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/gl_horizontal_1"
-            app:layout_constraintVertical_bias="0.0"
+            bind:layout_constraintStart_toEndOf="@id/gl_vertical_1"
+            bind:layout_constraintEnd_toStartOf="@id/gl_vertical_2"
+            bind:layout_constraintTop_toBottomOf="@id/gl_horizontal_1"
             tools:listitem="@layout/item_medicine_event" />
 
 

@@ -1,7 +1,10 @@
 package com.project.elderlyhealthcare.presentation.fragment.main.event
 
+import android.app.AlarmManager
 import android.app.DatePickerDialog
+import android.app.PendingIntent
 import android.content.Context
+import android.content.Intent
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
@@ -12,11 +15,14 @@ import com.project.elderlyhealthcare.data.models.ReExaminationEventEntity
 import com.project.elderlyhealthcare.databinding.FragmentUpdateReExaminationBinding
 import com.project.elderlyhealthcare.presentation.fragment.base.BaseFragment
 import com.project.elderlyhealthcare.presentation.viewmodels.main.EventViewModel
+import com.project.elderlyhealthcare.utils.AlarmReceiver
 import com.project.elderlyhealthcare.utils.Constant
 import com.project.elderlyhealthcare.utils.OnFragmentInteractionListener
 import com.project.elderlyhealthcare.utils.SingleClickListener
 import com.project.elderlyhealthcare.utils.Utils
 import com.project.elderlyhealthcare.utils.Utils.compareToCurrentDay
+import com.project.elderlyhealthcare.utils.Utils.hideKeyboard
+import kotlinx.coroutines.runBlocking
 import java.util.Calendar
 import java.util.Random
 
@@ -60,6 +66,11 @@ class UpdateReExaminationFragment :
                     selectDate()
                 }
             })
+            layoutUpdateReEx.setOnClickListener(object : SingleClickListener() {
+                override fun onSingleClick(v: View) {
+                    v.hideKeyboard()
+                }
+            })
 
             updateReExBtUpdateReminder.setOnClickListener(object : SingleClickListener() {
                 override fun onSingleClick(v: View) {
@@ -96,7 +107,7 @@ class UpdateReExaminationFragment :
         val day = calendar.get(Calendar.DAY_OF_MONTH)
 
         val minDateCalendar = Calendar.getInstance()
-        minDateCalendar.set(year, month, day)
+        minDateCalendar.set(year, month, day + 1)
         val minDateInMillis = minDateCalendar.timeInMillis
 
         binding.apply {
@@ -135,6 +146,7 @@ class UpdateReExaminationFragment :
                     ) {
                         Utils.showDialog(requireContext(), "Không thể đặt giờ trong quá khứ")
                     } else {
+                        cancelAlarm()
                         val reExEvent = ReExaminationEventEntity(
                             id = navArgs.reExEventModel.id,
                             hour = Utils.formatTimeNumberPicker(pickerHour),
@@ -151,5 +163,16 @@ class UpdateReExaminationFragment :
                 }
             }
         }
+    }
+    private fun cancelAlarm() = runBlocking {
+        val alarmManager = activity?.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        val intent = Intent(requireContext(), AlarmReceiver::class.java)
+        val pendingIntent = PendingIntent.getBroadcast(
+            activity?.applicationContext,
+            navArgs.reExEventModel.uniqueIntent,
+            intent,
+            PendingIntent.FLAG_MUTABLE
+        )
+        alarmManager.cancel(pendingIntent)
     }
 }

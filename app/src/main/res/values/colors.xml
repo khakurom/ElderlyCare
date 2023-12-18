@@ -3,6 +3,7 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="login_blue">#80b1fd</color>
+    <color name="blue_white">#AEC7ED</color>
     <color name="blue">#CBDFFF</color>
     <color name="login_red">#EC2039</color>
     <color name="overall_blue">#dbe6f8</color>
@@ -12,4 +13,6 @@
     <color name="grey">#8E8E82</color>
     <color name="grey_1">#EAEAE1</color>
     <color name="yellow">#D3D356</color>
+    <color name="orange">#d1a14c</color>
+    <color name="blue_black">#070d31</color>
 </resources>

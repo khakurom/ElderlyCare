@@ -3,11 +3,11 @@ package com.project.elderlyhealthcare.presentation.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
-import com.project.elderlyhealthcare.databinding.ItemExerciseEventBinding
 import com.project.elderlyhealthcare.databinding.ItemMedicineEventBinding
-import com.project.elderlyhealthcare.domain.models.ExerciseEventModel
 import com.project.elderlyhealthcare.domain.models.MedicineEventModel
-import com.project.elderlyhealthcare.utils.Utils.sortDayList
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.concurrent.TimeUnit
 
 class MedicineAdapter :
     BaseAdapterDiffUtil<MedicineEventModel, ItemMedicineEventBinding, MedicineAdapter.MedicineHolder>(ItemMedicineDiffCallback()) {
@@ -16,6 +16,16 @@ class MedicineAdapter :
         BaseViewHolder<MedicineEventModel, ItemMedicineEventBinding>(binding) {
         override fun bind(item: MedicineEventModel) {
             binding.medicineModel = item
+            binding.durationMedicine = calculateDays(item.dayBegin,item.dayEnd)
+        }
+
+        private fun calculateDays (dayBegin : String, dayEnd : String) : Long {
+            val dateFormat = SimpleDateFormat("dd/MM/yyyy")
+            val date1: Date = dateFormat.parse(dayBegin) as Date
+            val date2: Date = dateFormat.parse(dayEnd) as Date
+
+            val diffInMillis: Long = date2.time - date1.time
+            return TimeUnit.DAYS.convert(diffInMillis, TimeUnit.MILLISECONDS)
         }
     }
 

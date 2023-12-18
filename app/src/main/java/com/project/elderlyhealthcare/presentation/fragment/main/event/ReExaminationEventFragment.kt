@@ -135,6 +135,10 @@ class ReExaminationEventFragment :
         calendar.set(Calendar.MILLISECOND, 0)
         calendar.set(Calendar.SECOND, 0)
 
+        // Calculate the time difference for the notification (12 hours before the event)
+        val notificationTime = calendar.timeInMillis - (12 * 60 * 60 * 1000)
+
+
         val alarmManager = activity?.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         val intent = Intent(requireContext(), AlarmReceiver::class.java)
         intent.putExtra(Constant.KEY_EVENT_ITEM, item)
@@ -145,7 +149,7 @@ class ReExaminationEventFragment :
             val pendingIntent = PendingIntent.getBroadcast(activity?.applicationContext, it, intent, PendingIntent.FLAG_MUTABLE)
             alarmManager.setExactAndAllowWhileIdle(
                 AlarmManager.RTC_WAKEUP,
-                calendar.timeInMillis,
+                notificationTime,
                 pendingIntent
             )
         }

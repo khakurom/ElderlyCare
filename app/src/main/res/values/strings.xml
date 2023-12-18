@@ -57,11 +57,13 @@
     // time
     <string name="month_year">Tháng %s - năm %s</string>
     <string name="day_month_year">%s/%s/%s</string>
-    <string name="hour_minutes">%s:%s giờ</string>
+    <string name="hour_minutes">%s:%s</string>
+    <string name="hour_minutes_duration">%s:%s - %s ngày</string>
+    <string name="hour_minutes_day">%s:%s - %s</string>
 
     // item
     <string name="item_medicine_dose">%s liều/ngày</string>
-    <string name="item_medicine_disease_name">Thuốc bệnh: %s</string>
+    <string name="item_medicine_disease_name">Thuốc điều trị bệnh: %s</string>
 
     // child key firebase
     <string name="key_customer_info">CustomerInfo</string>

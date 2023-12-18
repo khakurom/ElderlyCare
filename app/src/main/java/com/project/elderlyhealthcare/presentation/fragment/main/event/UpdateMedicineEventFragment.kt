@@ -1,7 +1,10 @@
 package com.project.elderlyhealthcare.presentation.fragment.main.event
 
+import android.app.AlarmManager
 import android.app.DatePickerDialog
+import android.app.PendingIntent
 import android.content.Context
+import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -20,12 +23,14 @@ import com.project.elderlyhealthcare.presentation.adapter.OnItemRemoveListener
 import com.project.elderlyhealthcare.presentation.adapter.OnItemSelectListener
 import com.project.elderlyhealthcare.presentation.fragment.base.BaseFragment
 import com.project.elderlyhealthcare.presentation.viewmodels.main.EventViewModel
+import com.project.elderlyhealthcare.utils.AlarmReceiver
 import com.project.elderlyhealthcare.utils.Constant
 import com.project.elderlyhealthcare.utils.CustomBottomSheet
 import com.project.elderlyhealthcare.utils.OnFragmentInteractionListener
 import com.project.elderlyhealthcare.utils.SingleClickListener
 import com.project.elderlyhealthcare.utils.Utils
 import com.project.elderlyhealthcare.utils.Utils.getDayMonthYearFromCurrentDate
+import kotlinx.coroutines.runBlocking
 import java.util.Calendar
 import java.util.Random
 
@@ -158,6 +163,7 @@ class UpdateMedicineEventFragment :
                     ) {
                         Utils.showDialog(requireContext(), "Không thể đặt giờ trong quá khứ")
                     } else {
+                        cancelAlarm()
                         val medicineEvent = MedicineEventEntity(
                             id = navArgs.medicineEventModel.id,
                             hour = Utils.formatTimeNumberPicker(pickerHour),
@@ -274,6 +280,18 @@ class UpdateMedicineEventFragment :
         } else {
             Toast.makeText(requireContext(), "Error", Toast.LENGTH_SHORT).show()
         }
+    }
+
+    private fun cancelAlarm() = runBlocking {
+        val alarmManager = activity?.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        val intent = Intent(requireContext(), AlarmReceiver::class.java)
+        val pendingIntent = PendingIntent.getBroadcast(
+            activity?.applicationContext,
+            navArgs.medicineEventModel.uniqueIntent,
+            intent,
+            PendingIntent.FLAG_MUTABLE
+        )
+        alarmManager.cancel(pendingIntent)
     }
 
 

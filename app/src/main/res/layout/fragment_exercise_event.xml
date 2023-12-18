@@ -49,6 +49,15 @@
             app:layout_constraintEnd_toStartOf="@+id/reg_gl_vertical_2"
             app:layout_constraintTop_toBottomOf="@id/exercise_fr_cs_bar" />
 
+        <View
+            android:id="@+id/view1"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="@color/grey"
+            app:layout_constraintStart_toEndOf="@id/reg_gl_vertical_1"
+            app:layout_constraintEnd_toStartOf="@id/reg_gl_vertical_2"
+            app:layout_constraintBottom_toTopOf="@+id/gl_horizontal_1" />
+
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/gl_horizontal_1"
             android:layout_width="match_parent"
@@ -75,14 +84,13 @@
             submitListExerciseEvent="@{exerciseViewModel.listExerciseEvent}"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:layout_marginTop="15dp"
             android:orientation="vertical"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/reg_gl_vertical_2"
+            app:layout_constraintStart_toEndOf="@id/reg_gl_vertical_1"
             app:layout_constraintTop_toTopOf="@+id/gl_horizontal_1"
-            app:layout_constraintVertical_bias="0.0"
             tools:listitem="@layout/item_exercise_event" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -6,6 +6,10 @@
         <variable
             name="medicineModel"
             type="com.project.elderlyhealthcare.domain.models.MedicineEventModel" />
+
+        <variable
+            name="durationMedicine"
+            type="Long" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -18,7 +22,7 @@
         <androidx.cardview.widget.CardView
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_margin="10dp"
+            android:layout_marginBottom="15dp"
             android:background="@color/grey_1"
             android:backgroundTint="@color/grey_1"
             app:cardCornerRadius="15dp"
@@ -31,27 +35,94 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-
-
-                <TextView
-                    android:id="@+id/item_medicine_tv_time"
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cardView"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:text="@{@string/hour_minutes(medicineModel.hour, medicineModel.minutes)}"
-                    android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
-                    android:textColor="@color/black"
-                    android:textSize="25sp"
-                    android:textStyle="bold"
+                    android:layout_height="30dp"
+                    android:layout_marginTop="10dp"
+                    android:backgroundTint="@color/orange"
+                    app:cardCornerRadius="10dp"
                     app:layout_constraintStart_toEndOf="@id/gl_vertical_1"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:text="@{@string/hour_minutes_duration(medicineModel.hour, medicineModel.minutes, durationMedicine)}"
+                        android:textColor="@color/black"
+                        android:textSize="15sp" />
+
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/constraintLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="@drawable/background_custom_1"
+                    app:layout_constraintBottom_toBottomOf="parent">
+
+                    <ImageView
+                        android:id="@+id/item_medicine_iv_note"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_note_white"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/gl_vertical_3"
+                        />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:text="@{@string/item_medicine_disease_name(medicineModel.diseaseName)}"
+                        android:textColor="@color/white"
+                        android:textSize="15sp"
+                        android:layout_marginEnd="10dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/item_medicine_switch"
+                        app:layout_constraintStart_toEndOf="@id/item_medicine_iv_note"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+
+                    <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/gl_vertical_3"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_percent="0.03" />
+
+                    <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/gl_vertical_4"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_percent="0.95" />
+
+                    <androidx.appcompat.widget.SwitchCompat
+                        android:id="@+id/item_medicine_switch"
+                        android:layout_width="wrap_content"
+                        android:layout_height="20dp"
+                        android:layout_marginTop="5dp"
+                        app:thumbTint="@color/login_blue"
+                        app:trackTint="@color/switch_track_selector"
+                        android:checked="@{medicineModel.isOn ? true : false}"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/gl_vertical_4"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
 
                 <TextView
                     android:id="@+id/item_medicine_tv_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
-                    android:text="@{@string/item_medicine_disease_name(medicineModel.diseaseName)}"
                     android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
                     android:textColor="@color/black"
                     android:layout_marginBottom="10dp"
@@ -68,15 +139,6 @@
                     app:layout_constraintEnd_toStartOf="@id/gl_vertical_2"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <androidx.appcompat.widget.SwitchCompat
-                    android:id="@+id/item_medicine_switch"
-                    android:layout_width="wrap_content"
-                    android:layout_height="20dp"
-                    android:layout_marginBottom="10dp"
-                    android:checked="@{medicineModel.isOn ? true : false}"
-                    android:backgroundTint="@color/login_blue"
-                    app:layout_constraintEnd_toStartOf="@+id/gl_vertical_2"
-                    app:layout_constraintBottom_toBottomOf="parent" />
 
                 <androidx.constraintlayout.widget.Guideline
                     android:id="@+id/gl_vertical_1"

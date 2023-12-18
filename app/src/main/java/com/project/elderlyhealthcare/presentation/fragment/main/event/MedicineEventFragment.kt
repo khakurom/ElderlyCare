@@ -83,20 +83,9 @@ class MedicineEventFragment :
             }
             onItemTurnOnListener = object : OnItemTurnOnListener<MedicineEventModel> {
                 override fun onItemTurnOn(item: MedicineEventModel, position: Int): Boolean {
-                    return if (Utils.compareToCurrentTime(
-                            item.dayBegin,
-                            Utils.formatTimeString(item.hour!!),
-                            Utils.formatTimeString(item.minutes!!)
-                        )
-                    ) {
-                        viewModel?.updateMedicineEventOnOff(item.id, false)
-                        false
-                    } else {
-                        viewModel?.updateMedicineEventOnOff(item.id, true)
-                        createAlarm(item)
-                        true
-                    }
-
+                    viewModel?.updateMedicineEventOnOff(item.id, true)
+                    createAlarm(item)
+                    return true
                 }
 
                 override fun onItemTurnOff(item: MedicineEventModel, position: Int) {
@@ -129,9 +118,7 @@ class MedicineEventFragment :
     private fun createAlarm(item: MedicineEventModel) = runBlocking {
         val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
         val startDate = dateFormat.parse(item.dayBegin)
-        val endDate = dateFormat.parse(item.dayEnd)
         val calendar = Calendar.getInstance()
-        val interval = startDate?.time?.minus(endDate?.time!!)
 
         calendar.time = startDate!!
         calendar.set(Calendar.HOUR_OF_DAY, item.hour!!.toInt())
@@ -144,22 +131,23 @@ class MedicineEventFragment :
         intent.putExtra(Constant.KEY_EVENT_ITEM, item)
         intent.putExtra(Constant.KEY_EVENT, Constant.MODE_MEDICINE)
 
-        while (calendar.time.before(endDate)) {
-            val uniqueIntent = async(Dispatchers.IO) { viewModel?.getUniqueIntentMedicine(item.id) }
-            uniqueIntent.await()?.let {
-                val pendingIntent = PendingIntent.getBroadcast(activity?.applicationContext, it, intent, PendingIntent.FLAG_MUTABLE)
-                alarmManager.setRepeating(
-                    AlarmManager.RTC_WAKEUP,
-                    calendar.timeInMillis,
-                    interval!!,
-                    pendingIntent
-                )
-            }
-            calendar.add(Calendar.DAY_OF_MONTH, 1)
+        val uniqueIntent = async(Dispatchers.IO) { viewModel?.getUniqueIntentMedicine(item.id) }
+        uniqueIntent.await()?.let {
+            val pendingIntent = PendingIntent.getBroadcast(activity?.applicationContext, it, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+            alarmManager.setExactAndAllowWhileIdle(
+                AlarmManager.RTC_WAKEUP,
+                calendar.timeInMillis,
+                pendingIntent
+            )
+            val nextAlarmTime = calendar.timeInMillis + AlarmManager.INTERVAL_DAY
+            alarmManager.setExactAndAllowWhileIdle(
+                AlarmManager.RTC_WAKEUP,
+                nextAlarmTime,
+                pendingIntent
+            )
         }
 
     }
-
 
 
     private fun cancelAlarm(item: MedicineEventModel) = runBlocking {

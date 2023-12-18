@@ -12,6 +12,7 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="com.android.alarm.permission.SET_ALARM" />
     <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.USE_EXACT_ALARM"/>
 
     <application
         android:name=".MainApplication"
@@ -35,7 +36,7 @@
             android:name=".presentation.activity.NotLoginActivity"
             android:exported="true"
             android:screenOrientation="portrait"
-            android:theme="@style/Base.Theme.ElderlyHealthcare"></activity>
+            android:theme="@style/Base.Theme.ElderlyHealthcare" />
         <activity
             android:name=".presentation.activity.SplashActivity"
             android:exported="true"

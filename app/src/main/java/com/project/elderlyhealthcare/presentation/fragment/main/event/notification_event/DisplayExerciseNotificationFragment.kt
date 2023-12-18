@@ -42,6 +42,7 @@ class DisplayExerciseNotificationFragment :  BaseFragment<EventViewModel, Fragme
                     backToPreScreen()
                 }
             })
+            exerciseEventModel = navArgs.exerciseEventModel
         }
         listener?.updateBottomNavVisible(true)
     }

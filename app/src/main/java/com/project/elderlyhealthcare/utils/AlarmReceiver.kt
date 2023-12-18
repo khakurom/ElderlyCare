@@ -88,7 +88,7 @@ class AlarmReceiver : BroadcastReceiver() {
             MODE_RE_EXAMINATION -> {
                 item as ReExaminationEventModel
                 notificationLayout.setTextViewText(R.id.notification_time, "${item.hour}:${item.minutes}")
-                notificationLayout.setTextViewText(R.id.notification_title, "Hôm nay bạn có lịch tái khám")
+                notificationLayout.setTextViewText(R.id.notification_title, "Bạn có lịch tái khám sắp tới")
             }
         }
         notificationBuilder.apply {

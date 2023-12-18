@@ -45,7 +45,6 @@ class UpdateExerciseEventFragment :
     private val navArgs: UpdateExerciseEventFragmentArgs by navArgs()
 
 
-
     override fun onAttach(context: Context) {
         super.onAttach(context)
         if (context is OnFragmentInteractionListener) {
@@ -158,20 +157,15 @@ class UpdateExerciseEventFragment :
     }
 
 
-
     private fun cancelAlarm() = runBlocking {
-        val uniqueIntent = async(Dispatchers.IO) { viewModel?.getUniqueIntentExercise(navArgs.exerciseEventModel.id) }
-        uniqueIntent.await()?.let {
-            val alarmManager = activity?.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-            val intent = Intent(requireContext(), AlarmReceiver::class.java)
-            val pendingIntent = PendingIntent.getBroadcast(
-                activity?.applicationContext,
-                it,
-                intent,
-                PendingIntent.FLAG_MUTABLE
-            )
-            alarmManager.cancel(pendingIntent)
-        }
+        val alarmManager = activity?.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        val intent = Intent(requireContext(), AlarmReceiver::class.java)
+        val pendingIntent = PendingIntent.getBroadcast(
+            activity?.applicationContext,
+            navArgs.exerciseEventModel.uniqueIntent!!,
+            intent,
+            PendingIntent.FLAG_MUTABLE
+        )
+        alarmManager.cancel(pendingIntent)
     }
-
 }

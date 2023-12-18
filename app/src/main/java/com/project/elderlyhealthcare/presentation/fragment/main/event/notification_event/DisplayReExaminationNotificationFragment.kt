@@ -39,6 +39,7 @@ class DisplayReExaminationNotificationFragment : BaseFragment<EventViewModel, Fr
 
     override fun init() {
         super.init()
+        viewModel?.updateReExEventOnOff(navArgs.reExaminationModel!!.id, false)
         binding.apply {
             displayReExBtBack.setOnClickListener(object : SingleClickListener() {
                 override fun onSingleClick(v: View) {

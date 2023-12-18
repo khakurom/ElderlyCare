@@ -89,7 +89,7 @@ class AddReExaminationFragment :
         val day = calendar.get(Calendar.DAY_OF_MONTH)
 
         val minDateCalendar = Calendar.getInstance()
-        minDateCalendar.set(year, month, day)
+        minDateCalendar.set(year, month, day + 1)
         val minDateInMillis = minDateCalendar.timeInMillis
 
         binding.apply {
