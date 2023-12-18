@@ -1,7 +1,9 @@
 package com.project.elderlyhealthcare.presentation.fragment.main.overall
 
+import android.content.Context
 import android.util.Log
 import android.view.View
+import android.widget.TextView
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.database.DataSnapshot
@@ -11,6 +13,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.project.elderlyhealthcare.BR
 import com.project.elderlyhealthcare.R
+import com.project.elderlyhealthcare.data.models.HeartRateEntity
 import com.project.elderlyhealthcare.databinding.FragmentOverallBinding
 import com.project.elderlyhealthcare.domain.models.HealthParam
 import com.project.elderlyhealthcare.presentation.fragment.base.BaseFragment
@@ -20,6 +23,7 @@ import com.project.elderlyhealthcare.utils.DelegatedPreferences
 import com.project.elderlyhealthcare.utils.SingleClickListener
 import com.project.elderlyhealthcare.utils.Utils
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.Calendar
 
 @AndroidEntryPoint
 class OverallFragment : BaseFragment<OverallViewModel, FragmentOverallBinding>(R.layout.fragment_overall) {
@@ -62,7 +66,7 @@ class OverallFragment : BaseFragment<OverallViewModel, FragmentOverallBinding>(R
         binding.apply {
             if (Utils.isNetworkAvailable(requireContext())) {
                 getWeightParam()
-                getHealthParam ()
+                getHealthParam()
             } else {
                 Utils.showDialog(requireContext(), "Vui lòng kết nối internet")
             }
@@ -80,6 +84,10 @@ class OverallFragment : BaseFragment<OverallViewModel, FragmentOverallBinding>(R
                     if (dataSnapshot.exists()) {
                         val healthParam = dataSnapshot.getValue(HealthParam::class.java)
                         overallTvHeartRate.text = healthParam?.heartRate.toString()
+                        viewModel?.insertHeartRate(HeartRateEntity(
+                            heartRate = healthParam?.heartRate,
+                            day = getCurrentTime()
+                        ))
                         overallTvOxygen.text = healthParam?.oxyGen.toString()
                     } else {
                         overallTvOxygen.text = ""
@@ -121,6 +129,19 @@ class OverallFragment : BaseFragment<OverallViewModel, FragmentOverallBinding>(R
                 })
         }
 
+    }
+
+    private fun getCurrentTime(): String {
+        val calendar = Calendar.getInstance()
+        val year = calendar.get(Calendar.YEAR)
+        val month = calendar.get(Calendar.MONTH)
+        val day = calendar.get(Calendar.DATE)
+        return getString(
+            R.string.day_month_year,
+            day.toString(),
+            (month + 1).toString(),
+            year.toString()
+        )
     }
 
 

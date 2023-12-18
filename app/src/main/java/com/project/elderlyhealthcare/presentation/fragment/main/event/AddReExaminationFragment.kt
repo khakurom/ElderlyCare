@@ -130,7 +130,7 @@ class AddReExaminationFragment :
                     } else {
                         val reExEvent = ReExaminationEventEntity(
                             hour = Utils.formatTimeNumberPicker(pickerHour),
-                            minutes = Utils.formatTimeNumberPicker(pickerMinute),
+                            minute = Utils.formatTimeNumberPicker(pickerMinute),
                             dayBegin = addReExTvDate.text.trim().toString(),
                             diseaseName = addReExEdDiseaseName.text?.trim().toString(),
                             address = addReExEdAddress.text?.trim().toString(),

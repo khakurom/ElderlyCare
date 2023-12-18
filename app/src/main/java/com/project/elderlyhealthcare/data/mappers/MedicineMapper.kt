@@ -10,7 +10,7 @@ class MedicineMapper : Mapper<List<MedicineEventEntity>, List<MedicineEventModel
             MedicineEventModel(
                 id = entity.id,
                 hour = entity.hour,
-                minutes = entity.minutes,
+                minute = entity.minute,
                 dayBegin = entity.dayBegin,
                 dayEnd = entity.dayEnd,
                 medicineName = entity.medicineName,
@@ -27,7 +27,7 @@ class MedicineMapper : Mapper<List<MedicineEventEntity>, List<MedicineEventModel
             MedicineEventEntity(
                 id = model.id,
                 hour = model.hour,
-                minutes = model.minutes,
+                minute = model.minute,
                 dayBegin = model.dayBegin,
                 dayEnd = model.dayEnd,
                 medicineName = model.medicineName,
@@ -43,7 +43,7 @@ class MedicineMapper : Mapper<List<MedicineEventEntity>, List<MedicineEventModel
         return MedicineEventModel(
             id = from.id,
             hour = from.hour,
-            minutes = from.minutes,
+            minute = from.minute,
             dayBegin = from.dayBegin,
             dayEnd = from.dayEnd,
             medicineName = from.medicineName,
@@ -58,7 +58,7 @@ class MedicineMapper : Mapper<List<MedicineEventEntity>, List<MedicineEventModel
         return MedicineEventEntity(
             id = from.id,
             hour = from.hour,
-            minutes = from.minutes,
+            minute = from.minute,
             dayBegin = from.dayBegin,
             dayEnd = from.dayEnd,
             medicineName = from.medicineName,

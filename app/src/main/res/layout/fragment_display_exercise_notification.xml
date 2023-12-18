@@ -86,7 +86,7 @@
             android:id="@+id/display_re_ex_tv_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{@string/display_ex_time (exerciseEventModel.hour,exerciseEventModel.minutes)}"
+            android:text="@{@string/display_ex_time (exerciseEventModel.hour,exerciseEventModel.minute)}"
             android:layout_marginTop="5dp"
             android:textSize="20sp"
             android:textColor="@color/login_blue"

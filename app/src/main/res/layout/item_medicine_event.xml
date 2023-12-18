@@ -51,7 +51,7 @@
                         android:layout_gravity="center"
                         android:layout_marginStart="10dp"
                         android:layout_marginEnd="10dp"
-                        android:text="@{@string/hour_minutes_duration(medicineModel.hour, medicineModel.minutes, durationMedicine)}"
+                        android:text="@{@string/hour_minutes_duration(medicineModel.hour, medicineModel.minute, durationMedicine)}"
                         android:textColor="@color/black"
                         android:textSize="15sp" />
 

@@ -8,9 +8,12 @@ import android.content.Intent
 import android.view.View
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import com.project.elderlyhealthcare.BR
 import com.project.elderlyhealthcare.R
 import com.project.elderlyhealthcare.databinding.FragmentReExaminationEventBinding
+import com.project.elderlyhealthcare.domain.models.MedicineEventModel
 import com.project.elderlyhealthcare.domain.models.ReExaminationEventModel
 import com.project.elderlyhealthcare.presentation.adapter.OnItemRemoveListener
 import com.project.elderlyhealthcare.presentation.adapter.OnItemSelectListener
@@ -20,6 +23,7 @@ import com.project.elderlyhealthcare.presentation.fragment.base.BaseFragment
 import com.project.elderlyhealthcare.presentation.viewmodels.main.EventViewModel
 import com.project.elderlyhealthcare.utils.AlarmReceiver
 import com.project.elderlyhealthcare.utils.Constant
+import com.project.elderlyhealthcare.utils.DelegatedPreferences
 import com.project.elderlyhealthcare.utils.OnFragmentInteractionListener
 import com.project.elderlyhealthcare.utils.SingleClickListener
 import com.project.elderlyhealthcare.utils.Utils
@@ -35,6 +39,9 @@ import java.util.Locale
 @AndroidEntryPoint
 class ReExaminationEventFragment :
     BaseFragment<EventViewModel, FragmentReExaminationEventBinding>(R.layout.fragment_re_examination_event) {
+
+    private val databaseReference: DatabaseReference = FirebaseDatabase.getInstance().reference
+
 
     private var listener: OnFragmentInteractionListener? = null
 
@@ -84,7 +91,7 @@ class ReExaminationEventFragment :
                         return if (Utils.compareToCurrentTime(
                                 item.dayBegin,
                                 Utils.formatTimeString(item.hour),
-                                Utils.formatTimeString(item.minutes)
+                                Utils.formatTimeString(item.minute)
                             )
                         ) {
                             viewModel?.updateReExEventOnOff(item.id, false)
@@ -131,7 +138,7 @@ class ReExaminationEventFragment :
 
         calendar.time = date!!
         calendar.set(Calendar.HOUR_OF_DAY, item.hour.toInt())
-        calendar.set(Calendar.MINUTE, item.minutes.toInt())
+        calendar.set(Calendar.MINUTE, item.minute.toInt())
         calendar.set(Calendar.MILLISECOND, 0)
         calendar.set(Calendar.SECOND, 0)
 
@@ -171,6 +178,28 @@ class ReExaminationEventFragment :
 
     private fun getReExEvent() {
         viewModel?.getReExEvent()
+        viewModel?.listReExEvent?.observe(this) { reExaminationList ->
+            reExaminationList?.let {
+                for (i in it) {
+                    uploadReExEvent(i)
+                }
+            }
+        }
+    }
+
+    private fun uploadReExEvent(reExModel : ReExaminationEventModel) {
+        val dataKey = DelegatedPreferences(requireContext(), Constant.PHONE_NUMBER, "").getValue()
+        databaseReference.child("data").child(dataKey).child(getString(R.string.key_event)).child("ReExamination").child(reExModel.id.toString())
+            .setValue(reExModel)
+            .addOnSuccessListener {
+            }
+            .addOnFailureListener {
+            }
+    }
+
+    private fun removeReExEvent(idItem: Int) {
+        val dataKey = DelegatedPreferences(requireContext(), Constant.PHONE_NUMBER, "").getValue()
+        databaseReference.child("data").child(dataKey).child(getString(R.string.key_event)).child("ReExamination").child(idItem.toString()).removeValue()
     }
 
 }

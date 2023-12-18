@@ -9,9 +9,9 @@ import com.project.elderlyhealthcare.domain.models.ExerciseEventModel
 import com.project.elderlyhealthcare.domain.models.MedicineEventModel
 import com.project.elderlyhealthcare.domain.models.ReExaminationEventModel
 import com.project.elderlyhealthcare.presentation.viewmodels.base.BaseViewModel
-import com.project.elderlyhealthcare.presentation.viewmodels.main.usecases.ExerciseUseCase
-import com.project.elderlyhealthcare.presentation.viewmodels.main.usecases.MedicineUseCase
-import com.project.elderlyhealthcare.presentation.viewmodels.main.usecases.ReExaminationUseCase
+import com.project.elderlyhealthcare.domain.usecases.ExerciseUseCase
+import com.project.elderlyhealthcare.domain.usecases.MedicineUseCase
+import com.project.elderlyhealthcare.domain.usecases.ReExaminationUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
@@ -29,8 +29,6 @@ class EventViewModel @Inject constructor(
     private val _listExerciseEvent = MutableLiveData<List<ExerciseEventModel>?>()
     val listExerciseEvent: MutableLiveData<List<ExerciseEventModel>?> = _listExerciseEvent
 
-    private val _uniqueIntentExercise = MutableLiveData<Int?>()
-    val uniqueIntentExercise: MutableLiveData<Int?> = _uniqueIntentExercise
 
     private val _listMedicineEvent = MutableLiveData<List<MedicineEventModel>?>()
     val listMedicineEvent: MutableLiveData<List<MedicineEventModel>?> = _listMedicineEvent

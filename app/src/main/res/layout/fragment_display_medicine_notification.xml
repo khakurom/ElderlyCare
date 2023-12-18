@@ -89,7 +89,7 @@
             android:id="@+id/display_re_ex_tv_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{@string/display_medicine_time (medicineEventModel.hour,medicineEventModel.minutes)}"
+            android:text="@{@string/display_medicine_time (medicineEventModel.hour,medicineEventModel.minute)}"
             android:layout_marginTop="5dp"
             android:textColor="@color/login_blue"
             android:textSize="20sp"

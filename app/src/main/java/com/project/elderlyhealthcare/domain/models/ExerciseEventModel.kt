@@ -8,7 +8,7 @@ import kotlinx.parcelize.Parcelize
 data class ExerciseEventModel(
     val id : Int,
     val hour : String? = null,
-    val minutes : String? = null,
+    val minute : String? = null,
     val dayBegin : String? = null,
     val exerciseName : String? = null,
     val description : String? = null,

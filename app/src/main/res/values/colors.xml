@@ -11,8 +11,9 @@
     <color name="overall_yellow"> #fbf0dc</color>
     <color name="event_blue">#96CAD1</color>
     <color name="grey">#8E8E82</color>
-    <color name="grey_1">#EAEAE1</color>
+    <color name="grey_1">#D5D5CB</color>
     <color name="yellow">#D3D356</color>
     <color name="orange">#d1a14c</color>
     <color name="blue_black">#070d31</color>
+    <color name="color_profile">#5b61d3</color>
 </resources>

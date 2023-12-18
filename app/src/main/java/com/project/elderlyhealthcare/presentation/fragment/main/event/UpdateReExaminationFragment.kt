@@ -150,7 +150,7 @@ class UpdateReExaminationFragment :
                         val reExEvent = ReExaminationEventEntity(
                             id = navArgs.reExEventModel.id,
                             hour = Utils.formatTimeNumberPicker(pickerHour),
-                            minutes = Utils.formatTimeNumberPicker(pickerMinute),
+                            minute = Utils.formatTimeNumberPicker(pickerMinute),
                             dayBegin = updateReExTvDate.text.trim().toString(),
                             diseaseName = updateReExEdDiseaseName.text?.trim().toString(),
                             address = updateReExEdAddress.text?.trim().toString(),

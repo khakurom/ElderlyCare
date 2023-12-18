@@ -9,7 +9,7 @@ class ReExaminationMapper : Mapper<List<ReExaminationEventEntity>, List<ReExamin
             ReExaminationEventModel(
                 id = entity.id,
                 hour = entity.hour,
-                minutes = entity.minutes,
+                minute = entity.minute,
                 dayBegin = entity.dayBegin,
                 diseaseName = entity.diseaseName,
                 address = entity.address,
@@ -24,7 +24,7 @@ class ReExaminationMapper : Mapper<List<ReExaminationEventEntity>, List<ReExamin
             ReExaminationEventEntity(
                 id = model.id,
                 hour = model.hour,
-                minutes = model.minutes,
+                minute = model.minute,
                 dayBegin = model.dayBegin,
                 diseaseName = model.diseaseName,
                 address = model.address,

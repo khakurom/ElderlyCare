@@ -93,7 +93,7 @@ class ProfileFragment :  BaseFragment<AccountViewModel, FragmentProfileBinding>(
 		getCustomerInfo {
 			binding.customerInfoModel = it
 			it?.elderDob?.let {elderDob ->
-				binding.profileTvAgeElder.text = calculateAge(elderDob).toString()
+				binding.profileTvElderAge.text = calculateAge(elderDob).toString()
 			}
 		}
 	}

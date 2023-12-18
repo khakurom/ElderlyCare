@@ -46,6 +46,25 @@
             app:layout_constraintEnd_toEndOf="@id/reg_gl_vertical_2"
             app:layout_constraintTop_toTopOf="@+id/textView" />
 
+        <ImageView
+            android:id="@+id/re_ex_iv_error"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_error"
+            app:layout_constraintStart_toEndOf="@id/reg_gl_vertical_1"
+            app:layout_constraintTop_toBottomOf="@id/gl_horizontal_1"
+            android:layout_marginTop="10dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Lịch tái khám sẽ được thông báo trước 12 giờ"
+            app:layout_constraintTop_toTopOf="@id/re_ex_iv_error"
+            app:layout_constraintBottom_toBottomOf="@id/re_ex_iv_error"
+            app:layout_constraintStart_toEndOf="@id/re_ex_iv_error"
+            android:layout_marginStart="10dp"
+            android:textColor="@color/login_red"/>
+
         <androidx.recyclerview.widget.RecyclerView
             submitListReExEvent="@{reExaminationViewModel.listReExEvent}"
             android:id="@+id/re_ex_rcv_list_exercise"
@@ -57,7 +76,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/reg_gl_vertical_1"
             app:layout_constraintEnd_toStartOf="@id/reg_gl_vertical_2"
-            app:layout_constraintTop_toTopOf="@+id/gl_horizontal_1"
+            app:layout_constraintTop_toBottomOf="@+id/re_ex_iv_error"
             tools:listitem="@layout/item_re_examination_event" />
 
         <View

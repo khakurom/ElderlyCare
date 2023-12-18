@@ -1,4 +1,4 @@
-package com.project.elderlyhealthcare.presentation.viewmodels.main.usecases
+package com.project.elderlyhealthcare.domain.usecases
 
 import com.project.elderlyhealthcare.data.models.ReExaminationEventEntity
 import com.project.elderlyhealthcare.data.repositories.ReExaminationRepositoryImpl

@@ -18,8 +18,8 @@ data class ExerciseEventEntity(
     @ColumnInfo(name = "hour")
     val hour: String? = null,
 
-    @ColumnInfo(name = "minutes")
-    val minutes: String? = null,
+    @ColumnInfo(name = "minute")
+    val minute: String? = null,
 
     @ColumnInfo(name = "dayBegin")
     val dayBegin: String? = null,

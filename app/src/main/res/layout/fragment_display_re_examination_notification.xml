@@ -90,7 +90,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/login_blue"
-            android:text="@{@string/display_re_ex_time (reExaminationVModel.hour,reExaminationVModel.minutes)}"
+            android:text="@{@string/display_re_ex_time (reExaminationVModel.hour,reExaminationVModel.minute)}"
             android:layout_marginTop="5dp"
             android:textSize="20sp"
             app:layout_constraintStart_toStartOf="@+id/gl_vertical_1"

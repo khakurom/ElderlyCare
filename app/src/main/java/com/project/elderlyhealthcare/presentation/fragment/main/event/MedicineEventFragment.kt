@@ -8,9 +8,12 @@ import android.content.Intent
 import android.view.View
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import com.project.elderlyhealthcare.BR
 import com.project.elderlyhealthcare.R
 import com.project.elderlyhealthcare.databinding.FragmentMedicineEventBinding
+import com.project.elderlyhealthcare.domain.models.ExerciseEventModel
 import com.project.elderlyhealthcare.domain.models.MedicineEventModel
 import com.project.elderlyhealthcare.presentation.adapter.MedicineAdapter
 import com.project.elderlyhealthcare.presentation.adapter.OnItemRemoveListener
@@ -20,6 +23,7 @@ import com.project.elderlyhealthcare.presentation.fragment.base.BaseFragment
 import com.project.elderlyhealthcare.presentation.viewmodels.main.EventViewModel
 import com.project.elderlyhealthcare.utils.AlarmReceiver
 import com.project.elderlyhealthcare.utils.Constant
+import com.project.elderlyhealthcare.utils.DelegatedPreferences
 import com.project.elderlyhealthcare.utils.OnFragmentInteractionListener
 import com.project.elderlyhealthcare.utils.SingleClickListener
 import com.project.elderlyhealthcare.utils.Utils
@@ -34,6 +38,9 @@ import java.util.Locale
 @AndroidEntryPoint
 class MedicineEventFragment :
     BaseFragment<EventViewModel, FragmentMedicineEventBinding>(R.layout.fragment_medicine_event) {
+
+    private val databaseReference: DatabaseReference = FirebaseDatabase.getInstance().reference
+
 
     private var listener: OnFragmentInteractionListener? = null
 
@@ -65,6 +72,7 @@ class MedicineEventFragment :
 
     override fun init() {
         super.init()
+        getMedicineEvent()
         listener?.updateBottomNavVisible(true)
         medicineAdapter.apply {
             onItemSelectListener = object : OnItemSelectListener<MedicineEventModel> {
@@ -79,6 +87,7 @@ class MedicineEventFragment :
             onItemRemoveListener = object : OnItemRemoveListener<MedicineEventModel> {
                 override fun onItemRemove(item: MedicineEventModel, position: Int) {
                     viewModel?.deleteMedicineEvent(item.id)
+                    removeMedicineEvent(item.id)
                 }
             }
             onItemTurnOnListener = object : OnItemTurnOnListener<MedicineEventModel> {
@@ -96,7 +105,7 @@ class MedicineEventFragment :
         }
 
 
-        viewModel?.getMedicineEvent()
+
         binding.apply {
             medicineFrCsBar.customAppBarIvBack.setOnClickListener(object : SingleClickListener() {
                 override fun onSingleClick(v: View) {
@@ -118,11 +127,12 @@ class MedicineEventFragment :
     private fun createAlarm(item: MedicineEventModel) = runBlocking {
         val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
         val startDate = dateFormat.parse(item.dayBegin)
+        val endDate = dateFormat.parse(item.dayEnd)
         val calendar = Calendar.getInstance()
 
         calendar.time = startDate!!
         calendar.set(Calendar.HOUR_OF_DAY, item.hour!!.toInt())
-        calendar.set(Calendar.MINUTE, item.minutes!!.toInt())
+        calendar.set(Calendar.MINUTE, item.minute!!.toInt())
         calendar.set(Calendar.MILLISECOND, 0)
         calendar.set(Calendar.SECOND, 0)
 
@@ -130,21 +140,35 @@ class MedicineEventFragment :
         val intent = Intent(requireContext(), AlarmReceiver::class.java)
         intent.putExtra(Constant.KEY_EVENT_ITEM, item)
         intent.putExtra(Constant.KEY_EVENT, Constant.MODE_MEDICINE)
-
         val uniqueIntent = async(Dispatchers.IO) { viewModel?.getUniqueIntentMedicine(item.id) }
-        uniqueIntent.await()?.let {
-            val pendingIntent = PendingIntent.getBroadcast(activity?.applicationContext, it, intent, PendingIntent.FLAG_UPDATE_CURRENT)
-            alarmManager.setExactAndAllowWhileIdle(
-                AlarmManager.RTC_WAKEUP,
-                calendar.timeInMillis,
-                pendingIntent
+        if (Utils.compareToCurrentTime(
+                item.dayBegin,
+                Utils.formatTimeString(item.hour),
+                Utils.formatTimeString(item.minute)
             )
-            val nextAlarmTime = calendar.timeInMillis + AlarmManager.INTERVAL_DAY
-            alarmManager.setExactAndAllowWhileIdle(
-                AlarmManager.RTC_WAKEUP,
-                nextAlarmTime,
-                pendingIntent
-            )
+        ) {
+            calendar.add(Calendar.DAY_OF_YEAR, 1)
+            if (calendar.time == endDate) {
+                viewModel?.updateMedicineEventOnOff(item.id, false)
+            } else {
+                uniqueIntent.await()?.let {
+                    val pendingIntent = PendingIntent.getBroadcast(activity?.applicationContext, it, intent, PendingIntent.FLAG_MUTABLE)
+                    alarmManager.setExactAndAllowWhileIdle(
+                        AlarmManager.RTC_WAKEUP,
+                        calendar.timeInMillis,
+                        pendingIntent
+                    )
+                }
+            }
+        } else {
+            uniqueIntent.await()?.let {
+                val pendingIntent = PendingIntent.getBroadcast(activity?.applicationContext, it, intent, PendingIntent.FLAG_MUTABLE)
+                alarmManager.setExactAndAllowWhileIdle(
+                    AlarmManager.RTC_WAKEUP,
+                    calendar.timeInMillis,
+                    pendingIntent
+                )
+            }
         }
 
     }
@@ -163,6 +187,32 @@ class MedicineEventFragment :
             )
             alarmManager.cancel(pendingIntent)
         }
+    }
+
+    private fun getMedicineEvent () {
+        viewModel?.getMedicineEvent()
+        viewModel?.listMedicineEvent?.observe(this) { medicineList ->
+            medicineList?.let {
+                for (i in it) {
+                    uploadMedicineEvent(i)
+                }
+            }
+        }
+    }
+
+    private fun uploadMedicineEvent(medicineEvent : MedicineEventModel) {
+        val dataKey = DelegatedPreferences(requireContext(), Constant.PHONE_NUMBER, "").getValue()
+        databaseReference.child("data").child(dataKey).child(getString(R.string.key_event)).child("Medicine").child(medicineEvent.id.toString())
+            .setValue(medicineEvent)
+            .addOnSuccessListener {
+            }
+            .addOnFailureListener {
+            }
+    }
+
+    private fun removeMedicineEvent(idItem: Int) {
+        val dataKey = DelegatedPreferences(requireContext(), Constant.PHONE_NUMBER, "").getValue()
+        databaseReference.child("data").child(dataKey).child(getString(R.string.key_event)).child("Medicine").child(idItem.toString()).removeValue()
     }
 
 

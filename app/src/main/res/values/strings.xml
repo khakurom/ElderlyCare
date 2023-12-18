@@ -24,6 +24,10 @@
     // exercise event fragment
     <string name="exercise_display_exercise_name">Tên bài tập: %s</string>
 
+    // profile fragment
+    <string name="profile_display_weight">%s kg</string>
+    <string name="profile_display_height">%s cm</string>
+
     // addExerciseFragment
     <string name="add_exercise_screen">Thêm lịch tập thể dục</string>
     <string name="addEx_hour_minutes">%s:%s</string>
@@ -68,6 +72,12 @@
     // child key firebase
     <string name="key_customer_info">CustomerInfo</string>
     <string name="key_health_param">HealthParam</string>
+    <string name="key_event">Event</string>
+
+    //item avg heart rate
+    <string name="item_avg_display_day">Ngày: %s</string>
+    <string name="item_avg_display_heart_rate">%s bmp</string>
+
 
     // list tỉnh thành
     <string-array name="list_prefecture">

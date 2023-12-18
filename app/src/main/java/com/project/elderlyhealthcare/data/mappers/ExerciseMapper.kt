@@ -9,7 +9,7 @@ class ExerciseMapper: Mapper<List<ExerciseEventEntity>, List<ExerciseEventModel>
             ExerciseEventModel(
                 id = entity.id,
                 hour = entity.hour,
-                minutes = entity.minutes,
+                minute = entity.minute,
                 dayBegin = entity.dayBegin,
                 exerciseName = entity.exerciseName,
                 description = entity.description,
@@ -23,7 +23,7 @@ class ExerciseMapper: Mapper<List<ExerciseEventEntity>, List<ExerciseEventModel>
             ExerciseEventEntity(
                 id = model.id,
                 hour = model.hour,
-                minutes = model.minutes,
+                minute = model.minute,
                 dayBegin = model.dayBegin,
                 exerciseName = model.exerciseName,
                 description = model.description,

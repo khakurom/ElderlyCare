@@ -5,14 +5,18 @@ import android.content.Context
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import com.project.elderlyhealthcare.BR
 import com.project.elderlyhealthcare.R
 import com.project.elderlyhealthcare.data.models.ExerciseEventEntity
 import com.project.elderlyhealthcare.databinding.FragmentAddExerciseBinding
 import com.project.elderlyhealthcare.presentation.fragment.base.BaseFragment
 import com.project.elderlyhealthcare.presentation.viewmodels.main.EventViewModel
+import com.project.elderlyhealthcare.utils.Constant
 import com.project.elderlyhealthcare.utils.Constant.listHour
 import com.project.elderlyhealthcare.utils.Constant.listMinutes
+import com.project.elderlyhealthcare.utils.DelegatedPreferences
 import com.project.elderlyhealthcare.utils.OnFragmentInteractionListener
 import com.project.elderlyhealthcare.utils.SingleClickListener
 import com.project.elderlyhealthcare.utils.Utils.compareToCurrentTime
@@ -28,8 +32,6 @@ import java.util.Random
 class AddExerciseFragment :
     BaseFragment<EventViewModel, FragmentAddExerciseBinding>(R.layout.fragment_add_exercise) {
     private var listener: OnFragmentInteractionListener? = null
-
-    private lateinit var dayRepeatList: MutableList<String?>
     override fun variableId(): Int = BR.addExViewModel
 
     override fun createViewModel(): Lazy<EventViewModel> = activityViewModels()
@@ -106,19 +108,21 @@ class AddExerciseFragment :
                 } else {
                     val exerciseEvent = ExerciseEventEntity(
                         hour = formatTimeNumberPicker(pickerHour),
-                        minutes = formatTimeNumberPicker(pickerMinute),
+                        minute = formatTimeNumberPicker(pickerMinute),
                         dayBegin = addExTvDate.text.trim().toString(),
                         exerciseName = addExEdtExerciseName.text?.trim().toString(),
                         description = addExEdtDescription.text?.trim().toString(),
                         isOn = true,
                         uniqueIntent = Random().nextInt()
                     )
-                    viewModel?.insertExerciseEvent(exerciseEvent)
                     backToPreScreen()
+                    viewModel?.insertExerciseEvent(exerciseEvent)
                 }
             }
         }
     }
+
+
 
 
     private fun selectDate() {

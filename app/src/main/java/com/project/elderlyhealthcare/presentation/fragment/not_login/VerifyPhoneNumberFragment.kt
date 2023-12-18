@@ -58,6 +58,7 @@ class VerifyPhoneNumberFragment :
         setupOTPInputs()
         checkNetworkIsAvailable ()
         createCountDownTimer()
+        startCountdown()
         binding.apply {
             verifyFrCsBar.customAppBarIvBack.setOnClickListener(object : SingleClickListener() {
                 override fun onSingleClick(v: View) {

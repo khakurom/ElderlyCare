@@ -8,7 +8,7 @@ import kotlinx.parcelize.Parcelize
 data class ReExaminationEventModel(
     val id : Int,
     val hour : String,
-    val minutes : String,
+    val minute : String,
     val dayBegin : String,
     val diseaseName : String,
     val address : String? = null,

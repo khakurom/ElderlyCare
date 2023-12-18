@@ -17,8 +17,8 @@ data class ReExaminationEventEntity(
     @ColumnInfo(name = "hour")
     val hour: String,
 
-    @ColumnInfo(name = "minutes")
-    val minutes: String,
+    @ColumnInfo(name = "minute")
+    val minute: String,
 
     @ColumnInfo(name = "dayBegin")
     val dayBegin: String,

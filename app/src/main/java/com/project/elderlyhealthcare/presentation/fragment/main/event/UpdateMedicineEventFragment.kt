@@ -5,7 +5,6 @@ import android.app.DatePickerDialog
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.view.View
@@ -137,7 +136,7 @@ class UpdateMedicineEventFragment :
             pickerMinute.maxValue = 59
 
             pickerHour.value = navArgs.medicineEventModel.hour!!.toInt()
-            pickerMinute.value = navArgs.medicineEventModel.minutes!!.toInt()
+            pickerMinute.value = navArgs.medicineEventModel.minute!!.toInt()
 
             pickerHour.displayedValues = Constant.listHour
             pickerMinute.displayedValues = Constant.listMinutes
@@ -167,7 +166,7 @@ class UpdateMedicineEventFragment :
                         val medicineEvent = MedicineEventEntity(
                             id = navArgs.medicineEventModel.id,
                             hour = Utils.formatTimeNumberPicker(pickerHour),
-                            minutes = Utils.formatTimeNumberPicker(pickerMinute),
+                            minute = Utils.formatTimeNumberPicker(pickerMinute),
                             dayBegin = updateMedicineTvBeginDate.text.trim().toString(),
                             dayEnd = updateMedicineTvEndDate.text.trim().toString(),
                             medicineName = getMedicineName(),

@@ -21,8 +21,6 @@ import com.project.elderlyhealthcare.utils.OnFragmentInteractionListener
 import com.project.elderlyhealthcare.utils.SingleClickListener
 import com.project.elderlyhealthcare.utils.Utils
 import com.project.elderlyhealthcare.utils.Utils.hideKeyboard
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
 import kotlinx.coroutines.runBlocking
 import java.util.Calendar
 import java.util.Random
@@ -104,7 +102,7 @@ class UpdateExerciseEventFragment :
                     val exerciseEvent = ExerciseEventEntity(
                         id = navArgs.exerciseEventModel.id,
                         hour = Utils.formatTimeNumberPicker(pickerHour),
-                        minutes = Utils.formatTimeNumberPicker(pickerMinute),
+                        minute = Utils.formatTimeNumberPicker(pickerMinute),
                         dayBegin = updateExTvDate.text.trim().toString(),
                         exerciseName = updateExEdtExerciseName.text?.trim().toString(),
                         description = updateExEdtDescription.text?.trim().toString(),
@@ -124,7 +122,7 @@ class UpdateExerciseEventFragment :
             pickerMinute.maxValue = 59
 
             pickerHour.value = navArgs.exerciseEventModel.hour!!.toInt()
-            pickerMinute.value = navArgs.exerciseEventModel.minutes!!.toInt()
+            pickerMinute.value = navArgs.exerciseEventModel.minute!!.toInt()
 
             pickerHour.displayedValues = Constant.listHour
             pickerMinute.displayedValues = Constant.listMinutes

@@ -8,7 +8,6 @@ import android.view.View
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
-import androidx.recyclerview.widget.DividerItemDecoration
 import com.project.elderlyhealthcare.BR
 import com.project.elderlyhealthcare.R
 import com.project.elderlyhealthcare.data.models.MedicineEventEntity
@@ -137,7 +136,7 @@ class AddMedicineFragment :
                     } else {
                         val medicineEvent = MedicineEventEntity(
                             hour = formatTimeNumberPicker(pickerHour),
-                            minutes = formatTimeNumberPicker(pickerMinute),
+                            minute = formatTimeNumberPicker(pickerMinute),
                             dayBegin = addMedicineTvBeginDate.text.trim().toString(),
                             dayEnd = addMedicineTvEndDate.text.trim().toString(),
                             medicineName = getMedicineName(),

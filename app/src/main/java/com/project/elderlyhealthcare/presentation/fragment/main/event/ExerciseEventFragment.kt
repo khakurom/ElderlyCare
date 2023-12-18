@@ -6,12 +6,14 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Context.ALARM_SERVICE
 import android.content.Intent
-import android.util.Log
 import android.view.View
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import com.project.elderlyhealthcare.BR
 import com.project.elderlyhealthcare.R
+import com.project.elderlyhealthcare.data.models.ExerciseEventEntity
 import com.project.elderlyhealthcare.databinding.FragmentExerciseEventBinding
 import com.project.elderlyhealthcare.domain.models.ExerciseEventModel
 import com.project.elderlyhealthcare.presentation.adapter.ExerciseAdapter
@@ -19,10 +21,10 @@ import com.project.elderlyhealthcare.presentation.adapter.OnItemRemoveListener
 import com.project.elderlyhealthcare.presentation.adapter.OnItemSelectListener
 import com.project.elderlyhealthcare.presentation.adapter.OnItemTurnOnListener
 import com.project.elderlyhealthcare.presentation.fragment.base.BaseFragment
-import com.project.elderlyhealthcare.presentation.fragment.not_login.LoginFragmentDirections
 import com.project.elderlyhealthcare.presentation.viewmodels.main.EventViewModel
 import com.project.elderlyhealthcare.utils.AlarmReceiver
 import com.project.elderlyhealthcare.utils.Constant
+import com.project.elderlyhealthcare.utils.DelegatedPreferences
 import com.project.elderlyhealthcare.utils.OnFragmentInteractionListener
 import com.project.elderlyhealthcare.utils.SingleClickListener
 import com.project.elderlyhealthcare.utils.Utils
@@ -31,14 +33,14 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.runBlocking
 import java.text.SimpleDateFormat
-import java.time.DayOfWeek
 import java.util.Calendar
 import java.util.Locale
-import java.util.Random
 
 @AndroidEntryPoint
 class ExerciseEventFragment :
     BaseFragment<EventViewModel, FragmentExerciseEventBinding>(R.layout.fragment_exercise_event) {
+    private val databaseReference: DatabaseReference = FirebaseDatabase.getInstance().reference
+
 
     private var listener: OnFragmentInteractionListener? = null
     override fun variableId(): Int = BR.exerciseViewModel
@@ -73,6 +75,7 @@ class ExerciseEventFragment :
                 onItemRemoveListener = object : OnItemRemoveListener<ExerciseEventModel> {
                     override fun onItemRemove(item: ExerciseEventModel, position: Int) {
                         viewModel?.deleteExerciseEvent(item.id)
+                        removeExerciseEvent(item.id)
                     }
                 }
 
@@ -81,7 +84,7 @@ class ExerciseEventFragment :
                         return if (Utils.compareToCurrentTime(
                                 item.dayBegin!!,
                                 Utils.formatTimeString(item.hour!!),
-                                Utils.formatTimeString(item.minutes!!)
+                                Utils.formatTimeString(item.minute!!)
                             )
                         ) {
                             viewModel?.updateExerciseEventOnOff(item.id, false)
@@ -134,7 +137,7 @@ class ExerciseEventFragment :
 
         calendar.time = date!!
         calendar.set(Calendar.HOUR_OF_DAY, item.hour!!.toInt())
-        calendar.set(Calendar.MINUTE, item.minutes!!.toInt())
+        calendar.set(Calendar.MINUTE, item.minute!!.toInt())
         calendar.set(Calendar.MILLISECOND, 0)
         calendar.set(Calendar.SECOND, 0)
 
@@ -168,7 +171,30 @@ class ExerciseEventFragment :
             alarmManager.cancel(pendingIntent)
         }
     }
+
     private fun getExerciseEvent() {
         viewModel?.getExerciseEvent()
+        viewModel?.listExerciseEvent?.observe(this) { exerciseList ->
+            exerciseList?.let {
+                for (i in it) {
+                    uploadExerciseEvent(i)
+                }
+            }
+        }
+    }
+
+    private fun uploadExerciseEvent(exerciseEvent: ExerciseEventModel) {
+        val dataKey = DelegatedPreferences(requireContext(), Constant.PHONE_NUMBER, "").getValue()
+        databaseReference.child("data").child(dataKey).child(getString(R.string.key_event)).child("Exercise").child(exerciseEvent.id.toString())
+            .setValue(exerciseEvent)
+            .addOnSuccessListener {
+            }
+            .addOnFailureListener {
+            }
+    }
+
+    private fun removeExerciseEvent(idItem: Int) {
+        val dataKey = DelegatedPreferences(requireContext(), Constant.PHONE_NUMBER, "").getValue()
+        databaseReference.child("data").child(dataKey).child(getString(R.string.key_event)).child("Exercise").child(idItem.toString()).removeValue()
     }
 }

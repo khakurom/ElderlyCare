@@ -17,14 +17,14 @@ data class MedicineEventEntity(
     @ColumnInfo(name = "hour")
     val hour : String? = null,
 
-    @ColumnInfo(name = "minutes")
-    val minutes : String? = null,
+    @ColumnInfo(name = "minute")
+    val minute : String? = null,
 
     @ColumnInfo(name = "dayBegin")
-    val dayBegin : String ,
+    val dayBegin : String,
 
     @ColumnInfo(name = "dayEnd")
-    val dayEnd : String ,
+    val dayEnd : String,
 
     @ColumnInfo(name = "medicineName")
     val medicineName : List <String>,
@@ -41,4 +41,4 @@ data class MedicineEventEntity(
     @ColumnInfo(name = "isOn")
     val isOn : Boolean? = null,
 
-)
+    )

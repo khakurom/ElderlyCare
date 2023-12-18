@@ -152,15 +152,19 @@
 
         <View
             android:id="@+id/view1"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="1dp"
             android:background="@color/grey"
+            app:layout_constraintStart_toEndOf="@id/gl_vertical_1"
+            app:layout_constraintEnd_toStartOf="@id/gl_vertical_2"
             app:layout_constraintBottom_toTopOf="@+id/gl_horizontal_2" />
 
         <View
             android:id="@+id/view2"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="1dp"
+            app:layout_constraintStart_toEndOf="@id/gl_vertical_1"
+            app:layout_constraintEnd_toStartOf="@id/gl_vertical_2"
             android:background="@color/grey"
             app:layout_constraintBottom_toTopOf="@+id/gl_horizontal_3" />
 

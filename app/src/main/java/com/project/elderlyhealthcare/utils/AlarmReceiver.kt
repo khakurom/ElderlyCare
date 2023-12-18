@@ -75,19 +75,19 @@ class AlarmReceiver : BroadcastReceiver() {
         when (mode) {
             MODE_EXERCISE -> {
                 item as ExerciseEventModel
-                notificationLayout.setTextViewText(R.id.notification_time, "${item.hour}:${item.minutes}")
+                notificationLayout.setTextViewText(R.id.notification_time, "${item.hour}:${item.minute}")
                 notificationLayout.setTextViewText(R.id.notification_title, "Hôm nay bạn có lịch tập thể dục")
             }
 
             MODE_MEDICINE -> {
                 item as MedicineEventModel
-                notificationLayout.setTextViewText(R.id.notification_time, "${item.hour}:${item.minutes}")
+                notificationLayout.setTextViewText(R.id.notification_time, "${item.hour}:${item.minute}")
                 notificationLayout.setTextViewText(R.id.notification_title, "Hôm nay bạn có lịch uống thuốc")
             }
 
             MODE_RE_EXAMINATION -> {
                 item as ReExaminationEventModel
-                notificationLayout.setTextViewText(R.id.notification_time, "${item.hour}:${item.minutes}")
+                notificationLayout.setTextViewText(R.id.notification_time, "${item.hour}:${item.minute}")
                 notificationLayout.setTextViewText(R.id.notification_title, "Bạn có lịch tái khám sắp tới")
             }
         }

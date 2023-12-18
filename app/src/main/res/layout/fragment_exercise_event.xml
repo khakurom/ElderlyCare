@@ -58,6 +58,16 @@
             app:layout_constraintEnd_toStartOf="@id/reg_gl_vertical_2"
             app:layout_constraintBottom_toTopOf="@+id/gl_horizontal_1" />
 
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            bind:layout_constraintBottom_toBottomOf="parent"
+            bind:layout_constraintEnd_toEndOf="parent"
+            bind:layout_constraintStart_toStartOf="parent"
+            bind:layout_constraintTop_toTopOf="parent" />
+
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/gl_horizontal_1"
             android:layout_width="match_parent"
