@@ -1,7 +1,6 @@
 package com.project.elderlyhealthcare.domain.models
 
-data class HeartRateModel (
-    val id : Int,
-    val heartRate : Int? = null,
+data class AvgOxygenModel (
+    val avgHeartRate : Float? = null,
     val day : String? = null
 )

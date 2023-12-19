@@ -53,14 +53,25 @@
         </androidx.appcompat.widget.LinearLayoutCompat>
 
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/avgOxygen_rcv"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="30dp"
             tools:listitem="@layout/item_avg_oxygen"
             bind:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             bind:layout_constraintTop_toBottomOf="@id/avgOxygen_layout_date"
             bind:layout_constraintStart_toEndOf="@id/gl_vertical_1"
             bind:layout_constraintEnd_toStartOf="@id/gl_vertical_3"/>
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            bind:layout_constraintBottom_toBottomOf="parent"
+            bind:layout_constraintEnd_toEndOf="parent"
+            bind:layout_constraintStart_toStartOf="parent"
+            bind:layout_constraintTop_toTopOf="parent" />
 
 
         <androidx.constraintlayout.widget.Guideline

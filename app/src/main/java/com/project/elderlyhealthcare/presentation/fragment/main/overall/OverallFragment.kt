@@ -14,6 +14,7 @@ import com.google.firebase.database.ValueEventListener
 import com.project.elderlyhealthcare.BR
 import com.project.elderlyhealthcare.R
 import com.project.elderlyhealthcare.data.models.HeartRateEntity
+import com.project.elderlyhealthcare.data.models.OxygenEntity
 import com.project.elderlyhealthcare.databinding.FragmentOverallBinding
 import com.project.elderlyhealthcare.domain.models.HealthParam
 import com.project.elderlyhealthcare.presentation.fragment.base.BaseFragment
@@ -84,11 +85,19 @@ class OverallFragment : BaseFragment<OverallViewModel, FragmentOverallBinding>(R
                     if (dataSnapshot.exists()) {
                         val healthParam = dataSnapshot.getValue(HealthParam::class.java)
                         overallTvHeartRate.text = healthParam?.heartRate.toString()
-                        viewModel?.insertHeartRate(HeartRateEntity(
-                            heartRate = healthParam?.heartRate,
-                            day = getCurrentTime()
-                        ))
+                        viewModel?.insertHeartRate(
+                            HeartRateEntity(
+                                heartRate = healthParam?.heartRate,
+                                day = getCurrentTime()
+                            )
+                        )
                         overallTvOxygen.text = healthParam?.oxyGen.toString()
+                        viewModel?.insertOxygen(
+                            OxygenEntity(
+                                oxygen = healthParam?.oxyGen,
+                                day = getCurrentTime()
+                            )
+                        )
                     } else {
                         overallTvOxygen.text = ""
                     }

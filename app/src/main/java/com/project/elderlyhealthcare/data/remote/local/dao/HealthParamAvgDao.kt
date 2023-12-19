@@ -4,11 +4,10 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import androidx.room.Update
-import com.project.elderlyhealthcare.data.models.ExerciseEventEntity
 import com.project.elderlyhealthcare.data.models.HeartRateEntity
-import com.project.elderlyhealthcare.utils.Constant.TABLE_EXERCISE_EVENT
+import com.project.elderlyhealthcare.data.models.OxygenEntity
 import com.project.elderlyhealthcare.utils.Constant.TABLE_HEART_RATE
+import com.project.elderlyhealthcare.utils.Constant.TABLE_OXYGEN
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -18,5 +17,11 @@ interface HealthParamAvgDao {
 
     @Query("SELECT heartRate FROM $TABLE_HEART_RATE WHERE day = :day")
     fun getAllHeartRate (day : String): Flow<List<Int>>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertOxygen (entity: OxygenEntity)
+
+    @Query("SELECT oxygen FROM $TABLE_OXYGEN WHERE day = :day")
+    fun getAllOxygen (day : String): Flow<List<Int>>
 
 }

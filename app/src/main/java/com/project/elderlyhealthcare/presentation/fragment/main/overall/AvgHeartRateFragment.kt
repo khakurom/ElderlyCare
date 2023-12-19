@@ -1,6 +1,5 @@
 package com.project.elderlyhealthcare.presentation.fragment.main.overall
 
-import android.util.Log
 import android.view.View
 import androidx.fragment.app.activityViewModels
 import com.google.firebase.database.DataSnapshot
@@ -20,6 +19,7 @@ import com.project.elderlyhealthcare.utils.DelegatedPreferences
 import com.project.elderlyhealthcare.utils.MonthYearPickerDialog
 import com.project.elderlyhealthcare.utils.SingleClickListener
 import com.project.elderlyhealthcare.utils.Utils
+import com.project.elderlyhealthcare.utils.Utils.extractMonthAndYear
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.Calendar
 
@@ -87,7 +87,7 @@ class AvgHeartRateFragment : BaseFragment<OverallViewModel, FragmentAvgHeartRate
             .setValue(AvgHeartRateModel(avgHeartRate, getCurrentTime()))
             .addOnSuccessListener {
                 binding.progressBar.visibility = View.GONE
-                getListAvgHeartRate ()
+                getListAvgHeartRate()
             }
             .addOnFailureListener {
                 binding.progressBar.visibility = View.GONE
@@ -105,7 +105,7 @@ class AvgHeartRateFragment : BaseFragment<OverallViewModel, FragmentAvgHeartRate
         MonthYearPickerDialog().apply {
             setListener { _, month, year, _ ->
                 binding.avgHeartRateTvDate.text = getString(R.string.month_year, (month + 1).toString(), year.toString())
-
+                getListAvgHeartRate()
             }
             show(this@AvgHeartRateFragment.parentFragmentManager, "MonthYearPickerDialog")
         }
@@ -124,7 +124,7 @@ class AvgHeartRateFragment : BaseFragment<OverallViewModel, FragmentAvgHeartRate
         )
     }
 
-    private fun getListAvgHeartRate () {
+    private fun getListAvgHeartRate() {
         binding.progressBar.visibility = View.VISIBLE
         val dataKey = DelegatedPreferences(requireContext(), Constant.PHONE_NUMBER, "").getValue()
         val databaseReference = FirebaseDatabase.getInstance().getReference("data")
@@ -141,7 +141,7 @@ class AvgHeartRateFragment : BaseFragment<OverallViewModel, FragmentAvgHeartRate
                     }
                 }
                 binding.progressBar.visibility = View.GONE
-                setRecycleView (avgHeartRates)
+                setRecycleView(avgHeartRates)
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -150,12 +150,23 @@ class AvgHeartRateFragment : BaseFragment<OverallViewModel, FragmentAvgHeartRate
         })
     }
 
-    private fun setRecycleView (avgHeartRateList : MutableList<AvgHeartRateModel>) {
-        val adapter : AvgHeartRateAdapter by lazy {
+    private fun setRecycleView(avgHeartRateList: MutableList<AvgHeartRateModel>) {
+        val adapter: AvgHeartRateAdapter by lazy {
             AvgHeartRateAdapter()
         }
-        adapter.submitList(avgHeartRateList)
-        binding.avgHeartRateRcv.adapter  = adapter
+        adapter.submitList(filterListByMonthAndYear(avgHeartRateList))
+        binding.avgHeartRateRcv.adapter = adapter
+    }
+
+    private fun filterListByMonthAndYear(list: List<AvgHeartRateModel>): List<AvgHeartRateModel> {
+        val (targetMonth, targetYear) = extractMonthAndYear(binding.avgHeartRateTvDate.text.toString())
+        return list.filter { obj ->
+            val parts = obj.day?.split("/")
+            val objMonth = parts?.getOrNull(1)
+            val objYear = parts?.getOrNull(2)
+
+            objMonth == targetMonth && objYear == targetYear
+        }
     }
 
 }

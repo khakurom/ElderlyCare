@@ -108,44 +108,6 @@ object Utils {
         return null
     }
 
-    // set background for toggle button
-    fun settingDayPicker(
-        context: Context,
-        toggleBtMon: ToggleButton,
-        toggleBtTu: ToggleButton,
-        toggleBtWe: ToggleButton,
-        toggleBtTh: ToggleButton,
-        toggleBtFr: ToggleButton,
-        toggleBtSa: ToggleButton,
-        toggleBtSun: ToggleButton,
-
-        ) {
-        val colorStateList = ColorStateList(
-            arrayOf(
-                intArrayOf(R.attr.state_checked), // Checked state
-                intArrayOf(-R.attr.state_checked)  // Unchecked state
-            ),
-            intArrayOf(
-                ContextCompat.getColor(
-                    context,
-                    com.project.elderlyhealthcare.R.color.login_blue
-                ),   // Color when checked
-                ContextCompat.getColor(
-                    context,
-                    com.project.elderlyhealthcare.R.color.blue
-                ),   // Color when uncheck
-            )
-        )
-
-        toggleBtMon.backgroundTintList = colorStateList
-        toggleBtTu.backgroundTintList = colorStateList
-        toggleBtWe.backgroundTintList = colorStateList
-        toggleBtTh.backgroundTintList = colorStateList
-        toggleBtFr.backgroundTintList = colorStateList
-        toggleBtSa.backgroundTintList = colorStateList
-        toggleBtSun.backgroundTintList = colorStateList
-
-    }
 
 
     // get current date
@@ -252,6 +214,29 @@ object Utils {
         val ageCalendar = Calendar.getInstance().apply { timeInMillis = ageInMillis }
 
         return ageCalendar.get(Calendar.YEAR) - 1970
+    }
+
+    fun extractMonthAndYear(inputString: String): Pair<String, String> {
+        // Define the regex pattern to match numbers
+        val regex = Regex("\\b(\\d+)\\b")
+
+        // Find all matches in the input string
+        val matches = regex.findAll(inputString)
+
+        // Initialize variables to hold the extracted values
+        var month = ""
+        var year = ""
+
+        // Extract numbers and assign them to the appropriate variable
+        matches.toList().take(2).forEachIndexed { index, match ->
+            val value = match.groupValues[1]
+            when (index) {
+                0 -> month = value
+                1 -> year = value
+            }
+        }
+
+        return Pair(month, year)
     }
 
 

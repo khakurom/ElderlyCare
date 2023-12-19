@@ -55,7 +55,7 @@
             android:id="@+id/avgHeartRate_rcv"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="30dp"
             tools:listitem="@layout/item_avg_heart_rate"
             bind:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             bind:layout_constraintTop_toBottomOf="@id/avgHeartRate_layout_date"

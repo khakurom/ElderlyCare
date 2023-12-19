@@ -78,6 +78,9 @@
     <string name="item_avg_display_day">Ngày: %s</string>
     <string name="item_avg_display_heart_rate">%s bmp</string>
 
+    //item oxygen rate
+    <string name="item_avg_display_oxygen">%s %%</string>
+
 
     // list tỉnh thành
     <string-array name="list_prefecture">

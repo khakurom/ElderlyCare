@@ -11,6 +11,7 @@ object Constant {
     const val TABLE_MEDICINE_EVENT = "MedicineEvent"
     const val TABLE_RE_EXAM_EVENT = "ReExamEvent"
     const val TABLE_HEART_RATE = "HeartRate"
+    const val TABLE_OXYGEN = "Oxygen"
 
 	// key preference
 	const val PHONE_NUMBER = "phone number"
