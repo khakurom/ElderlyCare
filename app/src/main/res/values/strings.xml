@@ -73,6 +73,7 @@
     <string name="key_customer_info">CustomerInfo</string>
     <string name="key_health_param">HealthParam</string>
     <string name="key_event">Event</string>
+    <string name="key_location">location</string>
 
     //item avg heart rate
     <string name="item_avg_display_day">Ngày: %s</string>

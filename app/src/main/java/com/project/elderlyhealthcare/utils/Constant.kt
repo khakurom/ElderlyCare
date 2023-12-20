@@ -19,6 +19,8 @@ object Constant {
 	// permission
 	@RequiresApi(Build.VERSION_CODES.TIRAMISU)
 	const val NOTIFICATION_PERMISSION = Manifest.permission.POST_NOTIFICATIONS
+	const val ACCESS_FINE_PERMISSION = Manifest.permission.ACCESS_FINE_LOCATION
+	const val ACCESS_BACKGROUND_PERMISSION = Manifest.permission.ACCESS_BACKGROUND_LOCATION
 
 
 	// key intent

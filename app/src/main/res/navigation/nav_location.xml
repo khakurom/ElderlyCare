@@ -3,11 +3,20 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_location"
-    app:startDestination="@id/locationFragment">
+    app:startDestination="@id/permissionFragment">
 
     <fragment
         android:id="@+id/locationFragment"
-        android:name="com.project.elderlyhealthcare.presentation.fragment.main.LocationFragment"
+        android:name="com.project.elderlyhealthcare.presentation.fragment.main.location.LocationFragment"
         android:label="fragment_location"
         tools:layout="@layout/fragment_location" />
+    <fragment
+        android:id="@+id/permissionFragment"
+        android:name="com.project.elderlyhealthcare.presentation.fragment.main.location.PermissionFragment"
+        android:label="fragment_permission"
+        tools:layout="@layout/fragment_permission" >
+        <action
+            android:id="@+id/action_permissionFragment_to_locationFragment"
+            app:destination="@id/locationFragment" />
+    </fragment>
 </navigation>

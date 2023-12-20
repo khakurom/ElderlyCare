@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+   >
+
+    <data>
+        <variable
+            name="permissionViewModel"
+            type="com.project.elderlyhealthcare.presentation.viewmodels.main.LocationViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".presentation.fragment.main.location.PermissionFragment">
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="50dp"
+            android:src="@drawable/location_image"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/gl_horizontal_1"
+            />
+
+        <ImageView
+            android:id="@+id/permission_iv_error"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_error"
+            app:layout_constraintStart_toEndOf="@id/gl_vertical_1"
+            app:layout_constraintTop_toBottomOf="@id/gl_horizontal_1"
+            android:layout_marginTop="10dp"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Để hiển thị thông tin một cách chính xác nhất do đó bạn cần phải cho phép ứng dụng truy cập vị trí của bạn"
+            app:layout_constraintTop_toTopOf="@id/permission_iv_error"
+            app:layout_constraintBottom_toBottomOf="@id/permission_iv_error"
+            app:layout_constraintStart_toEndOf="@id/permission_iv_error"
+            app:layout_constraintEnd_toStartOf="@id/gl_vertical_2"
+            android:layout_marginStart="10dp"
+            android:textColor="@color/login_red"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/permission_bt_continue"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ripple_button"
+            android:text="Tiếp tục"
+            android:layout_marginTop="50dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="50dp"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toStartOf="@id/gl_vertical_2"
+            app:layout_constraintStart_toEndOf="@id/gl_vertical_1" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/gl_vertical_1"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.05" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/gl_vertical_2"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.95" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/gl_horizontal_1"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.5" />
+
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
