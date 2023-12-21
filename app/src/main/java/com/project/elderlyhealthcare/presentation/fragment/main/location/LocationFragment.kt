@@ -7,6 +7,7 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.location.Location
 import android.location.LocationManager
+import android.net.Uri
 import android.provider.Settings
 import android.view.View
 import android.widget.Toast
@@ -89,7 +90,7 @@ class LocationFragment : BaseFragment<LocationViewModel, FragmentLocationBinding
                 }
 
                 override fun onTrackToElderLocation() {
-
+                    getDirectionToElder ()
                 }
 
                 override fun onViewMyLocation() {
@@ -190,6 +191,22 @@ class LocationFragment : BaseFragment<LocationViewModel, FragmentLocationBinding
                 .show()
         } else {
             getCurrentLocation()
+        }
+    }
+
+    private fun getDirectionToElder () {
+        getElderLocationFirebase {locationModel ->
+            locationModel?.let {
+                val uri = "http://maps.google.com/maps?saddr=Current+Location&daddr=${locationModel.lat},${locationModel.lng}"
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(uri))
+                intent.setPackage("com.google.android.apps.maps")
+
+                if (intent.resolveActivity(requireActivity().packageManager) != null) {
+                    startActivity(intent)
+                } else {
+                    showDialog(requireContext(), "Vui lòng cài đặt google map trên CH play!")
+                }
+            }
         }
     }
 
