@@ -10,9 +10,9 @@ import android.location.LocationManager
 import android.net.Uri
 import android.provider.Settings
 import android.view.View
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.navArgs
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -20,6 +20,7 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -29,7 +30,6 @@ import com.google.firebase.database.ValueEventListener
 import com.project.elderlyhealthcare.BR
 import com.project.elderlyhealthcare.R
 import com.project.elderlyhealthcare.databinding.FragmentLocationBinding
-import com.project.elderlyhealthcare.domain.models.CustomerInfoModel
 import com.project.elderlyhealthcare.domain.models.LocationModel
 import com.project.elderlyhealthcare.presentation.fragment.base.BaseFragment
 import com.project.elderlyhealthcare.presentation.viewmodels.main.LocationViewModel
@@ -44,10 +44,11 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class LocationFragment : BaseFragment<LocationViewModel, FragmentLocationBinding>(R.layout.fragment_location), OnMapReadyCallback,
-    GoogleMap.OnMyLocationClickListener {
+    GoogleMap.OnMyLocationClickListener, GoogleMap.OnMarkerClickListener {
 
     private val databaseReference: DatabaseReference = FirebaseDatabase.getInstance().reference
     private lateinit var mMap: GoogleMap
+    private val navArgs: LocationFragmentArgs by navArgs()
 
     private var listener: OnFragmentInteractionListener? = null
 
@@ -86,22 +87,20 @@ class LocationFragment : BaseFragment<LocationViewModel, FragmentLocationBinding
             requireContext(),
             object : MapFeatureBottomSheet.OnBottomSheetClickListener {
                 override fun onViewElderLocation() {
-                    checkNetworkIsAvailable ()
+                    checkNetworkIsAvailable()
                 }
 
                 override fun onTrackToElderLocation() {
-                    getDirectionToElder ()
+                    getDirectionToElder(requireContext())
                 }
 
                 override fun onViewMyLocation() {
-                    requestEnableLocation (requireContext())
+                    requestEnableLocation(requireContext())
                 }
             })
         customBottomSheet.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         customBottomSheet.show()
     }
-
-
 
 
     @SuppressLint("MissingPermission")
@@ -110,48 +109,77 @@ class LocationFragment : BaseFragment<LocationViewModel, FragmentLocationBinding
         mMap.apply {
             isMyLocationEnabled = true
             setOnMyLocationClickListener(this@LocationFragment)
+            setOnMarkerClickListener(this@LocationFragment)
             uiSettings.apply {
                 isMyLocationButtonEnabled = true
             }
         }
         requestEnableLocation(requireContext())
+
     }
 
     @SuppressLint("MissingPermission")
     private fun getCurrentLocation() {
-        fusedLocationClient.lastLocation
-            .addOnSuccessListener { location: Location? ->
-                location?.let {
-                    // Move camera to the current location with animation
-                    val currentLatLng = LatLng(it.latitude, it.longitude)
-                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 15f), 1500, null)
-                }
+        if (navArgs.locationModel != null) {
+            val lat = navArgs.locationModel!!.lat
+            val lng = navArgs.locationModel!!.lng
+            if (lat != null && lng != null) {
+                val currentLatLng = LatLng(lat, lng)
+
+
+                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 15f), 1500, null)
+                val marker = mMap.addMarker(
+                    MarkerOptions()
+                        .position(currentLatLng)
+                        .title("Vị trí người thân của bạn đang gặp sự cố")
+                )
+                marker?.showInfoWindow()
             }
+        } else {
+            fusedLocationClient.lastLocation
+                .addOnSuccessListener { location: Location? ->
+                    location?.let {
+                        // Move camera to the current location with animation
+                        val currentLatLng = LatLng(it.latitude, it.longitude)
+                        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 15f), 1500, null)
+                    }
+                }
+        }
     }
 
 
-    private fun checkNetworkIsAvailable () {
+    private fun checkNetworkIsAvailable() {
         if (Utils.isNetworkAvailable(requireContext())) {
-            viewElderLocation ()
+            viewElderLocation()
         } else {
             showDialog(requireContext(), "Mất kết nối")
         }
     }
 
 
-    private fun viewElderLocation () {
-        getElderLocationFirebase {locationModel ->
-            locationModel?.let {
-                if (it.lat != null && it.lng !=null){
-                    val currentLatLng = LatLng(it.lat, it.lng)
-                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 15f), 1500, null)
-                    mMap.addMarker(MarkerOptions().position(currentLatLng))
+    private fun viewElderLocation() {
+        if (navArgs.locationModel != null) {
+            val lat = navArgs.locationModel!!.lat
+            val lng = navArgs.locationModel!!.lng
+            if (lat != null && lng != null) {
+                val currentLatLng = LatLng(lat, lng)
+                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 15f), 1500, null)
+                mMap.addMarker(MarkerOptions().position(currentLatLng).title("Vị trí người thân của bạn đang gặp sự cố"))
+            }
+        } else {
+            getElderLocationFirebase { locationModel ->
+                locationModel?.let {
+                    if (it.lat != null && it.lng != null) {
+                        val currentLatLng = LatLng(it.lat, it.lng)
+                        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 15f), 1500, null)
+                        mMap.addMarker(MarkerOptions().position(currentLatLng))
+                    }
                 }
             }
         }
     }
 
-    private fun getElderLocationFirebase (callback: (LocationModel?) -> Unit) {
+    private fun getElderLocationFirebase(callback: (LocationModel?) -> Unit) {
         binding.progressBar.visibility = View.VISIBLE
         val phoneNumber = DelegatedPreferences(requireContext(), Constant.PHONE_NUMBER, "").getValue()
         val dataNodeReference = databaseReference.child("data").child(phoneNumber).child(getString(R.string.key_location))
@@ -169,7 +197,7 @@ class LocationFragment : BaseFragment<LocationViewModel, FragmentLocationBinding
 
             override fun onCancelled(databaseError: DatabaseError) {
                 binding.progressBar.visibility = View.GONE
-                showDialog (requireContext(),"Kết nối không ổn định")
+                showDialog(requireContext(), "Kết nối không ổn định")
                 callback(null)
             }
         })
@@ -177,42 +205,64 @@ class LocationFragment : BaseFragment<LocationViewModel, FragmentLocationBinding
 
     fun requestEnableLocation(context: Context) {
         val locationManager = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
-
         if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-            AlertDialog.Builder(context)
-                .setTitle("Bật định vị của thiết bị")
-                .setMessage("Để xem vị trí một cách chính xác, bạn cần phải bật định vị của thiết bị")
-                .setPositiveButton("Đồng ý") { _, _ ->
-                    context.startActivity(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS))
-                }
-                .setNegativeButton("Không") { dialog, _ ->
-                    dialog.dismiss()
-                }
-                .show()
+            showDialogTurnOnLocationDevice(context)
         } else {
             getCurrentLocation()
         }
     }
 
-    private fun getDirectionToElder () {
-        getElderLocationFirebase {locationModel ->
-            locationModel?.let {
-                val uri = "http://maps.google.com/maps?saddr=Current+Location&daddr=${locationModel.lat},${locationModel.lng}"
-                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(uri))
-                intent.setPackage("com.google.android.apps.maps")
-
-                if (intent.resolveActivity(requireActivity().packageManager) != null) {
-                    startActivity(intent)
-                } else {
-                    showDialog(requireContext(), "Vui lòng cài đặt google map trên CH play!")
+    private fun getDirectionToElder(context: Context) {
+        val locationManager = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+            showDialogTurnOnLocationDevice(context)
+        } else {
+            if (navArgs.locationModel != null) {
+                val locationInfo = navArgs.locationModel!!
+                if (locationInfo.lat != null && locationInfo.lng != null) {
+                    launchGoogleMap(locationInfo.lat, locationInfo.lng)
+                }
+            } else {
+                getElderLocationFirebase { locationModel ->
+                    locationModel?.let {
+                        if (it.lat != null && it.lng != null) {
+                            launchGoogleMap(it.lat, it.lng)
+                        }
+                    }
                 }
             }
+
         }
+
+    }
+
+    private fun launchGoogleMap(lat: Double, lng: Double) {
+        val uri = "http://maps.google.com/maps?saddr=Current+Location&daddr=${lat},${lng}"
+        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(uri))
+        intent.setPackage("com.google.android.apps.maps")
+
+        if (intent.resolveActivity(requireActivity().packageManager) != null) {
+            startActivity(intent)
+        } else {
+            showDialog(requireContext(), "Vui lòng cài đặt google map trên CH play!")
+        }
+    }
+
+    private fun showDialogTurnOnLocationDevice(context: Context) {
+        AlertDialog.Builder(context)
+            .setTitle("Bật định vị của thiết bị")
+            .setMessage("Để xem vị trí một cách chính xác, bạn cần phải bật định vị của thiết bị")
+            .setPositiveButton("Đồng ý") { _, _ ->
+                context.startActivity(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS))
+            }
+            .setNegativeButton("Không") { dialog, _ ->
+                dialog.dismiss()
+            }
+            .show()
     }
 
 
     override fun onMyLocationClick(p0: Location) {
-
     }
 
 
@@ -226,6 +276,12 @@ class LocationFragment : BaseFragment<LocationViewModel, FragmentLocationBinding
     override fun onDestroy() {
         super.onDestroy()
         listener?.updateBottomNavVisible(false)
+    }
+
+    override fun onMarkerClick(marker: Marker): Boolean {
+        mMap.animateCamera(CameraUpdateFactory.zoomTo(15f), 2000, null)
+        marker.showInfoWindow()
+        return false
     }
 
 

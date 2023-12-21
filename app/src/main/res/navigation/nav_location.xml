@@ -9,7 +9,12 @@
         android:id="@+id/locationFragment"
         android:name="com.project.elderlyhealthcare.presentation.fragment.main.location.LocationFragment"
         android:label="fragment_location"
-        tools:layout="@layout/fragment_location" />
+        tools:layout="@layout/fragment_location" >
+        <argument
+            android:name="locationModel"
+            app:argType="com.project.elderlyhealthcare.domain.models.LocationModel"
+            app:nullable="true" />
+    </fragment>
     <fragment
         android:id="@+id/permissionFragment"
         android:name="com.project.elderlyhealthcare.presentation.fragment.main.location.PermissionFragment"

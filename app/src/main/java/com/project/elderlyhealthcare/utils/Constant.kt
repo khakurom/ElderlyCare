@@ -20,26 +20,83 @@ object Constant {
 	@RequiresApi(Build.VERSION_CODES.TIRAMISU)
 	const val NOTIFICATION_PERMISSION = Manifest.permission.POST_NOTIFICATIONS
 	const val ACCESS_FINE_PERMISSION = Manifest.permission.ACCESS_FINE_LOCATION
-	const val ACCESS_BACKGROUND_PERMISSION = Manifest.permission.ACCESS_BACKGROUND_LOCATION
-
 
 	// key intent
 	const val KEY_EVENT = "key event"
 	const val KEY_EVENT_ITEM = "item exercise event"
 	const val KEY_NOTIFICATION = "from notification"
+	const val KEY_LOCATION = "key location"
 
 	// mode event
 	const val MODE_EXERCISE = "exercise mode"
 	const val MODE_MEDICINE = "medicine mode"
 	const val MODE_RE_EXAMINATION = "re-examination mode"
 
-    val listPrefecture = listOf(
-        "Hồ Chí Minh",
-        "Bà Rịa - Vũng Tàu",
-        "Đà Nẵng",
-        "Lâm Đồng",
-        "Đồng Nai"
-    )
+	val listPrefecture = listOf(
+		"An Giang",
+		"Bà Rịa - Vũng Tàu",
+		"Bắc Giang",
+		"Bắc Kạn",
+		"Bạc Liêu",
+		"Bắc Ninh",
+		"Bến Tre",
+		"Bình Định",
+		"Bình Dương",
+		"Bình Phước",
+		"Bình Thuận",
+		"Cà Mau",
+		"Cần Thơ",
+		"Cao Bằng",
+		"Đà Nẵng",
+		"Đắk Lắk",
+		"Đắk Nông",
+		"Điện Biên",
+		"Đồng Nai",
+		"Đồng Tháp",
+		"Gia Lai",
+		"Hà Giang",
+		"Hà Nam",
+		"Hà Nội",
+		"Hà Tĩnh",
+		"Hải Dương",
+		"Hải Phòng",
+		"Hậu Giang",
+		"Hòa Bình",
+		"Hồ Chí Minh",
+		"Hưng Yên",
+		"Khánh Hòa",
+		"Kiên Giang",
+		"Kon Tum",
+		"Lai Châu",
+		"Lâm Đồng",
+		"Lạng Sơn",
+		"Lào Cai",
+		"Long An",
+		"Nam Định",
+		"Nghệ An",
+		"Ninh Bình",
+		"Ninh Thuận",
+		"Phú Thọ",
+		"Phú Yên",
+		"Quảng Bình",
+		"Quảng Nam",
+		"Quảng Ngãi",
+		"Quảng Ninh",
+		"Quảng Trị",
+		"Sóc Trăng",
+		"Sơn La",
+		"Tây Ninh",
+		"Thái Bình",
+		"Thái Nguyên",
+		"Thanh Hóa",
+		"Thừa Thiên Huế",
+		"Tiền Giang",
+		"Trà Vinh",
+		"Tuyên Quang",
+		"Vĩnh Long",
+		"Vĩnh Phúc",
+		"Yên Bái"
+	)
 
     val listHour = arrayOf(
         "00",

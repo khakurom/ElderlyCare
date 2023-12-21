@@ -239,6 +239,18 @@ object Utils {
         return Pair(month, year)
     }
 
+    fun extractLatLngFromString(input: String): Pair<Double, Double>? {
+        val regex = Regex("lat=(-?\\d+\\.\\d+)lng=(-?\\d+\\.\\d+)")
+        val matchResult = regex.find(input)
+
+        return if (matchResult != null) {
+            val (lat, lng) = matchResult.destructured
+            Pair(lat.toDouble(), lng.toDouble())
+        } else {
+            null
+        }
+    }
+
 
 
 

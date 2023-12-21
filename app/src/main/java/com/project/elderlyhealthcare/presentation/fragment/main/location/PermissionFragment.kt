@@ -39,7 +39,7 @@ class PermissionFragment : BaseFragment<LocationViewModel, FragmentPermissionBin
         if (ContextCompat.checkSelfPermission(requireContext(), Constant.ACCESS_FINE_PERMISSION) == PackageManager.PERMISSION_DENIED) {
             requestAccessLocationPermissionLauncher.launch(Constant.ACCESS_FINE_PERMISSION)
         } else {
-            findNavController().navigate(R.id.action_permissionFragment_to_locationFragment)
+            findNavController().navigate(PermissionFragmentDirections.actionPermissionFragmentToLocationFragment(null))
         }
 
     }
